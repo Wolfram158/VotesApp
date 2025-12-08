@@ -35,13 +35,19 @@ class VotesController {
     fun vote(
         @RequestBody voteDto: VoteDto,
         @RequestParam token: String,
-    ): ResponseEntity<Unit> {
+    ): ResponseEntity<List<VoteDto2>> {
         val validationResult = authService.validateToken(token)
         if (validationResult !is TokenValidationResult.Success) {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
-        votesService.incrementVotesCount(validationResult.claims.subject, voteDto.title, voteDto.variant)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok()
+            .body(
+                votesService.incrementVotesCount(
+                    validationResult.claims.subject,
+                    voteDto.title,
+                    voteDto.variant
+                )
+            )
     }
 
     @GetMapping("/votes")
@@ -53,5 +59,17 @@ class VotesController {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
         return ResponseEntity.ok().body(votesService.findAll())
+    }
+
+    @GetMapping("/vote")
+    fun getVote(
+        @RequestParam title: String,
+        @RequestParam token: String
+    ): ResponseEntity<List<VoteDto2>> {
+        val validationResult = authService.validateToken(token)
+        if (validationResult !is TokenValidationResult.Success) {
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
+        }
+        return ResponseEntity.ok().body(votesService.findByTitle(title))
     }
 }

@@ -26,10 +26,11 @@ class VotesService(
     }
 
     @Transactional
-    fun incrementVotesCount(username: String, title: String, variant: String) {
+    fun incrementVotesCount(username: String, title: String, variant: String): List<VoteDto2>? {
         require(usersAndTitlesRepository.findByUsernameAndTitle(username, title).isEmpty())
         votesRepository.incrementVotesCount(title, variant)
         usersAndTitlesRepository.save(UsersAndTitles(UsersAndTitlesPrimaryKey(username, title)))
+        return votesRepository.findByTitle(title)?.map { VoteDto2(it.title!!, it.variant!!, it.votesCount!!) }
     }
 
     @Transactional
@@ -43,5 +44,16 @@ class VotesService(
                 )
             }
             .groupBy { it.title }
+    }
+
+    @Transactional
+    fun findByTitle(title: String): List<VoteDto2>? {
+        return votesRepository.findByTitle(title)?.map {
+            VoteDto2(
+                it.title!!,
+                it.variant!!,
+                it.votesCount!!
+            )
+        }
     }
 }
