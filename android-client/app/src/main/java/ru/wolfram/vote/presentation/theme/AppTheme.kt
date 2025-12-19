@@ -2,10 +2,10 @@ package ru.wolfram.vote.presentation.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.sp
 
-val LocalAppTheme = compositionLocalOf<AppTheme> {
+val LocalAppTheme = staticCompositionLocalOf<AppTheme> {
     error("AppTheme not provided!")
 }
 

@@ -22,7 +22,7 @@ class VotesViewModel @Inject constructor(
         getVotesFlowUseCase()
             .stateIn(
                 viewModelScope,
-                SharingStarted.Eagerly,
+                SharingStarted.Lazily,
                 Result.success(mapOf())
             )
 

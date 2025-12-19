@@ -3,4 +3,4 @@ package ru.wolfram.vote.presentation
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Vote
+data class Vote(val title: String)

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import ru.wolfram.vote.data.network.dto.toVoteMap
 import ru.wolfram.vote.data.network.service.ApiService
 import ru.wolfram.vote.data.security.AccessTokenPreferences
+import ru.wolfram.vote.di.DispatchersIOQualifier
 import ru.wolfram.vote.domain.votes.model.Vote
 import ru.wolfram.vote.domain.votes.repository.VotesRepository
 import javax.inject.Inject
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class VotesRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val accessTokenStore: DataStore<AccessTokenPreferences>,
-    ioDispatcher: CoroutineDispatcher
+    @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher
 ) : VotesRepository {
     private val emission = MutableSharedFlow<Unit>()
 

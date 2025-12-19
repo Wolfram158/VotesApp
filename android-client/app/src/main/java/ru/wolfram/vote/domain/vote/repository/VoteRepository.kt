@@ -4,7 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import ru.wolfram.vote.domain.votes.model.Vote
 
 interface VoteRepository {
-    suspend fun getVoteFlow(title: String): Flow<Result<List<Vote>>>
+    fun getVoteFlow(): Flow<Result<List<Vote>>>
+
+    suspend fun initVoteGetting(title: String)
 
     suspend fun doVote(title: String, variant: String)
 }

@@ -2,4 +2,6 @@
     <string name="app_name">Vote</string>
     <string name="could_not_load_votes">Could not load votes!</string>
     <string name="try_to_load_again">Try to load votes again!</string>
+    <string name="could_not_load_vote">Could not load vote!</string>
+    <string name="try_to_load_vote_again">Try to load vote again!</string>
 </resources>

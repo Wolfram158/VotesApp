@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.coroutines.CoroutineDispatcher
 import ru.wolfram.vote.data.network.service.ApiService
 import ru.wolfram.vote.data.security.AccessTokenPreferences
 
@@ -16,11 +17,12 @@ import ru.wolfram.vote.data.security.AccessTokenPreferences
     ]
 )
 interface AppComponent {
-    @AppScope
     val apiService: ApiService
 
-    @AppScope
     val accessTokenPreferencesStore: DataStore<AccessTokenPreferences>
+
+    @DispatchersIOQualifier
+    fun getIODispatcher(): CoroutineDispatcher
 
     @Component.Factory
     interface Factory {

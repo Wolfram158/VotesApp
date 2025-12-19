@@ -16,15 +16,15 @@ import ru.wolfram.vote.presentation.theme.LocalAppTheme
 @Composable
 fun VotesSuccessScreen(
     titles: List<String>,
-    onNavigateToVote: () -> Unit
+    onNavigateToVote: (title: String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        items(titles.size, { titles[it] }) {
+        items(titles.size, { titles[it] }) { index ->
             Card(
                 onClick = {
-                    onNavigateToVote()
+                    onNavigateToVote(titles[index])
                 }
             ) {
                 Row(
@@ -33,7 +33,7 @@ fun VotesSuccessScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = titles[it],
+                        text = titles[index],
                         textAlign = TextAlign.Center,
                         maxLines = 10,
                         fontSize = LocalAppTheme.current.textSize1
