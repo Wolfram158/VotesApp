@@ -24,7 +24,7 @@ import ru.wolfram.vote.data.security.AccessTokenPreferences
 import ru.wolfram.vote.data.security.RefreshTokenPreferences
 
 @Module
-abstract class NetworkModule {
+class NetworkModule {
     @AppScope
     @Provides
     fun provideJson(): Json {
@@ -72,7 +72,7 @@ abstract class NetworkModule {
                                     val response = chain.proceed(
                                         Request
                                             .Builder()
-                                            .url("$REFRESH_TOKEN_URL?refreshToken=$refreshToken")
+                                            .url("$REFRESH_TOKEN_URL?$QUERY_REFRESH_TOKEN=$refreshToken")
                                             .build()
                                     )
                                     if (response.code == 200) {

@@ -18,87 +18,89 @@ import ru.wolfram.vote.data.security.UsernamePreferences
 import ru.wolfram.vote.domain.security.Crypto
 
 @Module
-abstract class SecurityModule {
-    @AppScope
-    @Provides
-    fun provideAccessTokenPreferences(
-        crypto: Crypto,
-        json: Json,
-        @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
-        context: Context
-    ): DataStore<AccessTokenPreferences> {
-        val serializer = SerializerProvider.provideSerializer(
-            crypto = crypto,
-            json = json,
-            ioDispatcher = ioDispatcher,
-            default = AccessTokenPreferences()
-        )
-        return DataStoreFactory.create(
-            serializer = serializer,
-            produceFile = { context.preferencesDataStoreFile("access-token-preferences") }
-        )
-    }
-
-    @AppScope
-    @Provides
-    fun provideRefreshTokenPreferences(
-        crypto: Crypto,
-        json: Json,
-        @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
-        context: Context
-    ): DataStore<RefreshTokenPreferences> {
-        val serializer = SerializerProvider.provideSerializer(
-            crypto = crypto,
-            json = json,
-            ioDispatcher = ioDispatcher,
-            default = RefreshTokenPreferences()
-        )
-        return DataStoreFactory.create(
-            serializer = serializer,
-            produceFile = { context.preferencesDataStoreFile("refresh-token-preferences") }
-        )
-    }
-
-    @AppScope
-    @Provides
-    fun provideUsernamePreferences(
-        crypto: Crypto,
-        json: Json,
-        @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
-        context: Context
-    ): DataStore<UsernamePreferences> {
-        val serializer = SerializerProvider.provideSerializer(
-            crypto = crypto,
-            json = json,
-            ioDispatcher = ioDispatcher,
-            default = UsernamePreferences()
-        )
-        return DataStoreFactory.create(
-            serializer = serializer,
-            produceFile = { context.preferencesDataStoreFile("username-preferences") }
-        )
-    }
-
-    @AppScope
-    @Provides
-    fun provideEmailPreferences(
-        crypto: Crypto,
-        json: Json,
-        @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
-        context: Context
-    ): DataStore<EmailPreferences> {
-        val serializer = SerializerProvider.provideSerializer(
-            crypto = crypto,
-            json = json,
-            ioDispatcher = ioDispatcher,
-            default = EmailPreferences()
-        )
-        return DataStoreFactory.create(
-            serializer = serializer,
-            produceFile = { context.preferencesDataStoreFile("email-preferences") }
-        )
-    }
-
+interface SecurityModule {
     @Binds
-    abstract fun bindCrypto(impl: AndroidCrypto): Crypto
+    fun bindCrypto(impl: AndroidCrypto): Crypto
+
+    companion object {
+        @AppScope
+        @Provides
+        fun provideAccessTokenPreferences(
+            crypto: Crypto,
+            json: Json,
+            @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
+            context: Context
+        ): DataStore<AccessTokenPreferences> {
+            val serializer = SerializerProvider.provideSerializer(
+                crypto = crypto,
+                json = json,
+                ioDispatcher = ioDispatcher,
+                default = AccessTokenPreferences()
+            )
+            return DataStoreFactory.create(
+                serializer = serializer,
+                produceFile = { context.preferencesDataStoreFile("access-token-preferences") }
+            )
+        }
+
+        @AppScope
+        @Provides
+        fun provideRefreshTokenPreferences(
+            crypto: Crypto,
+            json: Json,
+            @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
+            context: Context
+        ): DataStore<RefreshTokenPreferences> {
+            val serializer = SerializerProvider.provideSerializer(
+                crypto = crypto,
+                json = json,
+                ioDispatcher = ioDispatcher,
+                default = RefreshTokenPreferences()
+            )
+            return DataStoreFactory.create(
+                serializer = serializer,
+                produceFile = { context.preferencesDataStoreFile("refresh-token-preferences") }
+            )
+        }
+
+        @AppScope
+        @Provides
+        fun provideUsernamePreferences(
+            crypto: Crypto,
+            json: Json,
+            @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
+            context: Context
+        ): DataStore<UsernamePreferences> {
+            val serializer = SerializerProvider.provideSerializer(
+                crypto = crypto,
+                json = json,
+                ioDispatcher = ioDispatcher,
+                default = UsernamePreferences()
+            )
+            return DataStoreFactory.create(
+                serializer = serializer,
+                produceFile = { context.preferencesDataStoreFile("username-preferences") }
+            )
+        }
+
+        @AppScope
+        @Provides
+        fun provideEmailPreferences(
+            crypto: Crypto,
+            json: Json,
+            @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher,
+            context: Context
+        ): DataStore<EmailPreferences> {
+            val serializer = SerializerProvider.provideSerializer(
+                crypto = crypto,
+                json = json,
+                ioDispatcher = ioDispatcher,
+                default = EmailPreferences()
+            )
+            return DataStoreFactory.create(
+                serializer = serializer,
+                produceFile = { context.preferencesDataStoreFile("email-preferences") }
+            )
+        }
+    }
 }
