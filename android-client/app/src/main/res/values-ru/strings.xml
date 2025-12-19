@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vote</string>
+    <string name="could_not_load_votes">Не удалось загрузить голосования!</string>
+    <string name="try_to_load_again">Попробовать загрузить голосования снова!</string>
+</resources>

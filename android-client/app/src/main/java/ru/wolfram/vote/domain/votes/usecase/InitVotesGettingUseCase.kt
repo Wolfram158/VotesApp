@@ -3,8 +3,8 @@ package ru.wolfram.vote.domain.votes.usecase
 import ru.wolfram.vote.domain.votes.repository.VotesRepository
 import javax.inject.Inject
 
-class GetVotesUseCase @Inject constructor(
+class InitVotesGettingUseCase @Inject constructor(
     private val repository: VotesRepository
 ) {
-    suspend operator fun invoke() = repository.getVotes()
+    suspend operator fun invoke() = repository.initVotesGetting()
 }

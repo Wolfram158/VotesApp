@@ -1,7 +1,10 @@
 package ru.wolfram.vote.domain.votes.repository
 
+import kotlinx.coroutines.flow.Flow
 import ru.wolfram.vote.domain.votes.model.Vote
 
 interface VotesRepository {
-    suspend fun getVotes(): Map<String, List<Vote>>
+    fun getVotesFlow(): Flow<Result<Map<String, List<Vote>>>>
+
+    suspend fun initVotesGetting()
 }

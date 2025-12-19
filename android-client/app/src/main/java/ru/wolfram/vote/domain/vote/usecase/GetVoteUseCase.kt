@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetVoteUseCase @Inject constructor(
     private val repository: VoteRepository
 ) {
-    suspend operator fun invoke(title: String) = repository.getVote(title)
+    suspend operator fun invoke(title: String) = repository.getVoteFlow(title)
 }

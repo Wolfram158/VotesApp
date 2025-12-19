@@ -1,6 +1,7 @@
 package ru.wolfram.vote.di
 
 import dagger.Component
+import ru.wolfram.vote.presentation.VoteViewModelFactory
 
 @VoteScope
 @Component(
@@ -8,4 +9,6 @@ import dagger.Component
     modules = [VoteRepositoryModule::class]
 )
 interface VoteComponent {
+    @VoteScope
+    fun getVoteViewModelFactory(): VoteViewModelFactory
 }

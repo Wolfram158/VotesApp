@@ -19,10 +19,15 @@ import ru.wolfram.vote.domain.security.Crypto
 
 @Module
 interface SecurityModule {
+    @AppScope
     @Binds
     fun bindCrypto(impl: AndroidCrypto): Crypto
 
     companion object {
+        @AppScope
+        @Provides
+        fun provideAndroidCrypto(): AndroidCrypto = AndroidCrypto
+
         @AppScope
         @Provides
         fun provideAccessTokenPreferences(
