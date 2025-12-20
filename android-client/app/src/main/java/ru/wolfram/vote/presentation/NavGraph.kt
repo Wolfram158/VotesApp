@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import ru.wolfram.vote.di.DaggerCreateVoteComponent
 import ru.wolfram.vote.di.DaggerGatewayComponent
+import ru.wolfram.vote.di.DaggerRefreshWithEmailCodeComponent
 import ru.wolfram.vote.di.DaggerRegistrationForEmailCodeComponent
 import ru.wolfram.vote.di.DaggerRegistrationWithEmailCodeComponent
 import ru.wolfram.vote.di.DaggerVoteComponent
@@ -21,9 +22,9 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Auth
+        startDestination = Gateway
     ) {
-        composable<Auth> { entry ->
+        composable<Gateway> { entry ->
             val appComponent = LocalAppComponent.current
             val gatewayComponent =
                 remember(entry) {
@@ -39,9 +40,11 @@ fun NavGraph(
             GatewayScreen(
                 viewModel,
                 {
-                    navHostController.navigate(RegistrationForEmailCode)
+                    navHostController.navigate(Votes)
                 }
-            )
+            ) { username ->
+                navHostController.navigate(RefreshWithEmailCode(username))
+            }
         }
 
         composable<RegistrationForEmailCode> { entry ->
@@ -86,6 +89,28 @@ fun NavGraph(
                 route.email
             ) {
                 navHostController.popBackStack()
+                navHostController.popBackStack()
+            }
+        }
+
+        composable<RefreshWithEmailCode> { entry ->
+            val route = entry.toRoute<RefreshWithEmailCode>()
+            val appComponent = LocalAppComponent.current
+            val refreshWithEmailCodeComponent =
+                remember(entry) {
+                    DaggerRefreshWithEmailCodeComponent
+                        .builder()
+                        .appComponent(appComponent)
+                        .build()
+                }
+            val factory = remember(refreshWithEmailCodeComponent) {
+                refreshWithEmailCodeComponent.getRefreshWithEmailCodeViewModelFactory()
+            }
+            val viewModel = viewModel<RefreshWithEmailCodeViewModel>(factory = factory)
+            RefreshWithEmailCodeScreen(
+                viewModel,
+                route.username
+            ) {
                 navHostController.popBackStack()
             }
         }
