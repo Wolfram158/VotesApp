@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import ru.wolfram.vote.di.DaggerCreateVoteComponent
 import ru.wolfram.vote.di.DaggerGatewayComponent
+import ru.wolfram.vote.di.DaggerRegistrationForEmailCodeComponent
+import ru.wolfram.vote.di.DaggerRegistrationWithEmailCodeComponent
 import ru.wolfram.vote.di.DaggerVoteComponent
 import ru.wolfram.vote.di.DaggerVotesComponent
 
@@ -34,6 +36,58 @@ fun NavGraph(
                 gatewayComponent.getGatewayViewModelFactory()
             }
             val viewModel = viewModel<GatewayViewModel>(factory = factory)
+            GatewayScreen(
+                viewModel,
+                {
+                    navHostController.navigate(RegistrationForEmailCode)
+                }
+            )
+        }
+
+        composable<RegistrationForEmailCode> { entry ->
+            val appComponent = LocalAppComponent.current
+            val registrationForEmailCodeComponent =
+                remember(entry) {
+                    DaggerRegistrationForEmailCodeComponent
+                        .builder()
+                        .appComponent(appComponent)
+                        .build()
+                }
+            val factory = remember(registrationForEmailCodeComponent) {
+                registrationForEmailCodeComponent.getRegistrationForEmailCodeViewModelFactory()
+            }
+            val viewModel = viewModel<RegistrationForEmailCodeViewModel>(factory = factory)
+            RegistrationForEmailCodeScreen(
+                viewModel
+            ) {
+                navHostController.navigate(RegistrationWithEmailCode) {
+                    restoreState = true
+                }
+            }
+        }
+
+        composable<RegistrationWithEmailCode> { entry ->
+            val route = entry.toRoute<RegistrationWithEmailCode>()
+            val appComponent = LocalAppComponent.current
+            val registrationWithEmailCodeComponent =
+                remember(entry) {
+                    DaggerRegistrationWithEmailCodeComponent
+                        .builder()
+                        .appComponent(appComponent)
+                        .build()
+                }
+            val factory = remember(registrationWithEmailCodeComponent) {
+                registrationWithEmailCodeComponent.getRegistrationWithEmailCodeViewModelFactory()
+            }
+            val viewModel = viewModel<RegistrationWithEmailCodeViewModel>(factory = factory)
+            RegistrationWithEmailCodeScreen(
+                viewModel,
+                route.username,
+                route.email
+            ) {
+                navHostController.popBackStack()
+                navHostController.popBackStack()
+            }
         }
 
         composable<Votes> { entry ->

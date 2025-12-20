@@ -6,4 +6,8 @@
     <string name="try_to_load_vote_again">Try to load vote again!</string>
     <string name="reload">Reload!</string>
     <string name="create_vote">Create vote!</string>
+    <string name="error_occurred">Error occurred!</string>
+    <string name="register">Register!</string>
+    <string name="code">Code</string>
+    <string name="confirm">Confirm!</string>
 </resources>

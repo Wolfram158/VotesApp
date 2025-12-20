@@ -8,11 +8,11 @@ import ru.wolfram.vote.domain.create_vote.model.CreatingStatus
 fun CreateVoteScreen(
     createVoteViewModel: CreateVoteViewModel,
     onTryAgain: (title: String, variants: Set<String>) -> Unit,
-    onCreateVote: () -> Unit
+    onVoteCreated: () -> Unit
 ) {
     val creatingStatus = createVoteViewModel.creatingStatus.collectAsState(CreatingStatus.Initial)
 
     if (creatingStatus.value is CreatingStatus.Success) {
-        onCreateVote()
+        onVoteCreated()
     }
 }

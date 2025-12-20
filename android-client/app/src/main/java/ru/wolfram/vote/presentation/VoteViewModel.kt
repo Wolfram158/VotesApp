@@ -11,7 +11,6 @@ import ru.wolfram.vote.di.VoteScope
 import ru.wolfram.vote.domain.vote.usecase.DoVoteUseCase
 import ru.wolfram.vote.domain.vote.usecase.GetVoteFlowUseCase
 import ru.wolfram.vote.domain.vote.usecase.InitVoteGettingUseCase
-import ru.wolfram.vote.domain.votes.model.Vote
 import javax.inject.Inject
 
 @VoteScope

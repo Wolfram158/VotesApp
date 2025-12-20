@@ -28,6 +28,12 @@ interface ApiService {
         @Query("username") username: String
     ): Response<Unit>
 
+    @GET("/auth/check-if-need-email-code?")
+    suspend fun checkIfNeedEmailCode(
+        @Query("username") username: String,
+        @Query("refreshToken") refreshToken: String
+    ): Response<Unit>
+
     @POST("/auth/refresh-with-email-code")
     suspend fun refreshWithEmailCode(
         @Body refreshWithEmailCodeContainerDto: RefreshWithEmailCodeContainerDto

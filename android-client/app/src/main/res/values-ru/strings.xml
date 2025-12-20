@@ -7,4 +7,8 @@
     <string name="try_to_load_vote_again">Попробовать загрузить голосование снова!</string>
     <string name="reload">Перезагрузить!</string>
     <string name="create_vote">Создать голосование!</string>
+    <string name="error_occurred">Произошла ошибка!</string>
+    <string name="register">Зарегистрироваться!</string>
+    <string name="code">Код</string>
+    <string name="confirm">Подтвердить!</string>
 </resources>
