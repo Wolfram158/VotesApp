@@ -40,6 +40,18 @@ class AuthService(
     private val refreshTokenExpiration: Long = 900
 
     @Transactional
+    fun checkIfNeedEmailCode(username: String, refreshToken: String): CheckIfNeedEmailCodeState {
+        if (userRepository.findByUserPrimaryKeyUsername(username) == null) {
+            return CheckIfNeedEmailCodeState.UserNotFound
+        }
+        val encoded = passwordEncoder.encode(refreshToken)
+        if (!passwordEncoder.matches(refreshToken.substring(0..35), encoded)) {
+            return CheckIfNeedEmailCodeState.No
+        }
+        return CheckIfNeedEmailCodeState.Yes
+    }
+
+    @Transactional
     fun registerForEmailCode(user: UserDto): RegistrationForEmailCodeState {
         if (userRepository.findByUserPrimaryKeyUsername(user.username) != null) {
             return RegistrationForEmailCodeState.UserAlreadyExists
