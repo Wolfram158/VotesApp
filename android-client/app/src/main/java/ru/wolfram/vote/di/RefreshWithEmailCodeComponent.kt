@@ -1,6 +1,7 @@
 package ru.wolfram.vote.di
 
 import dagger.Component
+import ru.wolfram.vote.presentation.RefreshWithEmailCodeViewModelFactory
 
 @RefreshWithEmailCodeScope
 @Component(
@@ -8,4 +9,6 @@ import dagger.Component
     modules = [RefreshWithEmailCodeModule::class]
 )
 interface RefreshWithEmailCodeComponent {
+    @RefreshWithEmailCodeScope
+    fun getRefreshWithEmailCodeViewModelFactory(): RefreshWithEmailCodeViewModelFactory
 }

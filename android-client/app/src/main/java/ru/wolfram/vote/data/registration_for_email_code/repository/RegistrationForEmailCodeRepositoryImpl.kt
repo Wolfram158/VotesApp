@@ -9,12 +9,17 @@ import javax.inject.Inject
 class RegistrationForEmailCodeRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : RegistrationForEmailCodeRepository {
-    override suspend fun registerForEmailCode(container: RegistrationForEmailCodeContainer) {
-        if (apiService.registerForEmailCode(
-                container.toRegistrationForEmailCodeContainerDto()
-            ).code() != 200
-        ) {
-            throw RuntimeException("Exception occurred when registering for email code!")
+    override suspend fun registerForEmailCode(container: RegistrationForEmailCodeContainer): Result<Unit> {
+        return try {
+            if (apiService.registerForEmailCode(
+                    container.toRegistrationForEmailCodeContainerDto()
+                ).code() != 200
+            ) {
+                throw RuntimeException("Exception occurred when registering for email code!")
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 }

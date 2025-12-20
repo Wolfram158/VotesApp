@@ -14,17 +14,22 @@ class RegistrationWithEmailCodeRepositoryImpl @Inject constructor(
     private val accessTokenStore: DataStore<AccessTokenPreferences>,
     private val refreshTokenStore: DataStore<RefreshTokenPreferences>,
 ) : RegistrationWithEmailCodeRepository {
-    override suspend fun registerWithEmailCode(container: RegistrationWithEmailCodeContainer) {
-        val username = container.username
-        val tokens = apiService.registerWithEmailCode(
-            registrationWithEmailCodeContainerDto = container.copy(username = username)
-                .toRegistrationWithEmailCodeContainerDto()
-        )
-        accessTokenStore.updateData {
-            AccessTokenPreferences(tokens.token)
-        }
-        refreshTokenStore.updateData {
-            RefreshTokenPreferences(tokens.refreshToken)
+    override suspend fun registerWithEmailCode(container: RegistrationWithEmailCodeContainer): Result<Unit> {
+        return try {
+            val username = container.username
+            val tokens = apiService.registerWithEmailCode(
+                registrationWithEmailCodeContainerDto = container.copy(username = username)
+                    .toRegistrationWithEmailCodeContainerDto()
+            )
+            accessTokenStore.updateData {
+                AccessTokenPreferences(tokens.token)
+            }
+            refreshTokenStore.updateData {
+                RefreshTokenPreferences(tokens.refreshToken)
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 }

@@ -16,19 +16,24 @@ class RefreshWithEmailCodeRepositoryImpl @Inject constructor(
     private val accessTokenStore: DataStore<AccessTokenPreferences>,
     private val refreshTokenStore: DataStore<RefreshTokenPreferences>,
 ) : RefreshWithEmailCodeRepository {
-    override suspend fun refreshWithEmailCode(container: RefreshWithEmailCodeContainer) {
-        val tokens = apiService.refreshWithEmailCode(
-            refreshWithEmailCodeContainerDto = container.copy(username = container.username)
-                .toRefreshWithEmailCodeContainerDto()
-        )
-        usernameStore.updateData {
-            UsernamePreferences(container.username)
-        }
-        accessTokenStore.updateData {
-            AccessTokenPreferences(tokens.token)
-        }
-        refreshTokenStore.updateData {
-            RefreshTokenPreferences(tokens.refreshToken)
+    override suspend fun refreshWithEmailCode(container: RefreshWithEmailCodeContainer): Result<Unit> {
+        return try {
+            val tokens = apiService.refreshWithEmailCode(
+                refreshWithEmailCodeContainerDto = container.copy(username = container.username)
+                    .toRefreshWithEmailCodeContainerDto()
+            )
+            usernameStore.updateData {
+                UsernamePreferences(container.username)
+            }
+            accessTokenStore.updateData {
+                AccessTokenPreferences(tokens.token)
+            }
+            refreshTokenStore.updateData {
+                RefreshTokenPreferences(tokens.refreshToken)
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

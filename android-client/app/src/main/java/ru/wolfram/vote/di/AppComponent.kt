@@ -7,6 +7,8 @@ import dagger.Component
 import kotlinx.coroutines.CoroutineDispatcher
 import ru.wolfram.vote.data.network.service.ApiService
 import ru.wolfram.vote.data.security.AccessTokenPreferences
+import ru.wolfram.vote.data.security.RefreshTokenPreferences
+import ru.wolfram.vote.data.security.UsernamePreferences
 
 @AppScope
 @Component(
@@ -20,6 +22,10 @@ interface AppComponent {
     val apiService: ApiService
 
     val accessTokenPreferencesStore: DataStore<AccessTokenPreferences>
+
+    val usernamePreferencesStore: DataStore<UsernamePreferences>
+
+    val refreshTokenPreferences: DataStore<RefreshTokenPreferences>
 
     @DispatchersIOQualifier
     fun getIODispatcher(): CoroutineDispatcher

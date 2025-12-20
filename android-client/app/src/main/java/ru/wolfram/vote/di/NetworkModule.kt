@@ -93,6 +93,13 @@ class NetworkModule {
                         }
                     }
 
+                    if (response.code == 400 && response.request.url.queryParameterNames.contains(
+                            QUERY_REFRESH_TOKEN
+                        )
+                    ) {
+                        return response.newBuilder().code(407).build()
+                    }
+
                     return response
                 }
 

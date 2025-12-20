@@ -1,6 +1,7 @@
 package ru.wolfram.vote.di
 
 import dagger.Component
+import ru.wolfram.vote.presentation.RegistrationForEmailCodeViewModelFactory
 
 @RegistrationForEmailCodeScope
 @Component(
@@ -8,4 +9,6 @@ import dagger.Component
     modules = [RegistrationForEmailCodeModule::class]
 )
 interface RegistrationForEmailCodeComponent {
+    @RegistrationForEmailCodeScope
+    fun getRegistrationForEmailCodeViewModelFactory(): RegistrationForEmailCodeViewModelFactory
 }
