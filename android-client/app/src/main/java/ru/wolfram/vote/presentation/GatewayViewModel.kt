@@ -53,6 +53,7 @@ class GatewayViewModel @Inject constructor(
                 }
             } else {
                 _tryState.emit(TryToEnterState.Failure)
+                refreshForEmailCode(username)
             }
         }
     }
