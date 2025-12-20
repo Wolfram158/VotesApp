@@ -5,4 +5,6 @@
     <string name="try_to_load_again">Попробовать загрузить голосования снова!</string>
     <string name="could_not_load_vote">Не удалось загрузить голосование!</string>
     <string name="try_to_load_vote_again">Попробовать загрузить голосование снова!</string>
+    <string name="reload">Перезагрузить!</string>
+    <string name="create_vote">Создать голосование!</string>
 </resources>

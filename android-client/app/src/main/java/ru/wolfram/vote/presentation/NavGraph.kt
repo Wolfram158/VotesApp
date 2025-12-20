@@ -50,9 +50,14 @@ fun NavGraph(
             }
             val viewModel = viewModel<VotesViewModel>(factory = factory)
             VotesScreen(
-                viewModel
-            ) { title ->
-                navHostController.navigate(Vote(title))
+                viewModel, { title ->
+                    navHostController.navigate(Vote(title)) {
+                        restoreState = true
+                    }
+                }) {
+                navHostController.navigate(CreateVote) {
+                    restoreState = true
+                }
             }
         }
 

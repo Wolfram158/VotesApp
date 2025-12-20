@@ -51,10 +51,11 @@ dependencies {
 
     implementation(libs.google.dagger.android)
     implementation(libs.dagger.android.support)
-    implementation(libs.androidx.compose.runtime)
     ksp(libs.dagger.android.processor)
     ksp(libs.dagger.compiler)
 
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

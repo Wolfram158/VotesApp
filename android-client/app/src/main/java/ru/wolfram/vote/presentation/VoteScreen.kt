@@ -14,7 +14,10 @@ fun VoteScreen(
     when (voteValue.isSuccess) {
         true -> {
             VoteSuccessScreen(
-                voteValue.getOrDefault(listOf())
+                voteValue.getOrDefault(listOf()),
+                {
+                    voteViewModel.initVoteGetting(title)
+                }
             ) { title, variant ->
                 voteViewModel.doVote(title, variant)
             }

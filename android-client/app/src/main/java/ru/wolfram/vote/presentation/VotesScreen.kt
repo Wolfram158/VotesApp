@@ -6,7 +6,8 @@ import androidx.compose.runtime.collectAsState
 @Composable
 fun VotesScreen(
     votesViewModel: VotesViewModel,
-    onNavigateToVote: (title: String) -> Unit
+    onNavigateToVote: (title: String) -> Unit,
+    onNavigateToCreateVote: () -> Unit
 ) {
     val votes = votesViewModel.votes.collectAsState()
     val votesValue = votes.value
@@ -15,7 +16,9 @@ fun VotesScreen(
         true -> {
             VotesSuccessScreen(
                 votesValue.getOrDefault(mapOf()).keys.toList(),
-                onNavigateToVote
+                votesViewModel::initVotesGetting,
+                onNavigateToVote,
+                onNavigateToCreateVote
             )
         }
 
