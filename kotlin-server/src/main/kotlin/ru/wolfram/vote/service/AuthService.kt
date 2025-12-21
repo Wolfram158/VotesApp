@@ -44,8 +44,13 @@ class AuthService(
         if (userRepository.findByUserPrimaryKeyUsername(username) == null) {
             return CheckIfNeedEmailCodeState.UserNotFound
         }
-        val encoded = passwordEncoder.encode(refreshToken)
-        if (!passwordEncoder.matches(refreshToken.substring(0..35), encoded)) {
+        val encoded =
+            refreshTokenRepository.findByUsername(username) ?: return CheckIfNeedEmailCodeState.No
+        if (!passwordEncoder.matches(refreshToken.substring(0..35), encoded.refreshToken)) {
+            return CheckIfNeedEmailCodeState.No
+        }
+        val validationResult = validateToken(refreshToken)
+        if (validationResult is TokenValidationResult.Success) {
             return CheckIfNeedEmailCodeState.No
         }
         return CheckIfNeedEmailCodeState.Yes
@@ -105,7 +110,7 @@ class AuthService(
         )
         refreshTokenRepository.save(
             RefreshToken(
-                refreshToken = passwordEncoder.encode(refreshToken),
+                refreshToken = passwordEncoder.encode(refreshToken.substring(0..35)),
                 username = username
             )
         )

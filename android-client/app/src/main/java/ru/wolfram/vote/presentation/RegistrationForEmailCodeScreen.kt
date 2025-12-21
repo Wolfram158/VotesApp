@@ -29,7 +29,7 @@ import ru.wolfram.vote.presentation.theme.LocalAppTheme
 @Composable
 fun RegistrationForEmailCodeScreen(
     viewModel: RegistrationForEmailCodeViewModel,
-    onSuccessfullyEmailCodeSent: () -> Unit
+    onSuccessfullyEmailCodeSent: (username: String, email: String, password: String) -> Unit
 ) {
     val state = viewModel.state.collectAsState(RegistrationForEmailCodeState.Initial)
     val username = remember { mutableStateOf("") }
@@ -37,7 +37,7 @@ fun RegistrationForEmailCodeScreen(
     val email = remember { mutableStateOf("") }
 
     if (state.value is RegistrationForEmailCodeState.Success) {
-        onSuccessfullyEmailCodeSent()
+        onSuccessfullyEmailCodeSent(username.value, email.value, password.value)
     }
 
     Column(
@@ -58,8 +58,7 @@ fun RegistrationForEmailCodeScreen(
                 username.value = it
             },
             textStyle = TextStyle.Default.copy(
-                fontSize = LocalAppTheme.current.textSize1,
-                textAlign = TextAlign.Center
+                fontSize = LocalAppTheme.current.textSize1
             ),
             placeholder = {
                 Text(
@@ -71,13 +70,12 @@ fun RegistrationForEmailCodeScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
-            value = username.value,
+            value = password.value,
             onValueChange = {
-                username.value = it
+                password.value = it
             },
             textStyle = TextStyle.Default.copy(
-                fontSize = LocalAppTheme.current.textSize1,
-                textAlign = TextAlign.Center
+                fontSize = LocalAppTheme.current.textSize1
             ),
             placeholder = {
                 Text(
@@ -89,13 +87,12 @@ fun RegistrationForEmailCodeScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
-            value = username.value,
+            value = email.value,
             onValueChange = {
-                username.value = it
+                email.value = it
             },
             textStyle = TextStyle.Default.copy(
-                fontSize = LocalAppTheme.current.textSize1,
-                textAlign = TextAlign.Center
+                fontSize = LocalAppTheme.current.textSize1
             ),
             placeholder = {
                 Text(

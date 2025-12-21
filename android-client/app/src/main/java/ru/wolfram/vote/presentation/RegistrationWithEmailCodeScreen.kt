@@ -29,6 +29,7 @@ fun RegistrationWithEmailCodeScreen(
     viewModel: RegistrationWithEmailCodeViewModel,
     username: String,
     email: String,
+    password: String,
     onSuccessfulRegistration: () -> Unit
 ) {
     val state = viewModel.state.collectAsState(RegistrationWithEmailCodeState.Initial)
@@ -62,7 +63,8 @@ fun RegistrationWithEmailCodeScreen(
             placeholder = {
                 Text(
                     text = stringResource(R.string.code),
-                    fontSize = LocalAppTheme.current.textSize1
+                    fontSize = LocalAppTheme.current.textSize1,
+                    textAlign = TextAlign.Center
                 )
             }
         )
@@ -72,7 +74,8 @@ fun RegistrationWithEmailCodeScreen(
                 viewModel.registerWithEmailCode(
                     email = email,
                     code = code.value,
-                    username = username
+                    username = username,
+                    password = password
                 )
             }
         ) {

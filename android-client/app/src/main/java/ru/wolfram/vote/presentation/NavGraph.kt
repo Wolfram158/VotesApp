@@ -1,5 +1,6 @@
 package ru.wolfram.vote.presentation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import ru.wolfram.vote.di.DaggerRegistrationForEmailCodeComponent
 import ru.wolfram.vote.di.DaggerRegistrationWithEmailCodeComponent
 import ru.wolfram.vote.di.DaggerVoteComponent
 import ru.wolfram.vote.di.DaggerVotesComponent
+import kotlin.reflect.KClass
 
 @Composable
 fun NavGraph(
@@ -32,6 +34,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(gatewayComponent) {
                 gatewayComponent.getGatewayViewModelFactory()
@@ -41,9 +46,12 @@ fun NavGraph(
                 viewModel,
                 {
                     navHostController.navigate(Votes)
+                }, { username ->
+                    navHostController.navigate(RefreshWithEmailCode(username))
+                }) {
+                navHostController.navigate(RegistrationForEmailCode) {
+                    restoreState = true
                 }
-            ) { username ->
-                navHostController.navigate(RefreshWithEmailCode(username))
             }
         }
 
@@ -55,6 +63,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(registrationForEmailCodeComponent) {
                 registrationForEmailCodeComponent.getRegistrationForEmailCodeViewModelFactory()
@@ -62,8 +73,8 @@ fun NavGraph(
             val viewModel = viewModel<RegistrationForEmailCodeViewModel>(factory = factory)
             RegistrationForEmailCodeScreen(
                 viewModel
-            ) {
-                navHostController.navigate(RegistrationWithEmailCode) {
+            ) { username, email, password ->
+                navHostController.navigate(RegistrationWithEmailCode(username, email, password)) {
                     restoreState = true
                 }
             }
@@ -78,6 +89,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(registrationWithEmailCodeComponent) {
                 registrationWithEmailCodeComponent.getRegistrationWithEmailCodeViewModelFactory()
@@ -86,7 +100,8 @@ fun NavGraph(
             RegistrationWithEmailCodeScreen(
                 viewModel,
                 route.username,
-                route.email
+                route.email,
+                route.password
             ) {
                 navHostController.popBackStack()
                 navHostController.popBackStack()
@@ -102,6 +117,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(refreshWithEmailCodeComponent) {
                 refreshWithEmailCodeComponent.getRefreshWithEmailCodeViewModelFactory()
@@ -123,6 +141,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(votesComponent) {
                 votesComponent.getVotesViewModelFactory()
@@ -149,6 +170,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(voteComponent) {
                 voteComponent.getVoteViewModelFactory()
@@ -173,6 +197,9 @@ fun NavGraph(
                         .builder()
                         .appComponent(appComponent)
                         .build()
+                        .also {
+                            logCreation(it::class)
+                        }
                 }
             val factory = remember(createVoteComponent) {
                 createVoteComponent.getCreateVoteViewModelFactory()
@@ -188,4 +215,10 @@ fun NavGraph(
             }
         }
     }
+}
+
+const val COMPONENT_CREATION_TAG = "COMPONENT_CREATION"
+
+fun <T : Any> logCreation(kClass: KClass<T>, tag: String = COMPONENT_CREATION_TAG) {
+    Log.d(tag, "${kClass.simpleName} is created")
 }

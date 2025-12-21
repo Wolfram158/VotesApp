@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RegistrationWithEmailCode(
     val username: String,
-    val email: String
+    val email: String,
+    val password: String
 )

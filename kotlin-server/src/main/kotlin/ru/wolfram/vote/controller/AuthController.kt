@@ -77,12 +77,12 @@ class AuthController {
     @GetMapping("/check-if-need-email-code")
     fun checkIfNeedEmailCode(
         @RequestParam username: String,
-        @RequestParam refreshToken: String
+        @RequestParam refreshTokenValue: String
     ): ResponseEntity<CheckIfNeedEmailCodeState> {
-        val result = service.checkIfNeedEmailCode(username, refreshToken)
+        val result = service.checkIfNeedEmailCode(username, refreshTokenValue)
         if (result !is CheckIfNeedEmailCodeState.Yes) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
-        return ResponseEntity.status(HttpStatus.PROXY_AUTHENTICATION_REQUIRED).build()
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
     }
 }

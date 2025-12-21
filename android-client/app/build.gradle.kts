@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.converter.scalars)
+    implementation(libs.logging.interceptor)
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.converter.kotlinx.serialization)

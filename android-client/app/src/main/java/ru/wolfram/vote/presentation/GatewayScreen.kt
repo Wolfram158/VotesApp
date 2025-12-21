@@ -30,7 +30,8 @@ import ru.wolfram.vote.presentation.theme.LocalAppTheme
 fun GatewayScreen(
     viewModel: GatewayViewModel,
     onNavigateToVotes: () -> Unit,
-    onNavigateToRefreshWithEmailCode: (username: String) -> Unit
+    onNavigateToRefreshWithEmailCode: (username: String) -> Unit,
+    onNavigateToRegistration: () -> Unit
 ) {
     val refreshState = viewModel.refreshState.collectAsState(RefreshForEmailCodeState.Initial)
     val tryState = viewModel.tryState.collectAsState(TryToEnterState.Initial)
@@ -89,7 +90,7 @@ fun GatewayScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-
+                onNavigateToRegistration()
             },
             modifier = Modifier
                 .fillMaxWidth()

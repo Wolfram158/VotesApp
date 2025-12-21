@@ -20,10 +20,10 @@ class RegistrationWithEmailCodeViewModel @Inject constructor(
     private val _state = MutableSharedFlow<RegistrationWithEmailCodeState>()
     val state = _state.asSharedFlow()
 
-    fun registerWithEmailCode(username: String, email: String, code: String) {
+    fun registerWithEmailCode(username: String, email: String, password: String, code: String) {
         viewModelScope.launch(ioDispatcher) {
             val result = registerWithEmailCodeUseCase(
-                RegistrationWithEmailCodeContainer(username, email, code)
+                RegistrationWithEmailCodeContainer(username, email, password, code)
             )
 
             if (result.isSuccess) {

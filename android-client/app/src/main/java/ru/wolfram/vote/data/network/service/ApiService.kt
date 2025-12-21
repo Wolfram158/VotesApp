@@ -13,50 +13,50 @@ import ru.wolfram.vote.data.network.dto.VoteDto
 import ru.wolfram.vote.data.network.dto.VoteDto2
 
 interface ApiService {
-    @POST("/auth/register-for-email-code")
+    @POST("auth/register-for-email-code")
     suspend fun registerForEmailCode(
         @Body registrationForEmailCodeContainerDto: RegistrationForEmailCodeContainerDto
-    ): Response<Unit>
+    ): Response<String>
 
-    @POST("/auth/register-with-email-code")
+    @POST("auth/register-with-email-code")
     suspend fun registerWithEmailCode(
         @Body registrationWithEmailCodeContainerDto: RegistrationWithEmailCodeContainerDto
     ): Tokens
 
-    @POST("/auth/refresh-for-email-code?")
+    @POST("auth/refresh-for-email-code?")
     suspend fun refreshForEmailCode(
         @Query("username") username: String
     ): Response<Unit>
 
-    @GET("/auth/check-if-need-email-code?")
+    @GET("auth/check-if-need-email-code?")
     suspend fun checkIfNeedEmailCode(
         @Query("username") username: String,
-        @Query("refreshToken") refreshToken: String
+        @Query("refreshTokenValue") refreshToken: String
     ): Response<Unit>
 
-    @POST("/auth/refresh-with-email-code")
+    @POST("auth/refresh-with-email-code")
     suspend fun refreshWithEmailCode(
         @Body refreshWithEmailCodeContainerDto: RefreshWithEmailCodeContainerDto
     ): Tokens
 
-    @POST("/votes/create-vote?")
+    @POST("votes/create-vote?")
     suspend fun createVote(
         @Body votes: List<VoteDto>,
         @Query("token") token: String
     ): Response<Unit>
 
-    @POST("/votes/do-vote?")
+    @POST("votes/do-vote?")
     suspend fun doVote(
         @Body vote: VoteDto,
         @Query("token") token: String
     ): List<VoteDto2>
 
-    @GET("/votes/votes?")
+    @GET("votes/votes?")
     suspend fun getVotes(
         @Query("token") token: String
     ): Map<String, List<VoteDto2>>
 
-    @GET("/votes/vote?")
+    @GET("votes/vote?")
     suspend fun getVote(
         @Query("title") title: String,
         @Query("token") token: String

@@ -7,11 +7,15 @@ import ru.wolfram.vote.domain.registration_with_email_code.model.RegistrationWit
 @Serializable
 data class RegistrationWithEmailCodeContainerDto(
     @SerialName("username") val username: String,
-    @SerialName("code") val code: String
+    @SerialName("email") val email: String,
+    @SerialName("password") val password: String,
+    @SerialName("code") val code: String,
 )
 
 fun RegistrationWithEmailCodeContainer.toRegistrationWithEmailCodeContainerDto() =
     RegistrationWithEmailCodeContainerDto(
         username = username,
-        code = code
+        code = code,
+        email = email,
+        password = password
     )

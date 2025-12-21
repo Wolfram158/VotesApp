@@ -1,5 +1,6 @@
 package ru.wolfram.vote.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,11 +31,19 @@ class RegistrationForEmailCodeViewModel @Inject constructor(
                 )
             )
 
+            Log.e(tag, "result: $result")
+
             if (result.isSuccess) {
                 _state.emit(RegistrationForEmailCodeState.Success)
+                Log.e(tag, "success!")
             } else {
+                Log.e(tag, "failure!")
                 _state.emit(RegistrationForEmailCodeState.Failure)
             }
         }
+    }
+
+    companion object {
+        private val tag = "${RegistrationForEmailCodeViewModel::class.simpleName}"
     }
 }

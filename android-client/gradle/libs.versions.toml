@@ -13,6 +13,7 @@ kotlinxSerializationJson = "1.9.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.2"
 composeBom = "2025.12.01"
+loggingInterceptor = "5.3.2"
 materialIconsExtended = "1.7.8"
 navigationCompose = "2.9.6"
 appcompat = "1.7.1"
@@ -32,6 +33,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 
+converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 kotea-core = { module = "ru.tinkoff.kotea:core", version.ref = "kotea" }
 kotea-android = { module = "ru.tinkoff.kotea:android", version.ref = "kotea" }
 kotea-logging = { module = "ru.tinkoff.kotea:logging", version.ref = "kotea" }
@@ -59,6 +61,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
