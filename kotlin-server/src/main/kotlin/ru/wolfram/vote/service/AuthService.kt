@@ -50,7 +50,7 @@ class AuthService(
             return CheckIfNeedEmailCodeState.No
         }
         val validationResult = validateToken(refreshToken)
-        if (validationResult is TokenValidationResult.Success) {
+        if (validationResult !is TokenValidationResult.Success) {
             return CheckIfNeedEmailCodeState.No
         }
         return CheckIfNeedEmailCodeState.Yes
