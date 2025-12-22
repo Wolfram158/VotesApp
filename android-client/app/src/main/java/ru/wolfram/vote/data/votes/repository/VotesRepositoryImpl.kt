@@ -3,6 +3,7 @@ package ru.wolfram.vote.data.votes.repository
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -19,15 +20,9 @@ import javax.inject.Inject
 class VotesRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val accessTokenStore: DataStore<AccessTokenPreferences>,
-    @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher
+    @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher
 ) : VotesRepository {
     private val emission = MutableSharedFlow<Unit>()
-
-    init {
-        CoroutineScope(ioDispatcher).launch {
-            initVotesGetting()
-        }
-    }
 
     override fun getVotesFlow(): Flow<Result<Map<String, List<Vote>>>> {
         return flow {
@@ -44,6 +39,11 @@ class VotesRepositoryImpl @Inject constructor(
                 } catch (e: Exception) {
                     emit(Result.failure(e))
                 }
+            }
+        }.also {
+            CoroutineScope(ioDispatcher).launch {
+                delay(200)
+                initVotesGetting()
             }
         }
     }

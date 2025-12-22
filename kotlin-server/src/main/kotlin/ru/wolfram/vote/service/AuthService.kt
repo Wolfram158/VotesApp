@@ -124,10 +124,12 @@ class AuthService(
             val nbf = claims.notBefore
             val time = Date(System.currentTimeMillis())
             if (time !in nbf..exp) {
+                println("Bad time")
                 return TokenValidationResult.BadTime
             }
             return TokenValidationResult.Success(claims)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            println(e.message)
             return TokenValidationResult.BadToken
         }
     }

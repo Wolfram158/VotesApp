@@ -8,11 +8,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import okhttp3.Authenticator
+import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
+import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -55,57 +58,77 @@ class NetworkModule {
         @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher
     ): OkHttpClient {
         val mutex = Mutex()
+        val client = OkHttpClient
+            .Builder()
+            .build()
         return OkHttpClient
             .Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-            .addInterceptor { chain ->
-                val response = chain.proceed(chain.request())
-
-                if (response.code == 401 && !response.request.url.queryParameterNames.contains(
-                        QUERY_REFRESH_TOKEN
-                    )
-                ) {
-                    Log.i(REFRESH_TOKEN, "refresh token is needed")
-                    runBlocking(ioDispatcher) {
-                        mutex.withLock {
-                            val refreshToken = refreshTokenStore.data.firstOrNull()?.token
-                            refreshToken?.let {
-                                val newClient = OkHttpClient.Builder().build()
-                                val response = newClient.newCall(
-                                    Request
-                                        .Builder()
-                                        .url("$REFRESH_TOKEN_URL?$QUERY_REFRESH_TOKEN=$refreshToken")
-                                        .build()
-                                ).execute()
-                                if (response.code == 200) {
-                                    val tokens =
-                                        json.decodeFromString<Tokens>(
-                                            response.body.string()
-                                        )
-                                    Log.i(REFRESH_TOKEN, "new tokens: $tokens")
-                                    accessTokenStore.updateData {
-                                        AccessTokenPreferences(tokens.token)
-                                    }
-                                    refreshTokenStore.updateData {
-                                        RefreshTokenPreferences(tokens.refreshToken)
-                                    }
-                                }
-                            }
+            .authenticator(object : Authenticator {
+                override fun authenticate(
+                    route: Route?,
+                    response: Response
+                ): Request? {
+                    Log.e("OkHttp", "Authenticator mentioned!")
+                    return runBlocking(ioDispatcher) {
+                        val newToken = refreshTokens()
+                        if (newToken != null) {
+                            response
+                                .request
+                                .newBuilder()
+                                .header("Authorization", newToken)
+                                .build()
+                        } else {
+                            null
                         }
                     }
                 }
 
-                if (response.code == 404 && response.request.url.queryParameterNames.contains(
-                        QUERY_REFRESH_TOKEN
-                    )
-                ) {
-                    response.newBuilder().code(404).build()
+                private suspend fun refreshTokens(): String? {
+                    val accessToken = accessTokenStore.data.firstOrNull()?.token
+                    Log.e(REFRESH_TOKEN, "access token: $accessToken")
+
+                    val refreshToken = refreshTokenStore.data.firstOrNull()?.token
+                        ?: return run {
+                            Log.e("OkHttp", "Refresh token is null!")
+                            null
+                        }
+                    Log.e(REFRESH_TOKEN, "refresh token: $refreshToken")
+
+                    return try {
+                        val request = Request.Builder()
+                            .url(REFRESH_TOKEN_URL)
+                            .post(
+                                FormBody
+                                    .Builder()
+                                    .add(QUERY_REFRESH_TOKEN, refreshToken)
+                                    .build()
+                            )
+                            .build()
+
+                        val response = client.newCall(request).execute()
+
+                        if (response.isSuccessful) {
+                            val tokens = json.decodeFromString<Tokens>(response.body.string())
+
+                            accessTokenStore.updateData { AccessTokenPreferences(tokens.token) }
+                            refreshTokenStore.updateData { RefreshTokenPreferences(tokens.refreshToken) }
+
+                            Log.i(REFRESH_TOKEN, "${tokens.token} ${tokens.refreshToken}")
+
+                            tokens.token
+                        } else {
+                            Log.e("OkHttp", "response failure: ${response.request.url}")
+                            null
+                        }
+                    } catch (_: Exception) {
+                        null
+                    }
                 }
 
-                response
-            }
+            })
             .build()
     }
 

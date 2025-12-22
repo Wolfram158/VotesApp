@@ -3,6 +3,7 @@ package ru.wolfram.vote.data.network.service
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 import ru.wolfram.vote.data.network.dto.RefreshWithEmailCodeContainerDto
@@ -23,12 +24,12 @@ interface ApiService {
         @Body registrationWithEmailCodeContainerDto: RegistrationWithEmailCodeContainerDto
     ): Tokens
 
-    @POST("auth/refresh-for-email-code?")
+    @POST("auth/refresh-for-email-code")
     suspend fun refreshForEmailCode(
         @Query("username") username: String
     ): Response<Unit>
 
-    @GET("auth/check-if-need-email-code?")
+    @GET("auth/check-if-need-email-code")
     suspend fun checkIfNeedEmailCode(
         @Query("username") username: String,
         @Query("refreshTokenValue") refreshToken: String
@@ -39,24 +40,24 @@ interface ApiService {
         @Body refreshWithEmailCodeContainerDto: RefreshWithEmailCodeContainerDto
     ): Tokens
 
-    @POST("votes/create-vote?")
+    @POST("votes/create-vote")
     suspend fun createVote(
         @Body votes: List<VoteDto>,
         @Query("token") token: String
     ): Response<Unit>
 
-    @POST("votes/do-vote?")
+    @POST("votes/do-vote")
     suspend fun doVote(
         @Body vote: VoteDto,
         @Query("token") token: String
     ): List<VoteDto2>
 
-    @GET("votes/votes?")
+    @POST("votes/votes")
     suspend fun getVotes(
-        @Query("token") token: String
+        @Header("Authorization") token: String
     ): Map<String, List<VoteDto2>>
 
-    @GET("votes/vote?")
+    @GET("votes/vote")
     suspend fun getVote(
         @Query("title") title: String,
         @Query("token") token: String

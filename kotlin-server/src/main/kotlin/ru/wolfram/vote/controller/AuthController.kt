@@ -43,6 +43,7 @@ class AuthController {
     fun refreshToken(
         @RequestParam refreshToken: String
     ): ResponseEntity<RefreshTokenResult.Success> {
+        println("refresh token: $refreshToken")
         val result =
             service.refreshToken(refreshToken)
         if (result !is RefreshTokenResult.Success) {

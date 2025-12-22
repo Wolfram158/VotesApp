@@ -50,9 +50,9 @@ class VotesController {
             )
     }
 
-    @GetMapping("/votes")
+    @PostMapping("/votes")
     fun getVotes(
-        @RequestParam token: String
+        @RequestHeader("Authorization") token: String,
     ): ResponseEntity<Map<String, List<VoteDto2>>> {
         val validationResult = authService.validateToken(token)
         if (validationResult !is TokenValidationResult.Success) {
