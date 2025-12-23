@@ -206,10 +206,7 @@ fun NavGraph(
             }
             val viewModel = viewModel<CreateVoteViewModel>(factory = factory)
             CreateVoteScreen(
-                viewModel,
-                { title, variants ->
-                    viewModel.createVote(title, variants)
-                }
+                viewModel
             ) {
                 navHostController.popBackStack()
             }

@@ -7,7 +7,6 @@ import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
 import okhttp3.FormBody
@@ -57,7 +56,6 @@ class NetworkModule {
         json: Json,
         @DispatchersIOQualifier ioDispatcher: CoroutineDispatcher
     ): OkHttpClient {
-        val mutex = Mutex()
         val client = OkHttpClient
             .Builder()
             .build()
@@ -87,9 +85,6 @@ class NetworkModule {
                 }
 
                 private suspend fun refreshTokens(): String? {
-                    val accessToken = accessTokenStore.data.firstOrNull()?.token
-                    Log.e(REFRESH_TOKEN, "access token: $accessToken")
-
                     val refreshToken = refreshTokenStore.data.firstOrNull()?.token
                         ?: return run {
                             Log.e("OkHttp", "Refresh token is null!")

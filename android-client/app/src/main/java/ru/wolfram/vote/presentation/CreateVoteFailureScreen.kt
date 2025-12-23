@@ -18,15 +18,16 @@ import ru.wolfram.vote.R
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @Composable
-fun VotesFailureScreen(
-    onInitVotesGetting: () -> Unit
+fun CreateVoteFailureScreen(
+    onTryAgain: () -> Unit,
+    onBackToEdit: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.could_not_load_votes),
+            text = stringResource(R.string.could_not_create_vote),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
@@ -36,11 +37,26 @@ fun VotesFailureScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             {
-                onInitVotesGetting()
+                onTryAgain()
             }
         ) {
             Text(
-                text = stringResource(R.string.try_to_load_vote_again),
+                text = stringResource(R.string.try_to_create_vote_again),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp),
+                textAlign = TextAlign.Center,
+                fontSize = LocalAppTheme.current.textSize1
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            {
+                onBackToEdit()
+            }
+        ) {
+            Text(
+                text = stringResource(R.string.back_to_vote_creating),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 16.dp),

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Vote</string>
     <string name="could_not_load_votes">Не удалось загрузить голосования!</string>
-    <string name="try_to_load_again">Попробовать загрузить голосования снова!</string>
+    <string name="try_to_load_votes_again">Попробовать загрузить голосования снова!</string>
     <string name="could_not_load_vote">Не удалось загрузить голосование!</string>
     <string name="try_to_load_vote_again">Попробовать загрузить голосование снова!</string>
     <string name="reload">Перезагрузить!</string>
@@ -12,4 +12,10 @@
     <string name="code">Код</string>
     <string name="confirm">Подтвердить!</string>
     <string name="enter">Войти!</string>
+    <string name="could_not_create_vote">Не удалось создать голосование!</string>
+    <string name="try_to_create_vote_again">Попробовать создать голосование снова!</string>
+    <string name="back_to_vote_creating">Вернуться к созданию голосования!</string>
+    <string name="title">Название опроса</string>
+    <string name="text">Текст</string>
+    <string name="save">Сохранить!</string>
 </resources>
