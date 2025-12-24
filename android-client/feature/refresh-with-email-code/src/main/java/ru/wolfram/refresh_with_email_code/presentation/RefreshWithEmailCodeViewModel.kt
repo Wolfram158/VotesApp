@@ -19,7 +19,7 @@ class RefreshWithEmailCodeViewModel @Inject internal constructor(
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val _state = MutableSharedFlow<RefreshWithEmailCodeState>()
-    val state = _state.asSharedFlow()
+    internal val state = _state.asSharedFlow()
 
     fun refreshWithEmailCode(username: String, code: String) {
         viewModelScope.launch(ioDispatcher) {
