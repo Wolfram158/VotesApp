@@ -2,7 +2,7 @@ package ru.wolfram.common.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.wolfram.vote.domain.votes.model.Vote
+import ru.wolfram.common.domain.model.Vote
 
 @Serializable
 data class VoteDto2(

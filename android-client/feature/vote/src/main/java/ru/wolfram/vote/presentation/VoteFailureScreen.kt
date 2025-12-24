@@ -1,0 +1,57 @@
+package ru.wolfram.vote.presentation
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import ru.wolfram.vote.R
+import ru.wolfram.vote.presentation.theme.LocalAppTheme
+
+@Composable
+internal fun VoteFailureScreen(
+    onInitVoteGetting: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.could_not_load_vote),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            textAlign = TextAlign.Center,
+            fontSize = LocalAppTheme.current.textSize1
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            {
+                onInitVoteGetting()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = stringResource(R.string.try_to_load_vote_again),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp),
+                textAlign = TextAlign.Center,
+                fontSize = LocalAppTheme.current.textSize1
+            )
+        }
+    }
+}
