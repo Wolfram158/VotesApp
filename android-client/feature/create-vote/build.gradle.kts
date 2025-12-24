@@ -39,17 +39,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.converter.scalars)
-    implementation(libs.logging.interceptor)
+    implementation(":common")
+
     implementation(libs.androidx.datastore.preferences)
-
-    implementation(libs.converter.kotlinx.serialization)
-
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.navigation.compose)
+    
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    implementation(libs.retrofit)
 
     implementation(libs.google.dagger.android)
     implementation(libs.dagger.android.support)
