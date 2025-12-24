@@ -5,10 +5,10 @@ import androidx.datastore.core.DataStore
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineDispatcher
-import ru.wolfram.vote.data.network.service.ApiService
-import ru.wolfram.vote.data.security.AccessTokenPreferences
-import ru.wolfram.vote.data.security.RefreshTokenPreferences
-import ru.wolfram.vote.data.security.UsernamePreferences
+import ru.wolfram.common.data.network.service.ApiService
+import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.common.data.security.RefreshTokenPreferences
+import ru.wolfram.common.data.security.UsernamePreferences
 
 @AppScope
 @Component(

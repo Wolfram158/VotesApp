@@ -30,7 +30,7 @@ import ru.wolfram.vote.R
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @Composable
-internal fun GatewayScreen(
+fun GatewayScreen(
     viewModel: GatewayViewModel,
     onNavigateToVotes: () -> Unit,
     onNavigateToRefreshWithEmailCode: (username: String) -> Unit,

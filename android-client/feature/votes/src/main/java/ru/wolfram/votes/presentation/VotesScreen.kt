@@ -1,8 +1,9 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.votes.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import ru.wolfram.vote.domain.votes.model.VotesState
+import ru.wolfram.vote.presentation.ProgressScreen
+import ru.wolfram.votes.domain.model.VotesState
 
 @Composable
 fun VotesScreen(

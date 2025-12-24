@@ -9,16 +9,16 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.serialization.json.Json
-import ru.wolfram.vote.data.security.AccessTokenPreferences
-import ru.wolfram.vote.data.security.AndroidCrypto
-import ru.wolfram.vote.data.security.EmailPreferences
-import ru.wolfram.vote.data.security.RefreshTokenPreferences
-import ru.wolfram.vote.data.security.SerializerProvider
-import ru.wolfram.vote.data.security.UsernamePreferences
-import ru.wolfram.vote.domain.security.Crypto
+import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.common.data.security.AndroidCrypto
+import ru.wolfram.common.data.security.EmailPreferences
+import ru.wolfram.common.data.security.RefreshTokenPreferences
+import ru.wolfram.common.data.security.SerializerProvider
+import ru.wolfram.common.data.security.UsernamePreferences
+import ru.wolfram.common.domain.security.Crypto
 
 @Module
-interface SecurityModule {
+internal interface SecurityModule {
     @AppScope
     @Binds
     fun bindCrypto(impl: AndroidCrypto): Crypto

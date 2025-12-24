@@ -9,9 +9,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.compose.rememberNavController
+import ru.wolfram.common.di.AppComponent
 import ru.wolfram.vote.App
 import ru.wolfram.vote.R
-import ru.wolfram.vote.di.AppComponent
 import ru.wolfram.vote.presentation.theme.AppTheme
 
 val LocalAppComponent = staticCompositionLocalOf<AppComponent> {

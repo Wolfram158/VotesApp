@@ -1,7 +1,7 @@
 package ru.wolfram.vote
 
 import android.app.Application
-import ru.wolfram.vote.di.AppComponent
+import ru.wolfram.common.di.AppComponent
 import ru.wolfram.vote.di.DaggerAppComponent
 
 class App : Application() {

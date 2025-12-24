@@ -9,6 +9,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import ru.wolfram.create_vote.presentation.CreateVote
+import ru.wolfram.create_vote.presentation.CreateVoteScreen
+import ru.wolfram.create_vote.presentation.CreateVoteViewModel
+import ru.wolfram.gateway.presentation.Gateway
+import ru.wolfram.gateway.presentation.GatewayScreen
+import ru.wolfram.gateway.presentation.GatewayViewModel
+import ru.wolfram.refresh_with_email_code.presentation.RefreshWithEmailCode
+import ru.wolfram.refresh_with_email_code.presentation.RefreshWithEmailCodeScreen
+import ru.wolfram.refresh_with_email_code.presentation.RefreshWithEmailCodeViewModel
+import ru.wolfram.registration_for_email_code.presentation.RegistrationForEmailCode
+import ru.wolfram.registration_for_email_code.presentation.RegistrationForEmailCodeScreen
+import ru.wolfram.registration_for_email_code.presentation.RegistrationForEmailCodeViewModel
+import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCode
+import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCodeScreen
+import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCodeViewModel
 import ru.wolfram.vote.di.DaggerCreateVoteComponent
 import ru.wolfram.vote.di.DaggerGatewayComponent
 import ru.wolfram.vote.di.DaggerRefreshWithEmailCodeComponent
@@ -16,6 +31,9 @@ import ru.wolfram.vote.di.DaggerRegistrationForEmailCodeComponent
 import ru.wolfram.vote.di.DaggerRegistrationWithEmailCodeComponent
 import ru.wolfram.vote.di.DaggerVoteComponent
 import ru.wolfram.vote.di.DaggerVotesComponent
+import ru.wolfram.votes.presentation.Votes
+import ru.wolfram.votes.presentation.VotesScreen
+import ru.wolfram.votes.presentation.VotesViewModel
 import kotlin.reflect.KClass
 
 @Composable

@@ -39,6 +39,15 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+    implementation(project(":feature:create-vote"))
+    implementation(project(":feature:gateway"))
+    implementation(project(":feature:refresh-with-email-code"))
+    implementation(project(":feature:registration-for-email-code"))
+    implementation(project(":feature:registration-with-email-code"))
+    implementation(project(":feature:vote"))
+    implementation(project(":feature:votes"))
+
     implementation(libs.converter.scalars)
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.datastore.preferences)

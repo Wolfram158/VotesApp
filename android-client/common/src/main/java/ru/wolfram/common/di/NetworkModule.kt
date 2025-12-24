@@ -20,10 +20,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.create
-import ru.wolfram.vote.data.network.dto.Tokens
-import ru.wolfram.vote.data.network.service.ApiService
-import ru.wolfram.vote.data.security.AccessTokenPreferences
-import ru.wolfram.vote.data.security.RefreshTokenPreferences
+import ru.wolfram.common.data.network.dto.Tokens
+import ru.wolfram.common.data.network.service.ApiService
+import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.common.data.security.RefreshTokenPreferences
 
 @Module
 class NetworkModule {
