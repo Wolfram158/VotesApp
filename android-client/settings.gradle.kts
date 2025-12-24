@@ -21,4 +21,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "Vote"
 include(":app")
- 
+include(":common")
+include(":feature")
+include(":feature:create-vote")
+include(":feature:gateway")
+include(":feature:refresh-with-email-code")
+include(":feature:registration-with-email-code")
+include(":feature:registration-for-emai-code")
+include(":feature:vote")
+include(":votes")
+include(":feature:votes")
