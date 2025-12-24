@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.wolfram.vote"
+    namespace = "ru.wolfram.votes_app"
     compileSdk = 36
 
     defaultConfig {

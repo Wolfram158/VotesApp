@@ -23,9 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.wolfram.common.R
 import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
-import ru.wolfram.vote.R
-import ru.wolfram.vote.presentation.theme.LocalAppTheme
+import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
 @Composable
 fun RegistrationForEmailCodeScreen(

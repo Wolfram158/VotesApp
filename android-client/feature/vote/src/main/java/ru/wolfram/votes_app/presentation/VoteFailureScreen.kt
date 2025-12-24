@@ -1,4 +1,4 @@
-package ru.wolfram.votes.presentation
+package ru.wolfram.votes_app.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -19,15 +19,15 @@ import ru.wolfram.common.R
 import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
 @Composable
-internal fun VotesFailureScreen(
-    onInitVotesGetting: () -> Unit
+internal fun VoteFailureScreen(
+    onInitVoteGetting: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.could_not_load_votes),
+            text = stringResource(R.string.could_not_load_vote),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
@@ -37,7 +37,7 @@ internal fun VotesFailureScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             {
-                onInitVotesGetting()
+                onInitVoteGetting()
             },
             modifier = Modifier
                 .fillMaxWidth()

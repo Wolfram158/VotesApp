@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeState
 import ru.wolfram.gateway.domain.model.TryToEnterState
-import ru.wolfram.vote.R
-import ru.wolfram.vote.presentation.theme.LocalAppTheme
+import ru.wolfram.common.R
+import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
 @Composable
 fun GatewayScreen(
