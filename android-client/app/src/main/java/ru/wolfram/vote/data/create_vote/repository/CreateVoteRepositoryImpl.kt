@@ -1,5 +1,6 @@
 package ru.wolfram.vote.data.create_vote.repository
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,10 +34,19 @@ class CreateVoteRepositoryImpl @Inject constructor(
         try {
             val token = accessTokenStore.data.firstOrNull()?.token
                 ?: throw RuntimeException("Access token must be non-nullable!")
-            apiService.createVote(variants.map { VoteDto(title, it) }, token)
-            creatingStatus.emit(CreatingStatus.Success)
+            val response = apiService.createVote(variants.map { VoteDto(title, it) }, token)
+            Log.e(tag, "response code: ${response.code()}")
+            if (response.code() == 200) {
+                creatingStatus.emit(CreatingStatus.Success)
+            } else {
+                creatingStatus.emit(CreatingStatus.Error)
+            }
         } catch (_: Exception) {
             creatingStatus.emit(CreatingStatus.Error)
         }
+    }
+
+    companion object {
+        private val tag = this::class.simpleName
     }
 }

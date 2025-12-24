@@ -9,17 +9,17 @@ import ru.wolfram.vote.data.network.dto.VoteDto
 import ru.wolfram.vote.data.network.dto.toVotes
 import ru.wolfram.vote.data.network.service.ApiService
 import ru.wolfram.vote.data.security.AccessTokenPreferences
+import ru.wolfram.vote.domain.vote.model.VoteState
 import ru.wolfram.vote.domain.vote.repository.VoteRepository
-import ru.wolfram.vote.domain.votes.model.Vote
 import javax.inject.Inject
 
 class VoteRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val accessTokenStore: DataStore<AccessTokenPreferences>
 ) : VoteRepository {
-    private val emission = MutableSharedFlow<ActionType>()
+    private val emission = MutableSharedFlow<ActionType>(replay = 1)
 
-    override fun getVoteFlow(): Flow<Result<List<Vote>>> {
+    override fun getVoteFlow(): Flow<VoteState> {
         return flow {
             emission.collect {
                 try {
@@ -28,7 +28,7 @@ class VoteRepositoryImpl @Inject constructor(
                             val token = accessTokenStore.data.firstOrNull()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
                             emit(
-                                Result.success(
+                                VoteState.Success(
                                     apiService.doVote(
                                         VoteDto(it.title, it.variant),
                                         token
@@ -38,13 +38,14 @@ class VoteRepositoryImpl @Inject constructor(
                         }
 
                         is ActionType.GetVote -> {
+                            emit(VoteState.Loading)
                             val token = accessTokenStore.data.firstOrNull()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
-                            emit(Result.success(apiService.getVote(it.title, token).toVotes()))
+                            emit(VoteState.Success(apiService.getVote(it.title, token).toVotes()))
                         }
                     }
-                } catch (e: Exception) {
-                    Result.failure<Result<List<Vote>>>(e)
+                } catch (_: Exception) {
+                    emit(VoteState.Failure)
                 }
             }
         }

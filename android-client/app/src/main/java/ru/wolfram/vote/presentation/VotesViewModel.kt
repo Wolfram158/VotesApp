@@ -1,5 +1,6 @@
 package ru.wolfram.vote.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.wolfram.vote.di.DispatchersIOQualifier
 import ru.wolfram.vote.di.VotesScope
+import ru.wolfram.vote.domain.votes.model.VotesState
 import ru.wolfram.vote.domain.votes.usecase.GetVotesFlowUseCase
 import ru.wolfram.vote.domain.votes.usecase.InitVotesGettingUseCase
 import javax.inject.Inject
@@ -23,12 +25,23 @@ class VotesViewModel @Inject constructor(
             .stateIn(
                 viewModelScope,
                 SharingStarted.Lazily,
-                Result.success(mapOf())
+                VotesState.Loading
             )
+
+    init {
+        initVotesGetting()
+    }
 
     fun initVotesGetting() {
         viewModelScope.launch(ioDispatcher) {
+            Log.e(tag, "votes getting")
             initVotesGettingUseCase()
+        }
+    }
+
+    companion object {
+        private val tag by lazy {
+            VotesViewModel::class.simpleName
         }
     }
 }

@@ -17,4 +17,7 @@
     <string name="title">Title</string>
     <string name="text">Text</string>
     <string name="save">Save!</string>
+    <string name="votes">Votes</string>
+    <string name="creating_vote">Creating vote</string>
+    <string name="vote">Vote</string>
 </resources>

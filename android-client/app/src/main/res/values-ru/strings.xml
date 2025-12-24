@@ -18,4 +18,7 @@
     <string name="title">Название опроса</string>
     <string name="text">Текст</string>
     <string name="save">Сохранить!</string>
+    <string name="votes">Голосования</string>
+    <string name="creating_vote">Создание голосования</string>
+    <string name="vote">Голосование</string>
 </resources>

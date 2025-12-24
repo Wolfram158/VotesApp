@@ -214,7 +214,7 @@ fun NavGraph(
     }
 }
 
-const val COMPONENT_CREATION_TAG = "COMPONENT_CREATION"
+private const val COMPONENT_CREATION_TAG = "COMPONENT_CREATION"
 
 fun <T : Any> logCreation(kClass: KClass<T>, tag: String = COMPONENT_CREATION_TAG) {
     Log.d(tag, "${kClass.simpleName} is created")

@@ -17,9 +17,10 @@ class VotesService(
 ) {
     @Transactional
     fun saveVoteEntity(votes: List<VoteDto>) {
+        println(votes)
         require(votes.map { it.title }.distinct().size == 1)
         require(votes.map { it.variant }.distinct().size == votes.size)
-        require(votesRepository.findByTitle(votes[0].title) != null)
+        require(votesRepository.findByTitle(votes[0].title)?.isEmpty() == true)
         votes.forEach {
             votesRepository.save(Votes(title = it.title, variant = it.variant, votesCount = 0))
         }

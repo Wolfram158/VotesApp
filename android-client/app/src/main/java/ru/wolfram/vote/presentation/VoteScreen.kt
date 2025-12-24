@@ -2,6 +2,7 @@ package ru.wolfram.vote.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import ru.wolfram.vote.domain.vote.model.VoteState
 
 @Composable
 fun VoteScreen(
@@ -9,12 +10,11 @@ fun VoteScreen(
     title: String
 ) {
     val votes = voteViewModel.vote.collectAsState()
-    val voteValue = votes.value
 
-    when (voteValue.isSuccess) {
-        true -> {
+    when (val voteValue = votes.value) {
+        is VoteState.Success -> {
             VoteSuccessScreen(
-                voteValue.getOrDefault(listOf()),
+                voteValue.vote,
                 {
                     voteViewModel.initVoteGetting(title)
                 }
@@ -23,10 +23,14 @@ fun VoteScreen(
             }
         }
 
-        false -> {
+        VoteState.Failure -> {
             VoteFailureScreen {
                 voteViewModel.initVoteGetting(title)
             }
+        }
+
+        VoteState.Loading -> {
+            ProgressScreen()
         }
     }
 }

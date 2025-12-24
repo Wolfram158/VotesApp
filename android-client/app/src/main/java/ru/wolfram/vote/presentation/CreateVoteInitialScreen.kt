@@ -44,7 +44,12 @@ fun CreateVoteInitialScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    Text(
+                        text = stringResource(R.string.creating_vote),
+                        fontSize = AppTheme.textSize1
+                    )
+                },
                 actions = {
                     IconButton(
                         onClick = {
@@ -53,7 +58,7 @@ fun CreateVoteInitialScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Send,
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.create_vote)
                         )
                     }
                 }
@@ -71,6 +76,9 @@ fun CreateVoteInitialScreen(
                     onValueChange = {
                         createVoteViewModel.updateTitle(it)
                     },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp),
                     placeholder = {
                         Text(
                             text = stringResource(R.string.title),
@@ -85,7 +93,8 @@ fun CreateVoteInitialScreen(
             }
             items(variants.value.variants, { it.id }) { item ->
                 Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(
                         onClick = {

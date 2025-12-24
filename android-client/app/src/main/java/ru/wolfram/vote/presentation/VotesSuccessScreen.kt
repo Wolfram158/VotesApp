@@ -20,10 +20,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.vote.R
+import ru.wolfram.vote.presentation.theme.AppTheme
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +40,12 @@ fun VotesSuccessScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("") },
+                title = {
+                    Text(
+                        text = stringResource(R.string.votes),
+                        fontSize = AppTheme.textSize1
+                    )
+                },
                 actions = {
                     IconButton(
                         onClick = {
@@ -70,21 +77,25 @@ fun VotesSuccessScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             items(titles.size, { titles[it] }) { index ->
                 Card(
                     onClick = {
                         onNavigateToVote(titles[index])
-                    }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RectangleShape
                 ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
                             text = titles[index],
+                            modifier = Modifier.fillMaxSize(),
                             textAlign = TextAlign.Center,
                             maxLines = 10,
                             fontSize = LocalAppTheme.current.textSize1

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.wolfram.vote.di.DispatchersIOQualifier
 import ru.wolfram.vote.di.VoteScope
+import ru.wolfram.vote.domain.vote.model.VoteState
 import ru.wolfram.vote.domain.vote.usecase.DoVoteUseCase
 import ru.wolfram.vote.domain.vote.usecase.GetVoteFlowUseCase
 import ru.wolfram.vote.domain.vote.usecase.InitVoteGettingUseCase
@@ -25,7 +26,7 @@ class VoteViewModel @Inject constructor(
             .stateIn(
                 viewModelScope,
                 SharingStarted.Lazily,
-                Result.success(emptyList())
+                VoteState.Loading
             )
 
     fun initVoteGetting(title: String) {

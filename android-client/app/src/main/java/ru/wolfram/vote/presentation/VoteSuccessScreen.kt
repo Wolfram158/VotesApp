@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.vote.R
 import ru.wolfram.vote.domain.votes.model.Vote
+import ru.wolfram.vote.presentation.theme.AppTheme
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +37,12 @@ fun VoteSuccessScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("") },
+                title = {
+                    Text(
+                        text = stringResource(R.string.vote),
+                        fontSize = AppTheme.textSize1
+                    )
+                },
                 actions = {
                     IconButton(
                         onClick = {
@@ -86,7 +92,6 @@ fun VoteSuccessScreen(
                         Text(
                             text = vote[index].variant,
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .padding(start = 16.dp, end = 16.dp),
                             fontSize = LocalAppTheme.current.textSize1,
                             textAlign = TextAlign.Center
@@ -94,7 +99,6 @@ fun VoteSuccessScreen(
                         Text(
                             text = vote[index].votesCount.toString(),
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .padding(start = 16.dp, end = 16.dp),
                             fontSize = LocalAppTheme.current.textSize1,
                             textAlign = TextAlign.Center
