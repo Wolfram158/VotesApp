@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

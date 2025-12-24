@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +20,7 @@ import ru.wolfram.vote.R
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @Composable
-fun CreateVoteNewScreen(
+internal fun CreateVoteNewScreen(
     createVoteViewModel: CreateVoteViewModel
 ) {
     val current = remember { mutableStateOf(CreateVoteVariant("")) }

@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import ru.wolfram.vote.data.network.dto.VoteDto
-import ru.wolfram.vote.data.network.service.ApiService
-import ru.wolfram.vote.data.security.AccessTokenPreferences
-import ru.wolfram.vote.domain.create_vote.model.CreatingStatus
-import ru.wolfram.vote.domain.create_vote.repository.CreateVoteRepository
+import ru.wolfram.common.data.network.dto.VoteDto
+import ru.wolfram.common.data.network.service.ApiService
+import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.create_vote.domain.model.CreatingStatus
+import ru.wolfram.create_vote.domain.repository.CreateVoteRepository
 import javax.inject.Inject
 
-class CreateVoteRepositoryImpl @Inject constructor(
+internal class CreateVoteRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val accessTokenStore: DataStore<AccessTokenPreferences>
 ) : CreateVoteRepository {

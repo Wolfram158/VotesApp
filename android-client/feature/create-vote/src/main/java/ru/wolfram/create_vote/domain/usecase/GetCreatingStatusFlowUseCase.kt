@@ -1,9 +1,9 @@
-package ru.wolfram.vote.domain.create_vote.usecase
+package ru.wolfram.create_vote.domain.usecase
 
-import ru.wolfram.vote.domain.create_vote.repository.CreateVoteRepository
+import ru.wolfram.create_vote.domain.repository.CreateVoteRepository
 import javax.inject.Inject
 
-class GetCreatingStatusFlowUseCase @Inject constructor(
+internal class GetCreatingStatusFlowUseCase @Inject constructor(
     private val repository: CreateVoteRepository
 ) {
     operator fun invoke() = repository.getCreatingStatusFlow()

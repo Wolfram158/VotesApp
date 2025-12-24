@@ -39,7 +39,9 @@ android {
 }
 
 dependencies {
-    implementation(":common")
+    implementation(project(":common"))
+
+    implementation(libs.retrofit)
 
     implementation(libs.androidx.datastore.preferences)
     

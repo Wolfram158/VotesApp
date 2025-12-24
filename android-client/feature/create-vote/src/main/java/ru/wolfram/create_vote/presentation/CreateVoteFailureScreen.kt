@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +21,7 @@ import ru.wolfram.vote.R
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @Composable
-fun CreateVoteFailureScreen(
+internal fun CreateVoteFailureScreen(
     onTryAgain: () -> Unit,
     onBackToEdit: () -> Unit
 ) {

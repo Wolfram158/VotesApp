@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +19,7 @@ import ru.wolfram.vote.R
 import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @Composable
-fun CreateVoteEditScreen(
+internal fun CreateVoteEditScreen(
     createVoteViewModel: CreateVoteViewModel,
     oldVariant: CreateVoteVariant
 ) {

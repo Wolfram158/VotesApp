@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -15,15 +15,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.wolfram.vote.di.CreateVoteScope
-import ru.wolfram.vote.di.DispatchersIOQualifier
-import ru.wolfram.vote.domain.create_vote.model.CreatingStatus
-import ru.wolfram.vote.domain.create_vote.usecase.CreateVoteUseCase
-import ru.wolfram.vote.domain.create_vote.usecase.GetCreatingStatusFlowUseCase
+import ru.wolfram.common.di.DispatchersIOQualifier
+import ru.wolfram.create_vote.di.CreateVoteScope
+import ru.wolfram.create_vote.domain.model.CreatingStatus
+import ru.wolfram.create_vote.domain.usecase.CreateVoteUseCase
+import ru.wolfram.create_vote.domain.usecase.GetCreatingStatusFlowUseCase
 import javax.inject.Inject
 
 @CreateVoteScope
-class CreateVoteViewModel @Inject constructor(
+class CreateVoteViewModel @Inject internal constructor(
     getCreatingStatusFlowUseCase: GetCreatingStatusFlowUseCase,
     private val createVoteUseCase: CreateVoteUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher

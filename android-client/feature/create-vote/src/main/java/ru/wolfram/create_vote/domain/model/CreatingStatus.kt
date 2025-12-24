@@ -1,6 +1,6 @@
-package ru.wolfram.vote.domain.create_vote.model
+package ru.wolfram.create_vote.domain.model
 
-import ru.wolfram.vote.presentation.CreateVoteVariant
+import ru.wolfram.create_vote.presentation.CreateVoteVariant
 
 sealed interface CreatingStatus {
     object Initial : CreatingStatus

@@ -1,7 +1,7 @@
-package ru.wolfram.vote.domain.create_vote.repository
+package ru.wolfram.create_vote.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.wolfram.vote.domain.create_vote.model.CreatingStatus
+import ru.wolfram.create_vote.domain.model.CreatingStatus
 
 interface CreateVoteRepository {
     fun getCreatingStatusFlow(): Flow<CreatingStatus>

@@ -1,8 +1,8 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.wolfram.vote.di.CreateVoteScope
+import ru.wolfram.create_vote.di.CreateVoteScope
 import javax.inject.Inject
 import javax.inject.Provider
 

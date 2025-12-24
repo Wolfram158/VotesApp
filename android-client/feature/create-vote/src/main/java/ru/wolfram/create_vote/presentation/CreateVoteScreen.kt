@@ -1,11 +1,11 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import ru.wolfram.vote.domain.create_vote.model.CreatingStatus
+import ru.wolfram.create_vote.domain.model.CreatingStatus
 
 @Composable
-fun CreateVoteScreen(
+internal fun CreateVoteScreen(
     createVoteViewModel: CreateVoteViewModel,
     onVoteCreated: () -> Unit
 ) {

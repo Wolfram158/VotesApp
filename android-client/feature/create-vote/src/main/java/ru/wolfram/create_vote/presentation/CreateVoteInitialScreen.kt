@@ -1,4 +1,4 @@
-package ru.wolfram.vote.presentation
+package ru.wolfram.create_vote.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -34,7 +34,7 @@ import ru.wolfram.vote.presentation.theme.LocalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateVoteInitialScreen(
+internal fun CreateVoteInitialScreen(
     createVoteViewModel: CreateVoteViewModel
 ) {
     val title = createVoteViewModel.title.collectAsState()
