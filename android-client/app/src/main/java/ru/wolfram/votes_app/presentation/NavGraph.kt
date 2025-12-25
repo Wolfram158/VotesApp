@@ -29,11 +29,11 @@ import ru.wolfram.registration_with_email_code.di.DaggerRegistrationWithEmailCod
 import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCode
 import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCodeScreen
 import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmailCodeViewModel
-import ru.wolfram.votes_app.di.DaggerVoteComponent
 import ru.wolfram.votes.di.DaggerVotesComponent
 import ru.wolfram.votes.presentation.Votes
 import ru.wolfram.votes.presentation.VotesScreen
 import ru.wolfram.votes.presentation.VotesViewModel
+import ru.wolfram.votes_app.di.DaggerVoteComponent
 import kotlin.reflect.KClass
 
 @Composable
