@@ -19,11 +19,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
+import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
 import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
@@ -58,6 +60,7 @@ fun RegistrationForEmailCodeScreen(
             onValueChange = {
                 username.value = it
             },
+            modifier = Modifier.testTag(NodeTags.REGISTRATION_FOR_EMAIL_CODE_USERNAME_TEXT_FIELD),
             textStyle = TextStyle.Default.copy(
                 fontSize = LocalAppTheme.current.textSize1
             ),
@@ -75,6 +78,7 @@ fun RegistrationForEmailCodeScreen(
             onValueChange = {
                 password.value = it
             },
+            modifier = Modifier.testTag(NodeTags.REGISTRATION_FOR_EMAIL_CODE_PASSWORD_TEXT_FIELD),
             textStyle = TextStyle.Default.copy(
                 fontSize = LocalAppTheme.current.textSize1
             ),
@@ -92,6 +96,7 @@ fun RegistrationForEmailCodeScreen(
             onValueChange = {
                 email.value = it
             },
+            modifier = Modifier.testTag(NodeTags.REGISTRATION_FOR_EMAIL_CODE_EMAIL_TEXT_FIELD),
             textStyle = TextStyle.Default.copy(
                 fontSize = LocalAppTheme.current.textSize1
             ),
@@ -115,6 +120,7 @@ fun RegistrationForEmailCodeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
+                .testTag(NodeTags.REGISTRATION_FOR_EMAIL_CODE_REGISTER_BUTTON)
         ) {
             Text(
                 text = stringResource(R.string.register),

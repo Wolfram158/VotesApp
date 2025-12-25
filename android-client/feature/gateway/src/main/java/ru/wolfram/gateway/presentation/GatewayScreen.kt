@@ -20,13 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.wolfram.common.R
+import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeState
 import ru.wolfram.gateway.domain.model.TryToEnterState
-import ru.wolfram.common.R
 import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
 @Composable
@@ -67,6 +69,7 @@ fun GatewayScreen(
             onValueChange = {
                 username.value = it
             },
+            modifier = Modifier.testTag(NodeTags.GATEWAY_SCREEN_USERNAME_TEXT_FIELD),
             placeholder = {
                 Text(
                     text = "username",
@@ -82,7 +85,8 @@ fun GatewayScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp)
+                .testTag(NodeTags.GATEWAY_SCREEN_ENTER_BUTTON),
             shape = RectangleShape
         ) {
             Text(
@@ -98,7 +102,8 @@ fun GatewayScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp)
+                .testTag(NodeTags.GATEWAY_SCREEN_REGISTER_BUTTON),
             shape = RectangleShape
         ) {
             Text(

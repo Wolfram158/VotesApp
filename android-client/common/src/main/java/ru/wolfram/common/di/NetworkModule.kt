@@ -26,7 +26,7 @@ import ru.wolfram.common.data.security.AccessTokenPreferences
 import ru.wolfram.common.data.security.RefreshTokenPreferences
 
 @Module
-class NetworkModule {
+object NetworkModule {
     @AppScope
     @Provides
     fun provideJson(): Json {
@@ -36,6 +36,7 @@ class NetworkModule {
 
     @AppScope
     @Provides
+    @ApiServiceQualifier
     fun provideApiService(okHttpClient: OkHttpClient, json: Json): ApiService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -127,10 +128,9 @@ class NetworkModule {
             .build()
     }
 
-    companion object {
-        const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
-        const val REFRESH_TOKEN_URL = BASE_URL + "auth/refresh-token"
-        const val REFRESH_TOKEN = "REFRESH_TOKEN"
-        const val QUERY_REFRESH_TOKEN = "refreshToken"
-    }
+    const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
+    const val REFRESH_TOKEN_URL = BASE_URL + "auth/refresh-token"
+    const val REFRESH_TOKEN = "REFRESH_TOKEN"
+    const val QUERY_REFRESH_TOKEN = "refreshToken"
+
 }

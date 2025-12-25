@@ -19,19 +19,25 @@ import ru.wolfram.common.data.security.UsernamePreferences
     ]
 )
 interface AppComponent {
-    val apiService: ApiService
-
     val accessTokenPreferencesStore: DataStore<AccessTokenPreferences>
 
     val usernamePreferencesStore: DataStore<UsernamePreferences>
 
     val refreshTokenPreferences: DataStore<RefreshTokenPreferences>
 
+    fun getApiService(): ApiService
+
     @DispatchersIOQualifier
     fun getIODispatcher(): CoroutineDispatcher
 
+    @DispatchersMainQualifier
+    fun getMainDispatcher(): CoroutineDispatcher
+
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): AppComponent
+        fun create(
+            @BindsInstance context: Context,
+            @BindsInstance /* @ApiServiceTestQualifier */ apiService: ApiService
+        ): AppComponent
     }
 }

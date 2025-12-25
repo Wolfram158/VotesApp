@@ -13,4 +13,11 @@ object DispatchersModule {
     fun provideDispatchersIO(): CoroutineDispatcher {
         return Dispatchers.IO
     }
+
+    @AppScope
+    @Provides
+    @DispatchersMainQualifier
+    fun provideDispatchersMain(): CoroutineDispatcher {
+        return Dispatchers.Main
+    }
 }

@@ -21,10 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
+import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.votes_app.presentation.theme.AppTheme
 import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
@@ -77,7 +79,8 @@ internal fun VotesSuccessScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .testTag(NodeTags.VOTES_ITEMS_LAZY_COLUMN),
             verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             items(titles.size, { titles[it] }) { index ->
@@ -85,7 +88,9 @@ internal fun VotesSuccessScreen(
                     onClick = {
                         onNavigateToVote(titles[index])
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(titles[index]),
                     shape = RectangleShape
                 ) {
                     Row(

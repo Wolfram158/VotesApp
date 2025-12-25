@@ -17,11 +17,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
+import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.registration_with_email_code.domain.model.RegistrationWithEmailCodeState
 import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
 
@@ -57,6 +59,7 @@ fun RegistrationWithEmailCodeScreen(
             onValueChange = {
                 code.value = it
             },
+            modifier = Modifier.testTag(NodeTags.REGISTRATION_WITH_EMAIL_CODE_CODE_TEXT_FIELD),
             textStyle = TextStyle.Default.copy(
                 fontSize = LocalAppTheme.current.textSize1,
                 textAlign = TextAlign.Center
@@ -78,7 +81,8 @@ fun RegistrationWithEmailCodeScreen(
                     username = username,
                     password = password
                 )
-            }
+            },
+            modifier = Modifier.testTag(NodeTags.REGISTRATION_WITH_EMAIL_CODE_CONFIRM_BUTTON)
         ) {
             Text(
                 text = stringResource(R.string.confirm),
