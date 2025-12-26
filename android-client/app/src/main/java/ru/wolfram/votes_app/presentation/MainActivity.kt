@@ -9,7 +9,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.compose.rememberNavController
 import ru.wolfram.common.di.AppComponent
 import ru.wolfram.votes_app.App
-import ru.wolfram.votes_app.presentation.theme.AppTheme
+import ru.wolfram.common.presentation.theme.AppTheme
 
 val LocalAppComponent = staticCompositionLocalOf<AppComponent> {
     error("AppComponent not provided!")

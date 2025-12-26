@@ -1,4 +1,4 @@
-package ru.wolfram.votes_app.presentation.theme
+package ru.wolfram.common.presentation.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider

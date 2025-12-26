@@ -8,7 +8,9 @@ import ru.wolfram.common.data.network.dto.RegistrationWithEmailCodeContainerDto
 import ru.wolfram.common.data.network.dto.Tokens
 import ru.wolfram.common.data.network.dto.VoteDto
 import ru.wolfram.common.data.network.dto.VoteDto2
+import ru.wolfram.common.di.AppScope
 
+@AppScope
 class ApiServiceTestImpl1(
     private val registerForEmailCodeResult: Response<String> = Response.success(
         200,
@@ -35,7 +37,7 @@ class ApiServiceTestImpl1(
         Unit
     ),
     private val doVoteResult: List<VoteDto2> = listOf(),
-    private val getVotesResult: Map<String, List<VoteDto2>> = mapOf(),
+    private val getVotesResult: () -> Map<String, List<VoteDto2>> = { mapOf() },
     private val getVoteResult: List<VoteDto2> = listOf()
 ) : ApiService {
     override suspend fun registerForEmailCode(
@@ -82,7 +84,7 @@ class ApiServiceTestImpl1(
     }
 
     override suspend fun getVotes(token: String): Map<String, List<VoteDto2>> {
-        return getVotesResult
+        return getVotesResult()
     }
 
     override suspend fun getVote(

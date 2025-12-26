@@ -1,21 +1,19 @@
 package ru.wolfram.votes_app.data.repository
 
-import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import ru.wolfram.common.data.network.dto.VoteDto
 import ru.wolfram.common.data.network.dto.toVotes
 import ru.wolfram.common.data.network.service.ApiService
-import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.votes_app.domain.model.VoteState
 import ru.wolfram.votes_app.domain.repository.VoteRepository
 import javax.inject.Inject
 
 internal class VoteRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val accessTokenStore: DataStore<AccessTokenPreferences>
+    private val localDataStorage: LocalDataStorage
 ) : VoteRepository {
     private val emission = MutableSharedFlow<ActionType>(replay = 1)
 
@@ -25,7 +23,7 @@ internal class VoteRepositoryImpl @Inject constructor(
                 try {
                     when (it) {
                         is ActionType.DoVote -> {
-                            val token = accessTokenStore.data.firstOrNull()?.token
+                            val token = localDataStorage.readAccessTokenPreferences()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
                             emit(
                                 VoteState.Success(
@@ -39,7 +37,7 @@ internal class VoteRepositoryImpl @Inject constructor(
 
                         is ActionType.GetVote -> {
                             emit(VoteState.Loading)
-                            val token = accessTokenStore.data.firstOrNull()?.token
+                            val token = localDataStorage.readAccessTokenPreferences()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
                             emit(VoteState.Success(apiService.getVote(it.title, token).toVotes()))
                         }

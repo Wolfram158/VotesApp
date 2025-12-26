@@ -40,6 +40,8 @@ dependencies {
 
     implementation(libs.retrofit)
 
+    implementation(libs.androidx.navigation.compose)
+
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -66,4 +68,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

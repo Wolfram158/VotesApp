@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
 import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
-import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
+import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @Composable
 fun RegistrationForEmailCodeScreen(

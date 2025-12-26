@@ -29,7 +29,7 @@ import ru.wolfram.common.R
 import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeState
 import ru.wolfram.gateway.domain.model.TryToEnterState
-import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
+import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @Composable
 fun GatewayScreen(

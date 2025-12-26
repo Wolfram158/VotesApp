@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
-import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
+import ru.wolfram.common.presentation.test.NodeTags
+import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @Composable
 internal fun VotesFailureScreen(
@@ -30,7 +32,8 @@ internal fun VotesFailureScreen(
             text = stringResource(R.string.could_not_load_votes),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp)
+                .testTag(NodeTags.VOTES_FAILURE_MESSAGE),
             textAlign = TextAlign.Center,
             fontSize = LocalAppTheme.current.textSize1
         )
@@ -41,11 +44,12 @@ internal fun VotesFailureScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp)
+                .testTag(NodeTags.VOTES_TRY_LOAD_BUTTON),
             shape = RectangleShape
         ) {
             Text(
-                text = stringResource(R.string.try_to_load_vote_again),
+                text = stringResource(R.string.try_to_load_votes_again),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 16.dp),

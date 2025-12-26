@@ -1,16 +1,14 @@
 package ru.wolfram.gateway.data.repository
 
-import androidx.datastore.core.DataStore
-import kotlinx.coroutines.flow.firstOrNull
 import ru.wolfram.common.data.network.service.ApiService
-import ru.wolfram.common.data.security.RefreshTokenPreferences
+import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeContainer
 import ru.wolfram.gateway.domain.repository.RefreshForEmailCodeRepository
 import javax.inject.Inject
 
 internal class RefreshForEmailCodeRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val refreshTokenStore: DataStore<RefreshTokenPreferences>
+    private val localDataStorage: LocalDataStorage
 ) : RefreshForEmailCodeRepository {
     override suspend fun refreshForEmailCode(container: RefreshForEmailCodeContainer): Result<Unit> {
         return try {
@@ -29,7 +27,7 @@ internal class RefreshForEmailCodeRepositoryImpl @Inject constructor(
     override suspend fun checkIfNeedEmailCode(username: String): Result<Boolean> {
         return try {
             val refreshToken =
-                refreshTokenStore.data.firstOrNull()?.token
+                localDataStorage.readRefreshTokenPreferences()?.token
                     ?: throw RuntimeException("Refresh token must be non-nullable!")
             val response = apiService.checkIfNeedEmailCode(username, refreshToken)
             if (response.code() == 404) {

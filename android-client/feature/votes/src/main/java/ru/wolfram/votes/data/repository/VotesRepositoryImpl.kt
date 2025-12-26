@@ -1,20 +1,18 @@
 package ru.wolfram.votes.data.repository
 
-import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import ru.wolfram.common.data.network.dto.toVoteMap
 import ru.wolfram.common.data.network.service.ApiService
-import ru.wolfram.common.data.security.AccessTokenPreferences
+import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.votes.domain.model.VotesState
 import ru.wolfram.votes.domain.repository.VotesRepository
 import javax.inject.Inject
 
 internal class VotesRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val accessTokenStore: DataStore<AccessTokenPreferences>
+    private val localDataStorage: LocalDataStorage
 ) : VotesRepository {
     private val emission = MutableSharedFlow<Unit>(replay = 1)
 
@@ -26,7 +24,7 @@ internal class VotesRepositoryImpl @Inject constructor(
                     emit(
                         VotesState.Success(
                             apiService.getVotes(
-                                accessTokenStore.data.firstOrNull()?.token
+                                localDataStorage.readAccessTokenPreferences()?.token
                                     ?: throw RuntimeException("Access token must be non-nullable!")
                             ).toVoteMap()
                         )

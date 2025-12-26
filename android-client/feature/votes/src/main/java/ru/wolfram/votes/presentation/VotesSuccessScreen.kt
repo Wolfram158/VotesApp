@@ -27,8 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
 import ru.wolfram.common.presentation.test.NodeTags
-import ru.wolfram.votes_app.presentation.theme.AppTheme
-import ru.wolfram.votes_app.presentation.theme.LocalAppTheme
+import ru.wolfram.common.presentation.theme.AppTheme
+import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

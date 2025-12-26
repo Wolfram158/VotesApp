@@ -10,17 +10,21 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import ru.wolfram.common.data.network.dto.VoteDto2
 import ru.wolfram.common.data.network.service.ApiServiceTestImpl1
+import ru.wolfram.common.data.storage.LocalDataStorageTestImpl
 import ru.wolfram.common.di.DaggerAppComponent
 import ru.wolfram.common.presentation.test.NodeTags
+import ru.wolfram.common.presentation.theme.AppTheme
 import ru.wolfram.votes_app.presentation.LocalAppComponent
 import ru.wolfram.votes_app.presentation.NavGraph
 import ru.wolfram.votes_app.presentation.TestMainActivity
-import ru.wolfram.votes_app.presentation.theme.AppTheme
 
+@RunWith(AndroidJUnit4::class)
 class VotesAppTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<TestMainActivity>()
@@ -36,20 +40,22 @@ class VotesAppTest {
                 DaggerAppComponent.factory().create(
                     composeTestRule.activity.applicationContext,
                     ApiServiceTestImpl1(
-                        getVotesResult = mapOf(
-                            title to listOf(
-                                VoteDto2(
-                                    title,
-                                    variant1,
-                                    1
-                                ),
-                                VoteDto2(
-                                    title,
-                                    variant2,
-                                    2
+                        getVotesResult = {
+                            mapOf(
+                                title to listOf(
+                                    VoteDto2(
+                                        title,
+                                        variant1,
+                                        1
+                                    ),
+                                    VoteDto2(
+                                        title,
+                                        variant2,
+                                        2
+                                    )
                                 )
                             )
-                        ),
+                        },
                         getVoteResult = listOf(
                             VoteDto2(
                                 title,
@@ -62,7 +68,8 @@ class VotesAppTest {
                                 2
                             )
                         )
-                    )
+                    ),
+                    LocalDataStorageTestImpl()
                 )
 
             setContent {
