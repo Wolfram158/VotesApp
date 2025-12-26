@@ -21,12 +21,6 @@ import ru.wolfram.common.domain.storage.LocalDataStorage
     ]
 )
 interface AppComponent {
-    val accessTokenPreferencesStore: DataStore<AccessTokenPreferences>
-
-    val usernamePreferencesStore: DataStore<UsernamePreferences>
-
-    val refreshTokenPreferences: DataStore<RefreshTokenPreferences>
-
     fun getApiService(): ApiService
 
     @DispatchersIOQualifier
