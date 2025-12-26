@@ -36,7 +36,7 @@ object NetworkModule {
 
     @AppScope
     @Provides
-    @ApiServiceQualifier
+    // @ApiServiceQualifier
     fun provideApiService(okHttpClient: OkHttpClient, json: Json): ApiService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

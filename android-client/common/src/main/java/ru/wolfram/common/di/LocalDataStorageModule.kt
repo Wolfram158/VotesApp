@@ -13,7 +13,7 @@ import ru.wolfram.common.domain.storage.LocalDataStorage
 @Module
 internal object LocalDataStorageModule {
     @AppScope
-    @LocalDataStorageQualifier
+    // @LocalDataStorageQualifier
     @Provides
     fun provideLocalDataStorage(
         accessTokenStore: DataStore<AccessTokenPreferences>,

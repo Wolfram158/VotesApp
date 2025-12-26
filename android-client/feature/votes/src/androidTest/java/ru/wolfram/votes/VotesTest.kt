@@ -115,6 +115,7 @@ class VotesTest {
                 1,
                 3000
             )
+
             onNodeWithTag(NodeTags.VOTES_ITEMS_LAZY_COLUMN).assertExists()
             onNodeWithTag(NodeTags.VOTES_FAILURE_MESSAGE).assertDoesNotExist()
             onNodeWithTag(NodeTags.VOTES_TRY_LOAD_BUTTON).assertDoesNotExist()

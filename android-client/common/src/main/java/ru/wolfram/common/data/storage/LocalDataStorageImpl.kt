@@ -7,10 +7,8 @@ import ru.wolfram.common.data.security.EmailPreferences
 import ru.wolfram.common.data.security.RefreshTokenPreferences
 import ru.wolfram.common.data.security.UsernamePreferences
 import ru.wolfram.common.di.AppScope
-import ru.wolfram.common.di.LocalDataStorageQualifier
 import ru.wolfram.common.domain.storage.LocalDataStorage
 
-@LocalDataStorageQualifier
 @AppScope
 internal class LocalDataStorageImpl(
     private val accessTokenStore: DataStore<AccessTokenPreferences>,

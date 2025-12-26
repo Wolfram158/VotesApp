@@ -62,7 +62,7 @@ class LocalDataStorageTestImpl : LocalDataStorage {
         return if (::accessTokenPreferences.isInitialized) {
             accessTokenPreferences
         } else {
-            accessTokenPreferences
+            null
         }
     }
 
@@ -74,7 +74,7 @@ class LocalDataStorageTestImpl : LocalDataStorage {
         return if (::refreshTokenPreferences.isInitialized) {
             refreshTokenPreferences
         } else {
-            refreshTokenPreferences
+            null
         }
     }
 

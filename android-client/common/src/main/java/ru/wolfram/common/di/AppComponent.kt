@@ -41,8 +41,8 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance context: Context,
-            @BindsInstance /* @ApiServiceTestQualifier */ apiService: ApiService,
-            @BindsInstance /* @LocalDataStorageTestQualifier */ localDataStorage: LocalDataStorage
+            @BindsInstance @ApiServiceTestQualifier apiService: ApiService,
+            @BindsInstance @LocalDataStorageTestQualifier localDataStorage: LocalDataStorage
         ): AppComponent
     }
 }
