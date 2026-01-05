@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import ru.wolfram.auth.dto.*
+import ru.wolfram.auth.dto.RefreshTokenResult
+import ru.wolfram.auth.dto.RegistrationForEmailCodeState
+import ru.wolfram.auth.dto.RegistrationWithEmailCodeState
+import ru.wolfram.auth.dto.UserDto
 import ru.wolfram.auth.entity.RefreshToken
 import ru.wolfram.auth.entity.User
 import ru.wolfram.auth.entity.UserPrimaryKey
@@ -19,20 +22,16 @@ class AuthService(
     private val mailService: MailService,
     private val passwordEncoder: PasswordEncoder,
     private val jwtGenerator: JwtGenerator,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    @Value($$"${jwt.accessTokenExpiration}") private val accessTokenExpiration: Long = 900,
+    @Value($$"${jwt.refreshTokenExpiration}") private val refreshTokenExpiration: Long = 900
 ) {
-    @Value($$"${jwt.accessTokenExpiration}")
-    private val accessTokenExpiration: Long = 900
-
-    @Value($$"${jwt.refreshTokenExpiration}")
-    private val refreshTokenExpiration: Long = 900
-
     @Transactional
     fun registerForEmailCode(user: UserDto): RegistrationForEmailCodeState {
         if (userRepository.findByUserPrimaryKeyUsername(user.username) != null) {
             return RegistrationForEmailCodeState.UserAlreadyExists
         }
-        mailService.sendEmailCode(user.email)
+        mailService.sendEmailCode(user.username, user.email)
         return RegistrationForEmailCodeState.Success
     }
 
@@ -94,7 +93,7 @@ class AuthService(
         val user = userRepository.findEmailByUserPrimaryKeyUsername(username)
         val email = user?.userPrimaryKey?.email
         require(email != null)
-        require(mailService.sendEmailCode(email).statusCode == HttpStatus.OK)
+        require(mailService.sendEmailCode(username, email).statusCode == HttpStatus.OK)
     }
 
     fun generateTokens(username: String): RefreshTokenResult.Success {

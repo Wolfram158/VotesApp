@@ -11,9 +11,10 @@ class MailService(
     private val restTemplate: RestTemplate,
     @Value($$"${email.url}") private val emailBaseUrl: String
 ) {
-    fun sendEmailCode(email: String): ResponseEntity<String> {
+    fun sendEmailCode(username: String, email: String): ResponseEntity<String> {
         val url = UriComponentsBuilder
             .fromUriString("$emailBaseUrl/send-email-code")
+            .queryParam("username", username)
             .queryParam("email", email)
             .toUriString()
         return restTemplate.postForEntity(url, null, String::class.java)

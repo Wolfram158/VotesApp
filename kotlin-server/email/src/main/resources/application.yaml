@@ -1,6 +1,8 @@
 spring:
   application:
     name: email
+  config:
+    import: classpath:secret.yaml
 
 server:
   port: 8084
