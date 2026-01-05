@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import ru.wolfram.vote.constants.Constants
 import ru.wolfram.vote.dto.TokenValidationResult
 import ru.wolfram.vote.dto.VoteDto
 import ru.wolfram.vote.dto.VoteDto2
@@ -50,9 +51,9 @@ class VotesController {
             )
     }
 
-    @PostMapping("/votes")
+    @GetMapping("/votes")
     fun getVotes(
-        @RequestHeader("Authorization") token: String,
+        @RequestHeader(Constants.AUTHORIZATION_HEADER) token: String,
     ): ResponseEntity<Map<String, List<VoteDto2>>> {
         val validationResult = authService.validateToken(token)
         if (validationResult !is TokenValidationResult.Success) {
@@ -63,8 +64,8 @@ class VotesController {
 
     @GetMapping("/vote")
     fun getVote(
-        @RequestParam title: String,
-        @RequestParam token: String
+        @RequestParam(name = "title") title: String,
+        @RequestHeader(Constants.AUTHORIZATION_HEADER) token: String
     ): ResponseEntity<List<VoteDto2>> {
         val validationResult = authService.validateToken(token)
         if (validationResult !is TokenValidationResult.Success) {

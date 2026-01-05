@@ -10,10 +10,3 @@ create table if not exists refresh_tokens (
     username varchar(32) references users (username),
     refresh_token varchar(2048) not null
 );
-
-create table if not exists votes (
-    id bigserial primary key,
-    title varchar(512) not null,
-    variant varchar(128) not null,
-    votes_count bigint not null
-);
