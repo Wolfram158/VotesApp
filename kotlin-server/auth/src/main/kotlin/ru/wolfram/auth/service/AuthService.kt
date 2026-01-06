@@ -47,6 +47,7 @@ class AuthService(
         if (encoded.statusCode != HttpStatus.OK) {
             return RegistrationWithEmailCodeState.Failure
         }
+        println("Encoded: ${encoded.body}")
         if (!passwordEncoder.matches(code, encoded.body)) {
             return RegistrationWithEmailCodeState.IncorrectCode
         }

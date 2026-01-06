@@ -9,11 +9,13 @@ import org.springframework.web.server.ServerWebExchange
 import ru.wolfram.gateway.jwt.JwtValidator
 import ru.wolfram.gateway.constants.Constants
 
+class Config
+
 @Component
 @Order(1)
 class JwtAuthGatewayFilterFactory(
     private val jwtValidator: JwtValidator
-) : AbstractGatewayFilterFactory<JwtAuthGatewayFilterFactory.Config>() {
+) : AbstractGatewayFilterFactory<Config>(Config::class.java) {
     override fun apply(config: Config): GatewayFilter {
         return GatewayFilter { exchange, chain ->
             val authorizationHeader = exchange.request.headers.getFirst(Constants.AUTHORIZATION_HEADER_KEY)
@@ -33,5 +35,4 @@ class JwtAuthGatewayFilterFactory(
         response.statusCode = HttpStatus.UNAUTHORIZED
     }
 
-    companion object Config
 }

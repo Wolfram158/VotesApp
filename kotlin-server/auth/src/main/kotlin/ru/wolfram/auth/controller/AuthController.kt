@@ -36,6 +36,7 @@ class AuthController {
                 code = registrationWithEmailCodeDto.code,
                 password = registrationWithEmailCodeDto.password
             )
+        println("Result: $result")
         if (result !is RegistrationWithEmailCodeState.Success) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }

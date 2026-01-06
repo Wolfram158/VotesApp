@@ -26,6 +26,7 @@ services:
     networks:
       - email_network
       - auth_network
+      - email_external
   postgres-auth:
     image: 'postgres:latest'
     hostname: 'auth_db'
@@ -64,4 +65,6 @@ networks:
     driver: bridge
     internal: true
   gateway_network:
+    driver: bridge
+  email_external:
     driver: bridge

@@ -31,6 +31,8 @@ class EmailService(
     }
 
     fun getEncodedEmailCodeByUsername(username: String): String? {
-        return sessionRepository.findById(username).getOrNull()?.code
+        val code = sessionRepository.findById(username).getOrNull()?.code
+        println("Code: $code")
+        return code
     }
 }

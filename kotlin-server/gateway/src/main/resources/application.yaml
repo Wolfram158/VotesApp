@@ -15,24 +15,24 @@ spring:
             uri:
               http://localhost:8081
             predicates:
-              - Path:/**
+              - Path=/api/v1/write-votes/**
             filters:
-              - JwtAuth
+              - name: JwtAuth
           routes[1]:
             id:
               "read-votes"
             uri:
               http://localhost:8082
             predicates:
-              - Path:/**
+              - Path=/api/v1/read-votes/**
             filters:
-              - JwtAuth
+              - name: JwtAuth
           routes[2]:
             id:
               "auth"
             uri:
               http://auth-service:8083
             predicates:
-              - Path:/**
+              - Path=/api/v1/auth/**
   config:
     import: classpath:secret.yaml

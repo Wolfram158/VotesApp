@@ -18,7 +18,7 @@ class SecurityConfiguration {
             secret,
             saltLength,
             iterations,
-            Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512
+            Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256
         )
     }
 }
