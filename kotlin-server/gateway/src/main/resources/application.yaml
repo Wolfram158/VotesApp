@@ -34,3 +34,5 @@ spring:
               http://localhost:8083
             predicates:
               - Path:/**
+  config:
+    import: classpath:secret.yaml
