@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    private val mailSender: JavaMailSender
+    private val mailSender: JavaMailSender,
+    @Value($$"${spring.mail.username}") private val username: String? = null
 ) {
-    @Value($$"${spring.mail.username}")
-    private val username: String? = null
-
     fun send(emailTo: String, subject: String, message: String) {
         val mailMessage = SimpleMailMessage()
         mailMessage.from = username

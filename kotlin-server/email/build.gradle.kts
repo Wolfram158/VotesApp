@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.security:spring-security-crypto")
+
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
