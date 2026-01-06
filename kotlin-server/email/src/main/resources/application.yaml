@@ -3,6 +3,9 @@ spring:
     name: email
   config:
     import: classpath:secret.yaml
+  data:
+    redis:
+      host: redis-email
 
 server:
   port: 8084

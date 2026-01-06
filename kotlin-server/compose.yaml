@@ -1,24 +1,67 @@
 services:
-  postgres:
+  gateway-service:
+    build: ./gateway
+    container_name: gateway-service-container
+    ports:
+      - '8080:8080'
+    networks:
+      - gateway_network
+  auth-service:
+    build: ./auth
+    container_name: auth-service-container
+    expose:
+      - '8083'
+    depends_on:
+      - postgres-auth
+    networks:
+      - auth_network
+      - gateway_network
+  email-service:
+    build: ./email
+    container_name: email-service-container
+    expose:
+      - '8084'
+    depends_on:
+      - redis-email
+    networks:
+      - email_network
+      - auth_network
+  postgres-auth:
     image: 'postgres:latest'
+    hostname: 'auth_db'
+    container_name: auth_db_container
     environment:
-      - 'POSTGRES_DB=database_1'
-      - 'POSTGRES_PASSWORD=1234'
-      - 'POSTGRES_USER=admin'
-    ports:
-      - '5432:5432'
+      POSTGRES_USER: ${POSTGRES_AUTH_USER}
+      POSTGRES_DB: ${POSTGRES_AUTH_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_AUTH_PASSWORD}
+    expose:
+      - '5432'
+    networks:
+      - auth_network
     volumes:
-      - postgres_data:/var/lib/postgresql
-  redis:
+      - postgres_auth_data:/var/lib/postgresql
+  redis-email:
     image: redis:8.4-alpine
-    container_name: redis
+    container_name: redis_email
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    expose:
+      - '6379'
+    networks:
+      - email_network
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
 
 volumes:
   redis_data:
-  postgres_data:
+  postgres_auth_data:
+
+networks:
+  email_network:
+    driver: bridge
+    internal: true
+  auth_network:
+    driver: bridge
+    internal: true
+  gateway_network:
+    driver: bridge
