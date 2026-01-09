@@ -6,7 +6,6 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
-import ru.wolfram.gateway.jwt.JwtValidator
 import ru.wolfram.gateway.constants.Constants
 
 class Config

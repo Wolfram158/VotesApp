@@ -13,16 +13,16 @@ spring:
             id:
               "write-votes"
             uri:
-              http://localhost:8081
+              http://write-votes-service:8081
             predicates:
-              - Path=/api/v1/write-votes/**
+              - Path=/api/v1/write-votes/create-vote
             filters:
               - name: JwtAuth
           routes[1]:
             id:
               "read-votes"
             uri:
-              http://localhost:8082
+              http://read-votes-service:8082
             predicates:
               - Path=/api/v1/read-votes/**
             filters:

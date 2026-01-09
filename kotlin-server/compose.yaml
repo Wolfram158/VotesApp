@@ -27,8 +27,94 @@ services:
       - email_network
       - auth_network
       - email_external
+  read-votes-service:
+    build: ./read-votes
+    container_name: read-votes-service-container
+    expose:
+      - '8082'
+    depends_on:
+      - postgres-read-votes
+      - kafka-write-read-votes
+    networks:
+      - gateway_network
+      - read-votes-network
+      - kafka-write-read-votes
+  write-votes-service:
+    build: ./write-votes
+    container_name: write-votes-service-container
+    expose:
+      - '8081'
+    depends_on:
+      - postgres-write-votes
+      - kafka-write-read-votes
+    networks:
+      - gateway_network
+      - write_votes_network
+      - administration_network
+      - kafka-write-read-votes
+  kafka-write-read-votes:
+    image: confluentinc/cp-kafka:7.7.7
+    container_name: 'kafka-write-read-votes'
+    hostname: 'kafka-write-read-votes'
+    expose:
+      - '9092'
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka-write-read-votes:9093"
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-write-read-votes:9092
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CLUSTER_ID: "Mk3OEYBSD34fcwNTJENDM2Qk"
+    networks:
+      - kafka-write-read-votes
+    volumes:
+      - kafka_write_read_votes_data:/var/lib/kafka/data
+  administration-service:
+    build: ./administration
+    container_name: administration-service-container
+    expose:
+      - '8085'
+    networks:
+      - administration_network
+  postgres-read-votes:
+    image: 'postgres:18-alpine'
+    hostname: 'read_votes_db'
+    container_name: read_votes_db_container
+    environment:
+      POSTGRES_USER: ${POSTGRES_READ_VOTES_USER}
+      POSTGRES_DB: ${POSTGRES_READ_VOTES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_READ_VOTES_PASSWORD}
+    expose:
+      - '5432'
+    networks:
+      - read_votes_network
+    volumes:
+      - postgres_read_votes_data:/var/lib/postgresql
+  postgres-write-votes:
+    image: 'postgres:18-alpine'
+    hostname: 'write_votes_db'
+    container_name: write_votes_db_container
+    environment:
+      POSTGRES_USER: ${POSTGRES_WRITE_VOTES_USER}
+      POSTGRES_DB: ${POSTGRES_WRITE_VOTES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_WRITE_VOTES_PASSWORD}
+    expose:
+      - '5432'
+    networks:
+      - write_votes_network
+    volumes:
+      - postgres_write_votes_data:/var/lib/postgresql
   postgres-auth:
-    image: 'postgres:latest'
+    image: 'postgres:18-alpine'
     hostname: 'auth_db'
     container_name: auth_db_container
     environment:
@@ -56,6 +142,9 @@ services:
 volumes:
   redis_data:
   postgres_auth_data:
+  postgres_read_votes_data:
+  postgres_write_votes_data:
+  kafka_write_read_votes_data:
 
 networks:
   email_network:
@@ -68,3 +157,15 @@ networks:
     driver: bridge
   email_external:
     driver: bridge
+  read_votes_network:
+    driver: bridge
+    internal: true
+  write_votes_network:
+    driver: bridge
+    internal: true
+  administration_network:
+    driver: bridge
+    internal: true
+  kafka-write-read-votes:
+    driver: bridge
+    internal: true

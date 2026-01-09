@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: administration
+
+server:
+  port: 8085
+
+write_votes:
+  baseUrl:
+    http://write-votes:8082/api/v1/write-votes

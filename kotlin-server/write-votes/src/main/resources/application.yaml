@@ -1,0 +1,21 @@
+spring:
+  application:
+    name:
+      write-votes
+  sql:
+    init:
+      platform: postgres
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:postgresql://postgres-write-votes:5432/database_write_votes
+    username: admin
+  kafka:
+    bootstrap-servers: kafka-write-read-votes:9092
+    producer:
+      bootstrap-servers: kafka-write-read-votes:9092
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+server:
+  port:
+    8081

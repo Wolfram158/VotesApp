@@ -1,0 +1,22 @@
+spring:
+  application:
+    name:
+      read-votes
+  sql:
+    init:
+      platform: postgres
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: r2dbc:postgresql://postgres-read-votes:5432/database_read_votes
+    username: admin
+  kafka:
+    bootstrap-servers: kafka-write-read-votes:9092
+    consumer:
+      bootstrap-servers: kafka-write-read-votes:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: votes
+
+server:
+  port:
+    8082
