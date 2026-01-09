@@ -2,13 +2,15 @@ spring:
   application:
     name:
       read-votes
-  sql:
-    init:
-      platform: postgres
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: r2dbc:postgresql://postgres-read-votes:5432/database_read_votes
-    username: admin
+  r2dbc:
+    url: r2dbc:postgresql://postgres-read-votes:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  flyway:
+    url: jdbc:postgresql://postgres-read-votes:5432/${POSTGRES_DB}
+    locations: classpath:db/migration
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
   kafka:
     bootstrap-servers: kafka-write-read-votes:9092
     consumer:

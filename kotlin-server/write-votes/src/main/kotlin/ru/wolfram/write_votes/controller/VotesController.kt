@@ -19,7 +19,7 @@ class VotesController(
             .body(Unit)
     }
 
-    @PostMapping("/get-random-vote")
+    @GetMapping("/get-random-vote")
     suspend fun getRandomVote(): ResponseEntity<List<VoteDto>> {
         return ResponseEntity.ok().body(votesService.getRandomVote())
     }

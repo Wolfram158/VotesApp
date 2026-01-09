@@ -37,8 +37,12 @@ services:
       - kafka-write-read-votes
     networks:
       - gateway_network
-      - read-votes-network
-      - kafka-write-read-votes
+      - read_votes_network
+      - kafka_write_read_votes
+    environment:
+      POSTGRES_USER: ${POSTGRES_READ_VOTES_USER}
+      POSTGRES_DB: ${POSTGRES_READ_VOTES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_READ_VOTES_PASSWORD}
   write-votes-service:
     build: ./write-votes
     container_name: write-votes-service-container
@@ -51,7 +55,11 @@ services:
       - gateway_network
       - write_votes_network
       - administration_network
-      - kafka-write-read-votes
+      - kafka_write_read_votes
+    environment:
+      POSTGRES_USER: ${POSTGRES_WRITE_VOTES_USER}
+      POSTGRES_DB: ${POSTGRES_WRITE_VOTES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_WRITE_VOTES_PASSWORD}
   kafka-write-read-votes:
     image: confluentinc/cp-kafka:7.7.7
     container_name: 'kafka-write-read-votes'
@@ -75,7 +83,7 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       CLUSTER_ID: "Mk3OEYBSD34fcwNTJENDM2Qk"
     networks:
-      - kafka-write-read-votes
+      - kafka_write_read_votes
     volumes:
       - kafka_write_read_votes_data:/var/lib/kafka/data
   administration-service:
@@ -166,6 +174,6 @@ networks:
   administration_network:
     driver: bridge
     internal: true
-  kafka-write-read-votes:
+  kafka_write_read_votes:
     driver: bridge
     internal: true

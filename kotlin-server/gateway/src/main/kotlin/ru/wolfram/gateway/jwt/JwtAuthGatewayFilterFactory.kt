@@ -6,6 +6,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Mono
 import ru.wolfram.gateway.constants.Constants
 
 class Config
@@ -19,19 +20,20 @@ class JwtAuthGatewayFilterFactory(
         return GatewayFilter { exchange, chain ->
             val authorizationHeader = exchange.request.headers.getFirst(Constants.AUTHORIZATION_HEADER_KEY)
             if (authorizationHeader == null || !authorizationHeader.startsWith(Constants.BEARER_PREFIX)) {
-                handleUnauthorized(exchange)
+                return@GatewayFilter handleUnauthorized(exchange)
             }
-            val token = authorizationHeader?.substring(Constants.BEARER_PREFIX.length)
+            val token = authorizationHeader.substring(Constants.BEARER_PREFIX.length)
             if (!jwtValidator.isJwtValid(token)) {
-                handleUnauthorized(exchange)
+                return@GatewayFilter handleUnauthorized(exchange)
             }
             chain.filter(exchange)
         }
     }
 
-    private fun handleUnauthorized(exchange: ServerWebExchange) {
+    private fun handleUnauthorized(exchange: ServerWebExchange): Mono<Void> {
         val response = exchange.response
         response.statusCode = HttpStatus.UNAUTHORIZED
+        return exchange.response.setComplete()
     }
 
 }

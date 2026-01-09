@@ -19,4 +19,6 @@ copy --from=builder /app/build/libs/*.jar app.jar
 
 expose 8085
 
-entrypoint ["java", "-jar", "app.jar"]
+entrypoint ["tail", "-f", "/dev/null"]
+
+# entrypoint ["java", "-jar", "app.jar"]

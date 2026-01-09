@@ -6,7 +6,8 @@ create table if not exists votes (
 );
 
 create table if not exists users_and_titles (
+    id bigserial primary key,
     username varchar(32) not null,
     title varchar(512) not null,
-    constraint pk_users_and_titles primary key (username, title)
+    constraint unique_username_title unique (username, title)
 );
