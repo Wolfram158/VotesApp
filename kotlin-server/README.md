@@ -1,3 +1,5 @@
+## Before start ##
+
 ### Create .env file in the root of project ###
 The following keys must be defined:
 ```txt
@@ -67,4 +69,22 @@ pbkdf2:
   secret: PBKDF2_SECRET_FROM_EMAIL_SUBPROJECT
   saltLength: SALT_LENGTH_FROM_EMAIL_SUBPROJECT
   iterations: ITERATIONS_FROM_EMAIL_SUBPROJECT
-  ```
+```
+
+## How to start ##
+In the project root run command:
+```bash
+docker-compose up --build -d
+```
+
+## How to continue ##
+Right after `docker compose up --build -d` executed successfully,
+command `docker ps` can be executed to see started containers.
+To get into container, run:
+```bash
+docker exec -it <container-name> sh
+```
+Being inside container, to get into database (if exists), run:
+```bash
+psql -U $POSTGRES_USER -h localhost -d $POSTGRES_DB
+```
