@@ -16,6 +16,10 @@ services:
     networks:
       - auth_network
       - gateway_network
+    environment:
+      POSTGRES_USER: ${POSTGRES_AUTH_USER}
+      POSTGRES_DB: ${POSTGRES_AUTH_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_AUTH_PASSWORD}
   email-service:
     build: ./email
     container_name: email-service-container

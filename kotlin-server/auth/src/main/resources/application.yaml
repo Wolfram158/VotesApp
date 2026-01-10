@@ -12,8 +12,8 @@ spring:
       platform: postgres
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgres-auth:5432/database_auth
-    username: admin
+    url: jdbc:postgresql://postgres-auth:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
   config:
     import: classpath:secret.yaml
 
