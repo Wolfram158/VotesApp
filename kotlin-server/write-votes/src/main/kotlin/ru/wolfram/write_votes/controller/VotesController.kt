@@ -2,6 +2,7 @@ package ru.wolfram.write_votes.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import ru.wolfram.write_votes.dto.TitleDto
 import ru.wolfram.write_votes.dto.VoteDto
 import ru.wolfram.write_votes.service.VotesService
 
@@ -26,15 +27,15 @@ class VotesController(
 
     @PostMapping("/accept-vote")
     suspend fun acceptVote(
-        @RequestParam(value = "title") title: String
+        @RequestBody titleDto: TitleDto
     ) {
-        votesService.acceptVote(title)
+        votesService.acceptVote(titleDto)
     }
 
     @PostMapping("/reject-vote")
     suspend fun rejectVote(
-        @RequestParam(value = "title") title: String
+        @RequestBody titleDto: TitleDto
     ) {
-        votesService.rejectVote(title)
+        votesService.rejectVote(titleDto)
     }
 }

@@ -1,4 +1,4 @@
-package ru.wolfram.gateway.jwt
+package ru.wolfram.gateway.filters
 
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import ru.wolfram.gateway.constants.Constants
+import ru.wolfram.gateway.jwt.JwtValidator
 
 class Config
 

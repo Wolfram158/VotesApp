@@ -20,14 +20,24 @@ spring:
               - name: JwtAuth
           routes[1]:
             id:
-              "read-votes"
+              "read-votes-1"
+            uri:
+              http://read-votes-service:8082
+            predicates:
+              - Path=/api/v1/read-votes/do-vote
+            filters:
+              - name: JwtAuth
+              - name: AddUsername
+          routes[2]:
+            id:
+              "read-votes-2"
             uri:
               http://read-votes-service:8082
             predicates:
               - Path=/api/v1/read-votes/**
             filters:
               - name: JwtAuth
-          routes[2]:
+          routes[3]:
             id:
               "auth"
             uri:

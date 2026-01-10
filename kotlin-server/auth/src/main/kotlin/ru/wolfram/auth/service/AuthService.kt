@@ -28,6 +28,8 @@ class AuthService(
 ) {
     @Transactional
     fun registerForEmailCode(user: UserDto): RegistrationForEmailCodeState {
+        require(user.username.length == user.username.filter { !it.isWhitespace() }.length)
+        require(user.username.isNotEmpty())
         if (userRepository.findByUserPrimaryKeyUsername(user.username) != null) {
             return RegistrationForEmailCodeState.UserAlreadyExists
         }
@@ -47,7 +49,6 @@ class AuthService(
         if (encoded.statusCode != HttpStatus.OK) {
             return RegistrationWithEmailCodeState.Failure
         }
-        println("Encoded: ${encoded.body}")
         if (!passwordEncoder.matches(code, encoded.body)) {
             return RegistrationWithEmailCodeState.IncorrectCode
         }

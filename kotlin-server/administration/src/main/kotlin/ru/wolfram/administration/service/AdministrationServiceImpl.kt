@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
 import org.springframework.web.util.UriComponentsBuilder
+import ru.wolfram.administration.model.TitleDto
 import ru.wolfram.administration.model.Vote
 
 @Service
@@ -22,17 +23,15 @@ class AdministrationServiceImpl(
     override fun accept(title: String) {
         val url = UriComponentsBuilder
             .fromUriString("${writeVotesBaseUrl}/accept-vote")
-            .queryParam("title", title)
             .toUriString()
-        restTemplate.postForObject(url, null, Void::class.java)
+        restTemplate.postForObject(url, TitleDto(title), Void::class.java)
     }
 
     override fun reject(title: String) {
         val url = UriComponentsBuilder
             .fromUriString("${writeVotesBaseUrl}/reject-vote")
-            .queryParam("title", title)
             .toUriString()
-        restTemplate.postForObject(url, null, Void::class.java)
+        restTemplate.postForObject(url, TitleDto(title), Void::class.java)
     }
 
 }

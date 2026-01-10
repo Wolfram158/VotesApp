@@ -9,7 +9,7 @@ import ru.wolfram.read_votes.entity.Votes
 
 @Repository
 interface VotesRepository : CoroutineCrudRepository<Votes, Long> {
-    @Query("select title from votes limit :limit offset :offset")
+    @Query("select distinct title from votes limit :limit offset :offset")
     suspend fun findAllTitlesInRange(
         @Param("limit") limit: Int,
         @Param("offset") offset: Int

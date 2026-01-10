@@ -3,6 +3,7 @@ package ru.wolfram.write_votes.service
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.wolfram.write_votes.component.KafkaSender
+import ru.wolfram.write_votes.dto.TitleDto
 import ru.wolfram.write_votes.dto.VoteDto
 import ru.wolfram.write_votes.mapper.toDto
 import ru.wolfram.write_votes.repository.VotesRepository
@@ -30,15 +31,15 @@ class VotesService(
     }
 
     @Transactional
-    suspend fun acceptVote(title: String) {
-        val vote = votesRepository.findByTitle(title).map { it.toDto() }
+    suspend fun acceptVote(titleDto: TitleDto) {
+        val vote = votesRepository.findByTitle(titleDto.title).map { it.toDto() }
         require(vote.isNotEmpty())
         kafkaSender.sendMessage("votes-1", vote)
-        votesRepository.deleteByTitle(title)
+        votesRepository.deleteByTitle(titleDto.title)
     }
 
     @Transactional
-    suspend fun rejectVote(title: String) {
-        votesRepository.deleteByTitle(title)
+    suspend fun rejectVote(titleDto: TitleDto) {
+        votesRepository.deleteByTitle(titleDto.title)
     }
 }

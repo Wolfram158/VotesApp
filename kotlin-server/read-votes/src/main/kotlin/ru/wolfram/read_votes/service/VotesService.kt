@@ -2,6 +2,7 @@ package ru.wolfram.read_votes.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ru.wolfram.read_votes.dto.TitleDto
 import ru.wolfram.read_votes.dto.VoteDto
 import ru.wolfram.read_votes.dto.VoteDto2
 import ru.wolfram.read_votes.entity.UsersAndTitles
@@ -28,8 +29,8 @@ class VotesService(
     }
 
     @Transactional
-    suspend fun findByTitle(title: String): List<VoteDto2> {
-        return votesRepository.findByTitle(title).map {
+    suspend fun findByTitle(titleDto: TitleDto): List<VoteDto2> {
+        return votesRepository.findByTitle(titleDto.title).map {
             VoteDto2(
                 it.title!!,
                 it.variant!!,
