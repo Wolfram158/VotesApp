@@ -88,3 +88,9 @@ Being inside container, to get into database (if exists), run:
 ```bash
 psql -U $POSTGRES_USER -h localhost -d $POSTGRES_DB
 ```
+
+## How to end ##
+To end, run:
+```bash
+docker-compose down
+```
