@@ -41,8 +41,9 @@ class VotesService(
 
     @Transactional
     suspend fun saveVote(vote: List<VoteDto>) {
-        require(votesRepository.findByTitle(vote.first().title).isEmpty())
-        votesRepository.saveAll(vote.map { it.toEntity() }).collect {
+        if (vote.isEmpty() || votesRepository.findByTitle(vote.first().title).isNotEmpty()) {
+            return
         }
+        votesRepository.saveAll(vote.map { it.toEntity() }).collect {}
     }
 }

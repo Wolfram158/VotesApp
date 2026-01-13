@@ -3,6 +3,7 @@ package ru.wolfram.read_votes.controller
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.wolfram.read_votes.dto.TitleDto
+import ru.wolfram.read_votes.dto.TitlesDto
 import ru.wolfram.read_votes.dto.VoteDto
 import ru.wolfram.read_votes.dto.VoteDto2
 import ru.wolfram.read_votes.service.VotesService
@@ -30,8 +31,10 @@ class VotesController(
     @GetMapping("/votes")
     suspend fun getVotes(
         @RequestParam("page") page: Int
-    ): ResponseEntity<List<String>> {
-        return ResponseEntity.ok().body(votesService.findAllInRange(10, (page - 1) * 10))
+    ): ResponseEntity<TitlesDto> {
+        return ResponseEntity.ok().body(
+            TitlesDto(votesService.findAllInRange(10, (page - 1) * 10))
+        )
     }
 
     @GetMapping("/vote")
