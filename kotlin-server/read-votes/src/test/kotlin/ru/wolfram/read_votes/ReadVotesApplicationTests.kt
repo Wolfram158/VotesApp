@@ -69,10 +69,9 @@ class ReadVotesApplicationTests {
 
             registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers)
             registry.add(
-                "spring.kafka.producer.value-serializer",
-                { "org.springframework.kafka.support.serializer.JacksonJsonSerializer" }
-            )
-            registry.add("spring.kafka.consumer.auto-offset-reset", { "earliest" })
+                "spring.kafka.producer.value-serializer"
+            ) { "org.springframework.kafka.support.serializer.JacksonJsonSerializer" }
+//            registry.add("spring.kafka.consumer.auto-offset-reset", { "earliest" })
         }
     }
 
@@ -189,7 +188,7 @@ class ReadVotesApplicationTests {
                 ?.size
         )
 
-        Thread.sleep(3000)
+//        Thread.sleep(3000)
 
         kafkaTemplate
             .send(
