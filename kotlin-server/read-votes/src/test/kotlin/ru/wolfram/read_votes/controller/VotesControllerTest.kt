@@ -1,7 +1,5 @@
 package ru.wolfram.read_votes.controller
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.future.await
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
@@ -10,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
-import org.springframework.kafka.config.TopicBuilder
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.await
@@ -25,7 +22,6 @@ import org.testcontainers.utility.DockerImageName
 import ru.wolfram.read_votes.dto.TitlesDto
 import ru.wolfram.read_votes.dto.VoteDto
 import ru.wolfram.read_votes.dto.VoteDto2
-import ru.wolfram.read_votes.entity.Votes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -129,10 +125,11 @@ class VotesControllerTest {
     fun `WHEN user does vote THEN table users_and_titles is changed`() = runTest {
         r2dbc.databaseClient.insertIntoVotes().await()
         val username = "TestUser"
+        val variant = "Yes"
         val response = webTestClient
             .post()
             .uri("$BASE_PREFIX/do-vote?username=$username")
-            .bodyValue(VoteDto(title = "Yes or no?", variant = "Yes"))
+            .bodyValue(VoteDto(title = "Yes or no?", variant = variant))
             .exchange()
             .expectStatus()
             .isOk
@@ -142,7 +139,7 @@ class VotesControllerTest {
         assertEquals(
             1,
             response
-                ?.filter { it.variant == "Yes" }
+                ?.filter { it.variant == variant }
                 ?.map { it.votesCount }
                 ?.firstOrNull()
         )
@@ -181,16 +178,15 @@ class VotesControllerTest {
     fun `WHEN vote is sent through kafka THEN vote is saved`() {
         val title = "What is your name?"
 
-        TopicBuilder.name("votes-1").build()
-        val vote = listOf(
-            VoteDto(title = title, variant = "My name is..."),
-            VoteDto(title = title, variant = "My name is")
-        )
+        Thread.sleep(3000)
 
         kafkaTemplate
             .send(
                 "votes-1",
-                vote
+                listOf(
+                    VoteDto(title = title, variant = "My name is..."),
+                    VoteDto(title = title, variant = "My name is")
+                )
             )
             .get()
 
@@ -208,13 +204,14 @@ class VotesControllerTest {
                 .responseBody
                 ?.titles
                 ?.size
-            if (rowsCount == vote.size) {
+            if (rowsCount == 1) {
                 isTrueReached = true
+                break
             }
         }
 
         if (!isTrueReached) {
-            fail("")
+            fail("Vote was not inserted into table")
         }
     }
 }
