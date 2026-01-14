@@ -1,5 +1,6 @@
 package ru.wolfram.auth.controller
 
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,7 +17,7 @@ class AuthController {
 
     @PostMapping("/register-for-email-code")
     fun registerForEmailCode(
-        @RequestBody userDto: UserDto
+        @Valid @RequestBody userDto: UserDto
     ): ResponseEntity<String> {
         val result = service.registerForEmailCode(userDto)
         if (result is RegistrationForEmailCodeState.UserAlreadyExists) {

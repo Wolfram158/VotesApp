@@ -13,7 +13,6 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     fun `WHEN email service is unavailable THEN 500 code is returned`() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
-        val password = "1234"
         `when`(
             mailService
                 .sendEmailCode(username = username, email = email)
@@ -23,8 +22,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
                 objectMapper.writeValueAsString(
                     UserDto(
                         username = username,
-                        email = email,
-                        password = password
+                        email = email
                     )
                 )
             )
@@ -35,7 +33,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     }
 
     @Test
-    fun `WHEN user already exists THEN 400 code is returned for register-for-email-code`() {
+    fun `WHEN user already exists THEN 400 code is returned`() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
         val password = "1234"
@@ -49,8 +47,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
                 objectMapper.writeValueAsString(
                     UserDto(
                         username = username,
-                        email = email,
-                        password = password
+                        email = email
                     )
                 )
             )
@@ -61,10 +58,9 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     }
 
     @Test
-    fun `WHEN no problem THEN 200 code is returned for register-for-email-code`() {
+    fun `WHEN no problem THEN 200 code is returned`() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
-        val password = "1234"
         `when`(
             mailService
                 .sendEmailCode(username = username, email = email)
@@ -74,8 +70,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
                 objectMapper.writeValueAsString(
                     UserDto(
                         username = username,
-                        email = email,
-                        password = password
+                        email = email
                     )
                 )
             )
@@ -83,6 +78,29 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
         mockMvc
             .perform(request)
             .andExpect(status().isOk)
+    }
+
+    @Test
+    fun `WHEN username contains whitespace THEN 400 code is returned`() {
+        val username = "Carl Johnson"
+        val email = "carl-johnson229@tanki.us"
+        `when`(
+            mailService
+                .sendEmailCode(username = username, email = email)
+        ).thenReturn(ResponseEntity.ok().build())
+        val request = MockMvcRequestBuilders.post("$BASE_PREFIX/register-for-email-code")
+            .content(
+                objectMapper.writeValueAsString(
+                    UserDto(
+                        username = username,
+                        email = email
+                    )
+                )
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+        mockMvc
+            .perform(request)
+            .andExpect(status().isBadRequest)
     }
 
 }
