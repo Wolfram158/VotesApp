@@ -33,7 +33,9 @@ class AuthService(
         if (userRepository.findByUserPrimaryKeyUsername(user.username) != null) {
             return RegistrationForEmailCodeState.UserAlreadyExists
         }
-        mailService.sendEmailCode(user.username, user.email)
+        if (mailService.sendEmailCode(user.username, user.email).statusCode != HttpStatus.OK) {
+            return RegistrationForEmailCodeState.EmailServiceException
+        }
         return RegistrationForEmailCodeState.Success
     }
 

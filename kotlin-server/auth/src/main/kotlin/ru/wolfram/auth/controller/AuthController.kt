@@ -19,8 +19,10 @@ class AuthController {
         @RequestBody userDto: UserDto
     ): ResponseEntity<String> {
         val result = service.registerForEmailCode(userDto)
-        if (result !is RegistrationForEmailCodeState.Success) {
+        if (result is RegistrationForEmailCodeState.UserAlreadyExists) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        } else if (result is RegistrationForEmailCodeState.EmailServiceException) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
         return ResponseEntity.ok("Code sent")
     }
