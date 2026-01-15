@@ -19,18 +19,24 @@ class AuthController {
     fun registerForEmailCode(
         @Valid @RequestBody userDto: UserDto
     ): ResponseEntity<String> {
-        val result = service.registerForEmailCode(userDto)
-        if (result is RegistrationForEmailCodeState.UserAlreadyExists) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        } else if (result is RegistrationForEmailCodeState.EmailServiceException) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+        return when (service.registerForEmailCode(userDto)) {
+            is RegistrationForEmailCodeState.UserAlreadyExists -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+
+            is RegistrationForEmailCodeState.EmailServiceException -> {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+            }
+
+            is RegistrationForEmailCodeState.Success -> {
+                return ResponseEntity.ok("Code sent")
+            }
         }
-        return ResponseEntity.ok("Code sent")
     }
 
     @PostMapping("/register-with-email-code")
     fun registerWithEmailCode(
-        @RequestBody registrationWithEmailCodeDto: RegistrationWithEmailCodeDto
+        @Valid @RequestBody registrationWithEmailCodeDto: RegistrationWithEmailCodeDto
     ): ResponseEntity<RegistrationWithEmailCodeState.Success> {
         val result =
             service.registerWithEmailCode(
@@ -39,11 +45,19 @@ class AuthController {
                 code = registrationWithEmailCodeDto.code,
                 password = registrationWithEmailCodeDto.password
             )
-        println("Result: $result")
-        if (result !is RegistrationWithEmailCodeState.Success) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        return when (result) {
+            RegistrationWithEmailCodeState.EmailServiceException -> {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+            }
+
+            RegistrationWithEmailCodeState.IncorrectCode, RegistrationWithEmailCodeState.UsernameNotFound -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+
+            is RegistrationWithEmailCodeState.Success -> {
+                ResponseEntity.ok(result)
+            }
         }
-        return ResponseEntity.ok(result)
     }
 
     @PostMapping("/refresh-token")

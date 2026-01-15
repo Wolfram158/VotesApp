@@ -28,8 +28,6 @@ class AuthService(
 ) {
     @Transactional
     fun registerForEmailCode(user: UserDto): RegistrationForEmailCodeState {
-        require(user.username.length == user.username.filter { !it.isWhitespace() }.length)
-        require(user.username.isNotEmpty())
         if (userRepository.findByUserPrimaryKeyUsername(user.username) != null) {
             return RegistrationForEmailCodeState.UserAlreadyExists
         }
@@ -48,8 +46,11 @@ class AuthService(
     ): RegistrationWithEmailCodeState {
         val encoded =
             mailService.getEncodedEmailCodeByUsername(username)
+        if (encoded.statusCode == HttpStatus.NOT_FOUND) {
+            return RegistrationWithEmailCodeState.UsernameNotFound
+        }
         if (encoded.statusCode != HttpStatus.OK) {
-            return RegistrationWithEmailCodeState.Failure
+            return RegistrationWithEmailCodeState.EmailServiceException
         }
         if (!passwordEncoder.matches(code, encoded.body)) {
             return RegistrationWithEmailCodeState.IncorrectCode
@@ -127,7 +128,7 @@ class AuthService(
         val encoded =
             mailService.getEncodedEmailCodeByUsername(username)
         if (encoded.statusCode != HttpStatus.OK) {
-            return RegistrationWithEmailCodeState.Failure
+            return RegistrationWithEmailCodeState.EmailServiceException
         }
         if (!passwordEncoder.matches(code, encoded.body)) {
             return RegistrationWithEmailCodeState.IncorrectCode
