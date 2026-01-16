@@ -1,7 +1,6 @@
 package ru.wolfram.auth.controller
 
 import jakarta.validation.Valid
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -11,10 +10,9 @@ import ru.wolfram.auth.service.AuthService
 
 @RestController
 @RequestMapping("/api/v1/auth")
-class AuthController {
-    @Autowired
-    private lateinit var service: AuthService
-
+class AuthController(
+    private val service: AuthService
+) {
     @PostMapping("/register-for-email-code")
     fun registerForEmailCode(
         @Valid @RequestBody userDto: UserDto
@@ -29,7 +27,7 @@ class AuthController {
             }
 
             is RegistrationForEmailCodeState.Success -> {
-                return ResponseEntity.ok("Code sent")
+                ResponseEntity.ok("Code sent")
             }
         }
     }
@@ -64,12 +62,15 @@ class AuthController {
     fun refreshToken(
         @RequestHeader(name = Constants.AUTHORIZATION_HEADER_KEY) refreshToken: String
     ): ResponseEntity<RefreshTokenResult.Success> {
-        val result =
-            service.refreshToken(refreshToken)
-        if (result !is RefreshTokenResult.Success) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        return when (val result = service.refreshToken(refreshToken)) {
+            RefreshTokenResult.IncorrectRefreshToken, RefreshTokenResult.RefreshTokenNotFound -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+
+            is RefreshTokenResult.Success -> {
+                ResponseEntity.ok(result)
+            }
         }
-        return ResponseEntity.ok(result)
     }
 
     @PostMapping("/refresh-for-email-code")

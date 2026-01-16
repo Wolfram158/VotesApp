@@ -1,6 +1,6 @@
 package ru.wolfram.auth.dto
 
-interface RefreshTokenResult {
+sealed interface RefreshTokenResult {
     data object RefreshTokenNotFound : RefreshTokenResult
 
     data object IncorrectRefreshToken : RefreshTokenResult

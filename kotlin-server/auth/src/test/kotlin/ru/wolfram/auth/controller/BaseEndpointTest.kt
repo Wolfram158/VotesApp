@@ -32,7 +32,7 @@ import kotlin.test.BeforeTest
 @AutoConfigureMockMvc
 @Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-open class BaseEndpointTest {
+class BaseEndpointTest {
     companion object {
         protected const val BASE_PREFIX = "/api/v1/auth"
         protected const val USERS_TABLE_NAME = "users"
