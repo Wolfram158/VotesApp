@@ -10,7 +10,7 @@ import ru.wolfram.auth.dto.UserDto
 import kotlin.test.Test
 
 class RegisterForEmailCodeTests : BaseEndpointTest() {
-    private fun base(
+    private fun registerForEmailCodeBase(
         username: String,
         email: String,
         thenReturnValue: ResponseEntity<String>,
@@ -39,7 +39,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     fun `WHEN email service is unavailable THEN 500 code is returned`() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
-        base(
+        registerForEmailCodeBase(
             username,
             email,
             ResponseEntity.internalServerError().build(),
@@ -52,8 +52,8 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
         val password = "1234"
-        jdbcTemplate.execute("insert into users (username, email, password) values ('$username', '$email', '$password')")
-        base(
+        addUser(username, email, password)
+        registerForEmailCodeBase(
             username,
             email,
             ResponseEntity.ok().build(),
@@ -65,7 +65,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     fun `WHEN no problem THEN 200 code is returned`() {
         val username = "Andrew"
         val email = "andrew227@tanki.su"
-        base(
+        registerForEmailCodeBase(
             username,
             email,
             ResponseEntity.ok().build(),
@@ -77,7 +77,7 @@ class RegisterForEmailCodeTests : BaseEndpointTest() {
     fun `WHEN username contains whitespace THEN 400 code is returned`() {
         val username = "Carl Johnson"
         val email = "carl-johnson229@tanki.us"
-        base(
+        registerForEmailCodeBase(
             username,
             email,
             ResponseEntity.ok().build(),

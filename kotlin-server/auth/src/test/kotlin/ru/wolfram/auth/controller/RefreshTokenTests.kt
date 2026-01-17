@@ -2,6 +2,7 @@ package ru.wolfram.auth.controller
 
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.TestPropertySource
@@ -17,6 +18,9 @@ import kotlin.test.Test
 class RefreshTokenTests : BaseEndpointTest() {
     @Autowired
     private lateinit var jwtGenerator: JwtGenerator
+
+    @Value($$"${jwt.accessTokenExpiration}")
+    private lateinit var accessTokenExpiration: java.lang.Long
 
     private fun refreshTokenBase(
         username: String,
@@ -61,7 +65,7 @@ class RefreshTokenTests : BaseEndpointTest() {
             email,
             password,
             code,
-            8000,
+            accessTokenExpiration.toLong() + 1000,
             MockMvcResultMatchers.status().isOk
         )
     }
@@ -77,7 +81,7 @@ class RefreshTokenTests : BaseEndpointTest() {
             email,
             password,
             code,
-            1000,
+            (accessTokenExpiration.toDouble() / 7).toLong(),
             MockMvcResultMatchers.status().isBadRequest
         )
     }
@@ -99,7 +103,7 @@ class RefreshTokenTests : BaseEndpointTest() {
             email,
             password,
             code,
-            8000,
+            accessTokenExpiration.toLong() + 1000,
             MockMvcResultMatchers.status().isBadRequest,
             badRefreshToken
         )

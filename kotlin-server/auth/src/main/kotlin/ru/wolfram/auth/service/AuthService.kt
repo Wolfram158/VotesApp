@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import ru.wolfram.auth.dto.RefreshTokenResult
-import ru.wolfram.auth.dto.RegistrationForEmailCodeState
-import ru.wolfram.auth.dto.RegistrationWithEmailCodeState
-import ru.wolfram.auth.dto.UserDto
+import ru.wolfram.auth.dto.*
 import ru.wolfram.auth.entity.RefreshToken
 import ru.wolfram.auth.entity.User
 import ru.wolfram.auth.entity.UserPrimaryKey
@@ -94,11 +91,17 @@ class AuthService(
     }
 
     @Transactional
-    fun refreshForEmailCode(username: String) {
-        val user = userRepository.findEmailByUserPrimaryKeyUsername(username)
-        val email = user?.userPrimaryKey?.email
-        require(email != null)
-        require(mailService.sendEmailCode(username, email).statusCode == HttpStatus.OK)
+    fun refreshForEmailCode(userDto: UserDto2): RefreshForEmailCodeState {
+        val user = userRepository.findEmailByUserPrimaryKeyUsername(userDto.username)
+            ?: return RefreshForEmailCodeState.UserNotFound
+        val email = user.userPrimaryKey?.email ?: return RefreshForEmailCodeState.ImpossibleState
+        if (!passwordEncoder.matches(userDto.password, user.password)) {
+            return RefreshForEmailCodeState.WrongPassword
+        }
+        if (mailService.sendEmailCode(userDto.username, email).statusCode != HttpStatus.OK) {
+            return RefreshForEmailCodeState.EmailServiceException
+        }
+        return RefreshForEmailCodeState.Success
     }
 
     fun generateTokens(username: String): RefreshTokenResult.Success {
@@ -124,14 +127,17 @@ class AuthService(
     fun refreshWithEmailCode(
         username: String,
         code: String
-    ): RegistrationWithEmailCodeState {
+    ): RefreshWithEmailCodeState {
         val encoded =
             mailService.getEncodedEmailCodeByUsername(username)
+        if (encoded.statusCode == HttpStatus.NOT_FOUND) {
+            return RefreshWithEmailCodeState.UsernameNotFound
+        }
         if (encoded.statusCode != HttpStatus.OK) {
-            return RegistrationWithEmailCodeState.EmailServiceException
+            return RefreshWithEmailCodeState.EmailServiceException
         }
         if (!passwordEncoder.matches(code, encoded.body)) {
-            return RegistrationWithEmailCodeState.IncorrectCode
+            return RefreshWithEmailCodeState.IncorrectCode
         }
         val (token, refreshToken) = generateTokens(username)
         refreshTokenRepository.deleteByUsername(username)
@@ -141,6 +147,6 @@ class AuthService(
                 username = username
             )
         )
-        return RegistrationWithEmailCodeState.Success(token, refreshToken)
+        return RefreshWithEmailCodeState.Success(token, refreshToken)
     }
 }

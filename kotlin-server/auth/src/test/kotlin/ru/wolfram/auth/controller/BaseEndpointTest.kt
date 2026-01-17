@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import ru.wolfram.auth.dto.RefreshWithEmailCodeDto
 import ru.wolfram.auth.dto.RegistrationWithEmailCodeDto
 import ru.wolfram.auth.entity.RefreshToken
 import ru.wolfram.auth.entity.User
@@ -123,5 +124,36 @@ class BaseEndpointTest {
         return mockMvc
             .perform(request)
             .andExpect(matcher)
+    }
+
+    protected fun refreshWithEmailCode(
+        username: String,
+        code: String,
+        thenReturnValue: ResponseEntity<String>,
+        matcher: ResultMatcher
+    ): ResultActions {
+        `when`(mailService.getEncodedEmailCodeByUsername(username))
+            .thenReturn(thenReturnValue)
+        val request = MockMvcRequestBuilders.post("$BASE_PREFIX/refresh-with-email-code")
+            .content(
+                objectMapper.writeValueAsString(
+                    RefreshWithEmailCodeDto(
+                        username = username,
+                        code = code
+                    )
+                )
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+        return mockMvc
+            .perform(request)
+            .andExpect(matcher)
+    }
+
+    protected fun addUser(
+        username: String,
+        email: String,
+        password: String
+    ) {
+        jdbcTemplate.execute("insert into users (username, email, password) values ('$username', '$email', '$password')")
     }
 }

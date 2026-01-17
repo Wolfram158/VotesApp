@@ -75,23 +75,47 @@ class AuthController(
 
     @PostMapping("/refresh-for-email-code")
     fun refreshForEmail(
-        @RequestParam(name = Constants.USERNAME) username: String
-    ) {
-        service.refreshForEmailCode(username)
+        @RequestBody userDto: UserDto2
+    ): ResponseEntity<String> {
+        return when (service.refreshForEmailCode(userDto)) {
+            RefreshForEmailCodeState.EmailServiceException -> {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+            }
+
+            RefreshForEmailCodeState.Success -> {
+                ResponseEntity.ok("Code sent")
+            }
+
+            RefreshForEmailCodeState.UserNotFound,
+            RefreshForEmailCodeState.ImpossibleState,
+            RefreshForEmailCodeState.WrongPassword -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+        }
     }
 
     @PostMapping("/refresh-with-email-code")
     fun refreshWithEmailCode(
         @RequestBody refreshWithEmailCodeDto: RefreshWithEmailCodeDto
-    ): ResponseEntity<RegistrationWithEmailCodeState.Success> {
+    ): ResponseEntity<RefreshWithEmailCodeState.Success> {
         val result =
             service.refreshWithEmailCode(
                 username = refreshWithEmailCodeDto.username,
                 code = refreshWithEmailCodeDto.code,
             )
-        if (result !is RegistrationWithEmailCodeState.Success) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        return when (result) {
+            RefreshWithEmailCodeState.EmailServiceException -> {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+            }
+
+            RefreshWithEmailCodeState.IncorrectCode,
+            RefreshWithEmailCodeState.UsernameNotFound -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+
+            is RefreshWithEmailCodeState.Success -> {
+                ResponseEntity.ok(result)
+            }
         }
-        return ResponseEntity.ok(result)
     }
 }
