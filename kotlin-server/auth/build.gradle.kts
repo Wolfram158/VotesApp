@@ -21,6 +21,10 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.8.0")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0")
+
     implementation("org.springframework.security:spring-security-crypto")
 
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")

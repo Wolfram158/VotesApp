@@ -26,3 +26,9 @@ jwt:
     900000
   refreshTokenExpiration:
     560000000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /auth-api-docs/v3/api-docs
