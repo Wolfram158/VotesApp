@@ -32,8 +32,11 @@ internal class RefreshForEmailCodeRepositoryImpl @Inject constructor(
         return try {
             val refreshToken =
                 localDataStorage.readRefreshTokenPreferences()?.token
-                    ?: throw RuntimeException("Refresh token must be non-nullable!")
-            val response = apiService.checkIfNeedEmailCode(username, refreshToken)
+                    ?: return Result.success(true)
+            val response = apiService.checkIfNeedEmailCode(
+                username = username,
+                refreshToken = refreshToken
+            )
             if (response.code() == 404) {
                 Result.success(true)
             } else {

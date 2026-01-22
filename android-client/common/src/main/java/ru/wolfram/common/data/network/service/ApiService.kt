@@ -35,7 +35,7 @@ interface ApiService {
 
     @GET(NetworkConstants.CHECK_IF_NEED_EMAIL_CODE_ENDPOINT)
     suspend fun checkIfNeedEmailCode(
-        @Query(NetworkConstants.USERNAME_QUERY_PARAM) username: String,
+        @Query(NetworkConstants.USERNAME_QUERY_PARAM) username: String?,
         @Header(NetworkConstants.AUTHORIZATION_HEADER) refreshToken: String
     ): Response<Unit>
 
