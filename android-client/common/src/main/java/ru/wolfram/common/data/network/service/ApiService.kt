@@ -63,7 +63,7 @@ interface ApiService {
         @Header(NetworkConstants.AUTHORIZATION_HEADER) token: String
     ): TitlesDto
 
-    @GET(NetworkConstants.VOTE_ENDPOINT)
+    @POST(NetworkConstants.VOTE_ENDPOINT)
     suspend fun getVote(
         @Body titleDto: TitleDto,
         @Header(NetworkConstants.AUTHORIZATION_HEADER) token: String

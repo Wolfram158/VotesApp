@@ -37,7 +37,7 @@ class VotesController(
         )
     }
 
-    @GetMapping("/vote")
+    @PostMapping("/vote")
     suspend fun getVote(
         @RequestBody titleDto: TitleDto,
     ): ResponseEntity<List<VoteDto2>> {

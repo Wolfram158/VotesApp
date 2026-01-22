@@ -11,6 +11,7 @@ import okhttp3.Authenticator
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.Response
 import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
@@ -106,6 +107,7 @@ object NetworkModule {
                     return try {
                         val request = Request.Builder()
                             .url(REFRESH_TOKEN_URL)
+                            .post(RequestBody.EMPTY)
                             .header(NetworkConstants.AUTHORIZATION_HEADER, refreshToken.bearer())
                             .build()
 
