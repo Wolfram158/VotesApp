@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import ru.wolfram.auth.constants.Constants
 import ru.wolfram.auth.dto.*
 import ru.wolfram.auth.entity.RefreshToken
 import ru.wolfram.auth.entity.User
@@ -68,12 +69,15 @@ class AuthService(
         return RegistrationWithEmailCodeState.Success(token, refreshToken)
     }
 
+    fun String.extractToken() = substring(Constants.BEARER_PREFIX.length)
+
     @Transactional
-    fun refreshToken(refreshToken: String): RefreshTokenResult {
-        val username = jwtGenerator.extractUsername(refreshToken)
+    fun refreshToken(refreshTokenWithBearer: String): RefreshTokenResult {
+        val currentRefreshToken = refreshTokenWithBearer.extractToken()
+        val username = jwtGenerator.extractUsername(currentRefreshToken)
         val encoded =
             refreshTokenRepository.findByUsername(username) ?: return RefreshTokenResult.RefreshTokenNotFound
-        if (!passwordEncoder.matches(refreshToken, encoded.refreshToken)) {
+        if (!passwordEncoder.matches(currentRefreshToken, encoded.refreshToken)) {
             return RefreshTokenResult.IncorrectRefreshToken
         }
         val (token, refreshToken) = generateTokens(username)
@@ -148,5 +152,16 @@ class AuthService(
             )
         )
         return RefreshWithEmailCodeState.Success(token, refreshToken)
+    }
+
+    @Transactional
+    fun checkIfNeedEmailCode(username: String, refreshTokenWithBearer: String): CheckIfNeedEmailCodeState {
+        val currentRefreshToken = refreshTokenWithBearer.extractToken()
+        val encoded =
+            refreshTokenRepository.findByUsername(username)
+        if (!passwordEncoder.matches(currentRefreshToken, encoded?.refreshToken)) {
+            return CheckIfNeedEmailCodeState.Need
+        }
+        return CheckIfNeedEmailCodeState.NoNeed
     }
 }

@@ -27,8 +27,8 @@ class AddUsernameGatewayFilterFactory(
             val originalRequest = exchange.request
             val originalQueryParams = originalRequest.queryParams
             val mutatedQueryParams = LinkedMultiValueMap(originalQueryParams)
-            mutatedQueryParams.remove("username")
-            mutatedQueryParams.add("username", username)
+            mutatedQueryParams.remove(Constants.USERNAME_QUERY_PARAM)
+            mutatedQueryParams.add(Constants.USERNAME_QUERY_PARAM, username)
             val mutatedRequest = originalRequest.mutate()
                 .uri(
                     UriComponentsBuilder

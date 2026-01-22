@@ -2,7 +2,7 @@ rootProject.name = "vote"
 
 include(
     "email",
-    "gateway",
+    //"gateway",
     "auth",
     "read-votes",
     "write-votes",

@@ -118,4 +118,20 @@ class AuthController(
             }
         }
     }
+
+    @GetMapping("/check-if-need-email-code")
+    fun checkIfNeedEmailCode(
+        @RequestParam(Constants.USERNAME_QUERY_PARAM) username: String,
+        @RequestHeader(name = Constants.AUTHORIZATION_HEADER_KEY) refreshToken: String
+    ): ResponseEntity<String> {
+        return when (service.checkIfNeedEmailCode(username, refreshToken)) {
+            CheckIfNeedEmailCodeState.Need -> {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+            }
+
+            CheckIfNeedEmailCodeState.NoNeed -> {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            }
+        }
+    }
 }

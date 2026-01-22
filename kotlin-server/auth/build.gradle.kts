@@ -21,6 +21,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
     implementation("org.springframework.security:spring-security-crypto")
 
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")
