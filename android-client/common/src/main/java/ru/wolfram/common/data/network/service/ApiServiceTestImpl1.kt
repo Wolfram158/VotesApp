@@ -60,7 +60,7 @@ class ApiServiceTestImpl1(
     }
 
     override suspend fun checkIfNeedEmailCode(
-        username: String,
+        username: String?,
         refreshToken: String
     ): Response<Unit> {
         return checkIfNeedEmailCodeResult
