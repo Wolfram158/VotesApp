@@ -1,5 +1,6 @@
 package ru.wolfram.gateway.data.repository
 
+import ru.wolfram.common.data.network.dto.UserDto2
 import ru.wolfram.common.data.network.service.ApiService
 import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeContainer
@@ -13,7 +14,10 @@ internal class RefreshForEmailCodeRepositoryImpl @Inject constructor(
     override suspend fun refreshForEmailCode(container: RefreshForEmailCodeContainer): Result<Unit> {
         return try {
             val response = apiService.refreshForEmailCode(
-                username = container.username
+                UserDto2(
+                    username = container.username,
+                    password = container.password
+                )
             )
             if (response.code() != 200) {
                 throw RuntimeException("Exception occurred when getting email code for refreshing!")
@@ -28,8 +32,11 @@ internal class RefreshForEmailCodeRepositoryImpl @Inject constructor(
         return try {
             val refreshToken =
                 localDataStorage.readRefreshTokenPreferences()?.token
-                    ?: throw RuntimeException("Refresh token must be non-nullable!")
-            val response = apiService.checkIfNeedEmailCode(username, refreshToken)
+                    ?: return Result.success(true)
+            val response = apiService.checkIfNeedEmailCode(
+                username = username,
+                refreshToken = refreshToken
+            )
             if (response.code() == 404) {
                 Result.success(true)
             } else {

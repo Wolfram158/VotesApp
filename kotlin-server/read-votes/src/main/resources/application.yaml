@@ -1,0 +1,25 @@
+spring:
+  application:
+    name:
+      read-votes
+  r2dbc:
+    url: r2dbc:postgresql://postgres-read-votes:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  flyway:
+    url: jdbc:postgresql://postgres-read-votes:5432/${POSTGRES_DB}
+    locations: classpath:db/migration
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+  kafka:
+    bootstrap-servers: kafka-write-read-votes:9092
+    consumer:
+      bootstrap-servers: kafka-write-read-votes:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: votes
+#      auto-offset-reset: earliest
+
+server:
+  port:
+    8082

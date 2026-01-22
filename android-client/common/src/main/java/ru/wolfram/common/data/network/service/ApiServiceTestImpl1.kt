@@ -5,7 +5,10 @@ import retrofit2.Response
 import ru.wolfram.common.data.network.dto.RefreshWithEmailCodeContainerDto
 import ru.wolfram.common.data.network.dto.RegistrationForEmailCodeContainerDto
 import ru.wolfram.common.data.network.dto.RegistrationWithEmailCodeContainerDto
+import ru.wolfram.common.data.network.dto.TitleDto
+import ru.wolfram.common.data.network.dto.TitlesDto
 import ru.wolfram.common.data.network.dto.Tokens
+import ru.wolfram.common.data.network.dto.UserDto2
 import ru.wolfram.common.data.network.dto.VoteDto
 import ru.wolfram.common.data.network.dto.VoteDto2
 import ru.wolfram.common.di.AppScope
@@ -37,7 +40,7 @@ class ApiServiceTestImpl1(
         Unit
     ),
     private val doVoteResult: List<VoteDto2> = listOf(),
-    private val getVotesResult: () -> Map<String, List<VoteDto2>> = { mapOf() },
+    private val getVotesResult: () -> TitlesDto = { TitlesDto(listOf()) },
     private val getVoteResult: List<VoteDto2> = listOf()
 ) : ApiService {
     override suspend fun registerForEmailCode(
@@ -52,12 +55,12 @@ class ApiServiceTestImpl1(
         return registerWithEmailCodeResult
     }
 
-    override suspend fun refreshForEmailCode(username: String): Response<Unit> {
+    override suspend fun refreshForEmailCode(userDto2: UserDto2): Response<Unit> {
         return refreshForEmailCodeResult
     }
 
     override suspend fun checkIfNeedEmailCode(
-        username: String,
+        username: String?,
         refreshToken: String
     ): Response<Unit> {
         return checkIfNeedEmailCodeResult
@@ -78,17 +81,21 @@ class ApiServiceTestImpl1(
 
     override suspend fun doVote(
         vote: VoteDto,
+        username: String,
         token: String
     ): List<VoteDto2> {
         return doVoteResult
     }
 
-    override suspend fun getVotes(token: String): Map<String, List<VoteDto2>> {
+    override suspend fun getVotes(
+        page: Int,
+        token: String
+    ): TitlesDto {
         return getVotesResult()
     }
 
     override suspend fun getVote(
-        title: String,
+        titleDto: TitleDto,
         token: String
     ): List<VoteDto2> {
         return getVoteResult

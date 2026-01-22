@@ -3,6 +3,7 @@ package ru.wolfram.votes_app.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
+import ru.wolfram.common.data.network.dto.TitleDto
 import ru.wolfram.common.data.network.dto.VoteDto
 import ru.wolfram.common.data.network.dto.toVotes
 import ru.wolfram.common.data.network.service.ApiService
@@ -25,10 +26,13 @@ internal class VoteRepositoryImpl @Inject constructor(
                         is ActionType.DoVote -> {
                             val token = localDataStorage.readAccessTokenPreferences()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
+                            val username = localDataStorage.readUsernamePreferences()?.username
+                                ?: throw RuntimeException("Username must be non-nullable!")
                             emit(
                                 VoteState.Success(
                                     apiService.doVote(
                                         VoteDto(it.title, it.variant),
+                                        username,
                                         token
                                     ).toVotes()
                                 )
@@ -39,7 +43,11 @@ internal class VoteRepositoryImpl @Inject constructor(
                             emit(VoteState.Loading)
                             val token = localDataStorage.readAccessTokenPreferences()?.token
                                 ?: throw RuntimeException("Access token must be non-nullable!")
-                            emit(VoteState.Success(apiService.getVote(it.title, token).toVotes()))
+                            emit(
+                                VoteState.Success(
+                                    apiService.getVote(TitleDto(it.title), token).toVotes()
+                                )
+                            )
                         }
                     }
                 } catch (_: Exception) {

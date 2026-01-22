@@ -1,6 +1,5 @@
 package ru.wolfram.common.di
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import dagger.Module
 import dagger.Provides
@@ -9,10 +8,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
-import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.Response
 import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.create
+import ru.wolfram.common.data.network.NetworkConstants
 import ru.wolfram.common.data.network.dto.Tokens
 import ru.wolfram.common.data.network.service.ApiService
 import ru.wolfram.common.data.security.AccessTokenPreferences
@@ -49,6 +49,8 @@ object NetworkModule {
             .create<ApiService>()
     }
 
+    fun String.bearer() = "$BEARER $this"
+
     @AppScope
     @Provides
     fun provideOkHttpClient(
@@ -65,19 +67,32 @@ object NetworkModule {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor { chain ->
+                val request = chain.request()
+                val header = request.header(NetworkConstants.AUTHORIZATION_HEADER)
+                val newRequest = if (
+                    header != null && !header.contains(BEARER)
+                ) {
+                    request.newBuilder()
+                        .header(NetworkConstants.AUTHORIZATION_HEADER, header.bearer())
+                        .build()
+                } else {
+                    request.newBuilder().build()
+                }
+                return@addInterceptor chain.proceed(newRequest)
+            }
             .authenticator(object : Authenticator {
                 override fun authenticate(
                     route: Route?,
                     response: Response
                 ): Request? {
-                    Log.e("OkHttp", "Authenticator mentioned!")
                     return runBlocking(ioDispatcher) {
                         val newToken = refreshTokens()
                         if (newToken != null) {
                             response
                                 .request
                                 .newBuilder()
-                                .header("Authorization", newToken)
+                                .header(NetworkConstants.AUTHORIZATION_HEADER, newToken.bearer())
                                 .build()
                         } else {
                             null
@@ -87,21 +102,13 @@ object NetworkModule {
 
                 private suspend fun refreshTokens(): String? {
                     val refreshToken = refreshTokenStore.data.firstOrNull()?.token
-                        ?: return run {
-                            Log.e("OkHttp", "Refresh token is null!")
-                            null
-                        }
-                    Log.e(REFRESH_TOKEN, "refresh token: $refreshToken")
+                        ?: return null
 
                     return try {
                         val request = Request.Builder()
                             .url(REFRESH_TOKEN_URL)
-                            .post(
-                                FormBody
-                                    .Builder()
-                                    .add(QUERY_REFRESH_TOKEN, refreshToken)
-                                    .build()
-                            )
+                            .post(RequestBody.EMPTY)
+                            .header(NetworkConstants.AUTHORIZATION_HEADER, refreshToken.bearer())
                             .build()
 
                         val response = client.newCall(request).execute()
@@ -112,25 +119,20 @@ object NetworkModule {
                             accessTokenStore.updateData { AccessTokenPreferences(tokens.token) }
                             refreshTokenStore.updateData { RefreshTokenPreferences(tokens.refreshToken) }
 
-                            Log.i(REFRESH_TOKEN, "${tokens.token} ${tokens.refreshToken}")
-
                             tokens.token
                         } else {
-                            Log.e("OkHttp", "response failure: ${response.request.url}")
                             null
                         }
                     } catch (_: Exception) {
                         null
                     }
                 }
-
             })
             .build()
     }
 
     const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
-    const val REFRESH_TOKEN_URL = BASE_URL + "auth/refresh-token"
+    const val REFRESH_TOKEN_URL = BASE_URL + NetworkConstants.REFRESH_TOKEN_ENDPOINT
     const val REFRESH_TOKEN = "REFRESH_TOKEN"
-    const val QUERY_REFRESH_TOKEN = "refreshToken"
-
+    const val BEARER = "Bearer"
 }

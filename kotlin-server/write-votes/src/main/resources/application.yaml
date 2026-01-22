@@ -1,0 +1,23 @@
+spring:
+  application:
+    name:
+      write-votes
+  r2dbc:
+    url: r2dbc:postgresql://postgres-write-votes:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  flyway:
+    url: jdbc:postgresql://postgres-write-votes:5432/${POSTGRES_DB}
+    locations: classpath:db/migration
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+  kafka:
+    bootstrap-servers: kafka-write-read-votes:9092
+    producer:
+      bootstrap-servers: kafka-write-read-votes:9092
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+server:
+  port:
+    8081

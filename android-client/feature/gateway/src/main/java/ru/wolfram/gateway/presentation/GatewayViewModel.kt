@@ -1,6 +1,5 @@
 package ru.wolfram.gateway.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,10 +27,10 @@ class GatewayViewModel @Inject internal constructor(
     private val _tryState = MutableSharedFlow<TryToEnterState>()
     val tryState = _tryState.asSharedFlow()
 
-    fun refreshForEmailCode(username: String) {
+    fun refreshForEmailCode(username: String, password: String) {
         viewModelScope.launch(ioDispatcher) {
             val result = refreshForEmailCodeUseCase(
-                RefreshForEmailCodeContainer(username)
+                RefreshForEmailCodeContainer(username, password)
             )
 
             if (result.isSuccess) {
@@ -42,23 +41,21 @@ class GatewayViewModel @Inject internal constructor(
         }
     }
 
-    fun tryToEnter(username: String) {
+    fun tryToEnter(username: String, password: String) {
         viewModelScope.launch(ioDispatcher) {
             val result = checkIfNeedEmailCodeUseCase(username)
 
             if (result.isSuccess) {
-                Log.e(tag, "result: $result")
                 val need = result.getOrThrow()
                 if (need) {
                     _tryState.emit(TryToEnterState.Reject)
-                    refreshForEmailCode(username)
+                    refreshForEmailCode(username, password)
                 } else {
                     _tryState.emit(TryToEnterState.Accept)
                 }
             } else {
-                Log.e(tag, "result: ${result.exceptionOrNull()?.stackTrace?.toList()}")
                 _tryState.emit(TryToEnterState.Failure)
-                refreshForEmailCode(username)
+                refreshForEmailCode(username, password)
             }
         }
     }

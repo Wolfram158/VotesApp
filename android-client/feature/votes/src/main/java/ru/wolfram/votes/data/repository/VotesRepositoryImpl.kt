@@ -3,7 +3,6 @@ package ru.wolfram.votes.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
-import ru.wolfram.common.data.network.dto.toVoteMap
 import ru.wolfram.common.data.network.service.ApiService
 import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.votes.domain.model.VotesState
@@ -24,9 +23,10 @@ internal class VotesRepositoryImpl @Inject constructor(
                     emit(
                         VotesState.Success(
                             apiService.getVotes(
+                                1,
                                 localDataStorage.readAccessTokenPreferences()?.token
                                     ?: throw RuntimeException("Access token must be non-nullable!")
-                            ).toVoteMap()
+                            ).titles
                         )
                     )
                 } catch (_: Exception) {

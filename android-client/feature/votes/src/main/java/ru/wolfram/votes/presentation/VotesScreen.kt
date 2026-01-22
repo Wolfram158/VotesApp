@@ -16,7 +16,7 @@ fun VotesScreen(
     when (val votesValue = votes.value) {
         is VotesState.Success -> {
             VotesSuccessScreen(
-                votesValue.votes.keys.toList(),
+                votesValue.votes,
                 votesViewModel::initVotesGetting,
                 onNavigateToVote,
                 onNavigateToCreateVote

@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes[0]:
+            id:
+              "write-votes"
+            uri:
+              http://write-votes-service:8081
+            predicates:
+              - Path=/api/v1/write-votes/create-vote
+            filters:
+              - name: JwtAuth
+          routes[1]:
+            id:
+              "read-votes-1"
+            uri:
+              http://read-votes-service:8082
+            predicates:
+              - Path=/api/v1/read-votes/do-vote
+            filters:
+              - name: JwtAuth
+              - name: AddUsername
+          routes[2]:
+            id:
+              "read-votes-2"
+            uri:
+              http://read-votes-service:8082
+            predicates:
+              - Path=/api/v1/read-votes/**
+            filters:
+              - name: JwtAuth
+          routes[3]:
+            id:
+              "auth"
+            uri:
+              http://auth-service:8083
+            predicates:
+              - Path=/api/v1/auth/**
+  config:
+    import: classpath:secret.yaml

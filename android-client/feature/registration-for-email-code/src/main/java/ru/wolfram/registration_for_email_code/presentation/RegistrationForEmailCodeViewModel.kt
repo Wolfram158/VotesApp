@@ -32,13 +32,9 @@ class RegistrationForEmailCodeViewModel @Inject internal constructor(
                 )
             )
 
-            Log.e(tag, "result: $result")
-
             if (result.isSuccess) {
                 _state.emit(RegistrationForEmailCodeState.Success)
-                Log.e(tag, "success!")
             } else {
-                Log.e(tag, "failure!")
                 _state.emit(RegistrationForEmailCodeState.Failure)
             }
         }
