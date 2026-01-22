@@ -6,6 +6,5 @@ import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailC
 internal fun RegistrationForEmailCodeContainer.toRegistrationForEmailCodeContainerDto() =
     RegistrationForEmailCodeContainerDto(
         username = username,
-        password = password,
         email = email
     )

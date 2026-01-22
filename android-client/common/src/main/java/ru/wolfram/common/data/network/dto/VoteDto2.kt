@@ -18,6 +18,3 @@ fun VoteDto2.toVote() = Vote(
 )
 
 fun List<VoteDto2>.toVotes() = map { it.toVote() }
-
-fun Map<String, List<VoteDto2>>.toVoteMap() =
-    mapValues { list -> list.value.map { unit -> unit.toVote() } }

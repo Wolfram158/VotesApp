@@ -18,10 +18,8 @@ internal class RegistrationForEmailCodeRepositoryImpl @Inject constructor(
             ) {
                 throw RuntimeException("Exception occurred when registering for email code!")
             }
-            Log.e(tag, "success!")
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e(tag, "exception: ${e.stackTrace.toList()}")
             Result.failure(e)
         }
     }
