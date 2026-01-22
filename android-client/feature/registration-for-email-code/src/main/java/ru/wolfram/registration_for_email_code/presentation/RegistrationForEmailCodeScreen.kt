@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
 import ru.wolfram.common.presentation.test.NodeTags
-import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
 import ru.wolfram.common.presentation.theme.LocalAppTheme
+import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
 
 @Composable
 fun RegistrationForEmailCodeScreen(
@@ -66,7 +66,7 @@ fun RegistrationForEmailCodeScreen(
             ),
             placeholder = {
                 Text(
-                    "username",
+                    stringResource(R.string.username),
                     textAlign = TextAlign.Center,
                     fontSize = LocalAppTheme.current.textSize1
                 )
@@ -84,7 +84,7 @@ fun RegistrationForEmailCodeScreen(
             ),
             placeholder = {
                 Text(
-                    "password",
+                    stringResource(R.string.password),
                     textAlign = TextAlign.Center,
                     fontSize = LocalAppTheme.current.textSize1
                 )

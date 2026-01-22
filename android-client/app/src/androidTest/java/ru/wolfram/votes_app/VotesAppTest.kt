@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.wolfram.common.data.network.dto.TitlesDto
 import ru.wolfram.common.data.network.dto.VoteDto2
 import ru.wolfram.common.data.network.service.ApiServiceTestImpl1
 import ru.wolfram.common.data.storage.LocalDataStorageTestImpl
@@ -41,19 +42,8 @@ class VotesAppTest {
                     composeTestRule.activity.applicationContext,
                     ApiServiceTestImpl1(
                         getVotesResult = {
-                            mapOf(
-                                title to listOf(
-                                    VoteDto2(
-                                        title,
-                                        variant1,
-                                        1
-                                    ),
-                                    VoteDto2(
-                                        title,
-                                        variant2,
-                                        2
-                                    )
-                                )
+                            TitlesDto(
+                                listOf(title)
                             )
                         },
                         getVoteResult = listOf(

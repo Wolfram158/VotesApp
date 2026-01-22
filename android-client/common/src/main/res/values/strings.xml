@@ -20,4 +20,6 @@
     <string name="votes">Votes</string>
     <string name="creating_vote">Creating vote</string>
     <string name="vote">Vote</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>

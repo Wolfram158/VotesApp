@@ -21,4 +21,6 @@
     <string name="votes">Голосования</string>
     <string name="creating_vote">Создание голосования</string>
     <string name="vote">Голосование</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
 </resources>

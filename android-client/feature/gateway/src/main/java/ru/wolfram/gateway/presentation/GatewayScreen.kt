@@ -27,9 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
 import ru.wolfram.common.presentation.test.NodeTags
+import ru.wolfram.common.presentation.theme.LocalAppTheme
 import ru.wolfram.gateway.domain.model.RefreshForEmailCodeState
 import ru.wolfram.gateway.domain.model.TryToEnterState
-import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @Composable
 fun GatewayScreen(
@@ -41,6 +41,7 @@ fun GatewayScreen(
     val refreshState = viewModel.refreshState.collectAsState(RefreshForEmailCodeState.Initial)
     val tryState = viewModel.tryState.collectAsState(TryToEnterState.Initial)
     val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
 
     if (refreshState.value is RefreshForEmailCodeState.Success) {
         onNavigateToRefreshWithEmailCode(username.value)
@@ -72,7 +73,22 @@ fun GatewayScreen(
             modifier = Modifier.testTag(NodeTags.GATEWAY_SCREEN_USERNAME_TEXT_FIELD),
             placeholder = {
                 Text(
-                    text = "username",
+                    text = stringResource(R.string.username),
+                    fontSize = LocalAppTheme.current.textSize1
+                )
+            },
+            textStyle = TextStyle.Default.copy(fontSize = LocalAppTheme.current.textSize1)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextField(
+            value = password.value,
+            onValueChange = {
+                password.value = it
+            },
+            modifier = Modifier.testTag(NodeTags.GATEWAY_SCREEN_PASSWORD_TEXT_FIELD),
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.password),
                     fontSize = LocalAppTheme.current.textSize1
                 )
             },
@@ -81,7 +97,7 @@ fun GatewayScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                viewModel.tryToEnter(username.value)
+                viewModel.tryToEnter(username.value, password.value)
             },
             modifier = Modifier
                 .fillMaxWidth()
