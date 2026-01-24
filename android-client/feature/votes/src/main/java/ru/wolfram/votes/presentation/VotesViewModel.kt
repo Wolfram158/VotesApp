@@ -15,7 +15,7 @@ import ru.wolfram.votes.domain.usecase.InitVotesGettingUseCase
 import javax.inject.Inject
 
 @VotesScope
-class VotesViewModel @Inject internal constructor(
+internal class VotesViewModel @Inject internal constructor(
     getVotesFlowUseCase: GetVotesFlowUseCase,
     private val initVotesGettingUseCase: InitVotesGettingUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher

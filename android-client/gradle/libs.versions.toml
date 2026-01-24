@@ -27,6 +27,8 @@ jetbrainsKotlinJvm = "2.2.21"
 ksp = "2.3.0"
 uiTestManifest = "1.10.0"
 uiTestJunit4 = "1.10.0"
+navigationCommonKtx = "2.9.6"
+navigationRuntimeKtx = "2.9.6"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -74,6 +76,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

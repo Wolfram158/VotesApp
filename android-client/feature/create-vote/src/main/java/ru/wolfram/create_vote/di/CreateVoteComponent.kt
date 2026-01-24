@@ -9,7 +9,7 @@ import ru.wolfram.create_vote.presentation.CreateVoteViewModelFactory
     dependencies = [AppComponent::class],
     modules = [CreateVoteModule::class]
 )
-interface CreateVoteComponent {
+internal interface CreateVoteComponent {
     @CreateVoteScope
     fun getCreateVoteViewModelFactory(): CreateVoteViewModelFactory
 }

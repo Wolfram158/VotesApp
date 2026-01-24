@@ -9,7 +9,7 @@ import ru.wolfram.refresh_with_email_code.presentation.RefreshWithEmailCodeViewM
     dependencies = [AppComponent::class],
     modules = [RefreshWithEmailCodeModule::class]
 )
-interface RefreshWithEmailCodeComponent {
+internal interface RefreshWithEmailCodeComponent {
     @RefreshWithEmailCodeScope
     fun getRefreshWithEmailCodeViewModelFactory(): RefreshWithEmailCodeViewModelFactory
 }

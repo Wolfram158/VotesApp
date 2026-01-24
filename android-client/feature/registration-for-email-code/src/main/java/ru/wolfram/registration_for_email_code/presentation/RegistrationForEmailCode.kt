@@ -1,6 +1,0 @@
-package ru.wolfram.registration_for_email_code.presentation
-
-import kotlinx.serialization.Serializable
-
-@Serializable
-object RegistrationForEmailCode

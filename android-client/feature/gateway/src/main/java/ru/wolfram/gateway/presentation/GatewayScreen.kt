@@ -32,7 +32,7 @@ import ru.wolfram.gateway.domain.model.RefreshForEmailCodeState
 import ru.wolfram.gateway.domain.model.TryToEnterState
 
 @Composable
-fun GatewayScreen(
+internal fun GatewayScreen(
     viewModel: GatewayViewModel,
     onNavigateToVotes: () -> Unit,
     onNavigateToRefreshWithEmailCode: (username: String) -> Unit,

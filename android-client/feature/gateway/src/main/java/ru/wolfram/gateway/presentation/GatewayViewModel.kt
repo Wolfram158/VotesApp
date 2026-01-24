@@ -16,7 +16,7 @@ import ru.wolfram.gateway.domain.usecase.RefreshForEmailCodeUseCase
 import javax.inject.Inject
 
 @GatewayScope
-class GatewayViewModel @Inject internal constructor(
+internal class GatewayViewModel @Inject internal constructor(
     private val refreshForEmailCodeUseCase: RefreshForEmailCodeUseCase,
     private val checkIfNeedEmailCodeUseCase: CheckIfNeedEmailCodeUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher

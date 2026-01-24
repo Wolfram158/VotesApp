@@ -14,12 +14,12 @@ import ru.wolfram.registration_with_email_code.domain.usecase.RegisterWithEmailC
 import javax.inject.Inject
 
 @RegistrationWithEmailCodeScope
-class RegistrationWithEmailCodeViewModel @Inject internal constructor(
+internal class RegistrationWithEmailCodeViewModel @Inject constructor(
     private val registerWithEmailCodeUseCase: RegisterWithEmailCodeUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val _state = MutableSharedFlow<RegistrationWithEmailCodeState>()
-    internal val state = _state.asSharedFlow()
+    val state = _state.asSharedFlow()
 
     fun registerWithEmailCode(username: String, email: String, password: String, code: String) {
         viewModelScope.launch(ioDispatcher) {

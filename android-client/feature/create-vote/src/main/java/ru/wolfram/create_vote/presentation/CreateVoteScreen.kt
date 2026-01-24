@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import ru.wolfram.create_vote.domain.model.CreatingStatus
 
 @Composable
-fun CreateVoteScreen(
+internal fun CreateVoteScreen(
     createVoteViewModel: CreateVoteViewModel,
     onVoteCreated: () -> Unit
 ) {

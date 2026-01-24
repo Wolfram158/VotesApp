@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import ru.wolfram.votes_app.domain.model.VoteState
 
 @Composable
-fun VoteScreen(
+internal fun VoteScreen(
     voteViewModel: VoteViewModel,
     title: String
 ) {

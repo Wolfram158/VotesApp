@@ -15,13 +15,13 @@ import ru.wolfram.votes_app.domain.usecase.InitVoteGettingUseCase
 import javax.inject.Inject
 
 @VoteScope
-class VoteViewModel @Inject internal constructor(
+internal class VoteViewModel @Inject constructor(
     getVoteFlowUseCase: GetVoteFlowUseCase,
     private val doVoteUseCase: DoVoteUseCase,
     private val initVoteGettingUseCase: InitVoteGettingUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    internal val vote =
+    val vote =
         getVoteFlowUseCase()
             .stateIn(
                 viewModelScope,

@@ -14,7 +14,7 @@ import ru.wolfram.refresh_with_email_code.domain.usecase.RefreshWithEmailCodeUse
 import javax.inject.Inject
 
 @RefreshWithEmailCodeScope
-class RefreshWithEmailCodeViewModel @Inject internal constructor(
+internal class RefreshWithEmailCodeViewModel @Inject constructor(
     private val refreshWithEmailCodeUseCase: RefreshWithEmailCodeUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
