@@ -2,9 +2,12 @@ package ru.wolfram.votes_app.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Autorenew
@@ -22,10 +25,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import ru.wolfram.common.R
 import ru.wolfram.common.domain.model.Vote
 import ru.wolfram.common.presentation.test.NodeTags
-import ru.wolfram.common.presentation.theme.AppTheme
 import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +45,7 @@ internal fun VoteSuccessScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.vote),
-                        fontSize = AppTheme.textSize1
+                        fontSize = LocalAppTheme.current.textSize1
                     )
                 },
                 actions = {
@@ -76,6 +79,26 @@ internal fun VoteSuccessScreen(
                     fontSize = LocalAppTheme.current.textSize1,
                     textAlign = TextAlign.Center
                 )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            item {
+                AndroidView(
+                    factory = { context ->
+                        CircularDiagram(
+                            context,
+                            vote.map { it.votesCount.toFloat() }
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp)
+                        .size(150.dp),
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
             }
             items(vote.size, { vote[it].variant }) { index ->
                 Card(
