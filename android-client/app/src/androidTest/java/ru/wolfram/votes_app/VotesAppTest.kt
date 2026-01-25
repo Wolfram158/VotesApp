@@ -19,9 +19,9 @@ import ru.wolfram.common.data.network.dto.VoteDto2
 import ru.wolfram.common.data.network.service.ApiServiceTestImpl1
 import ru.wolfram.common.data.storage.LocalDataStorageTestImpl
 import ru.wolfram.common.di.DaggerAppComponent
+import ru.wolfram.common.presentation.LocalAppComponent
 import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.common.presentation.theme.AppTheme
-import ru.wolfram.votes_app.presentation.LocalAppComponent
 import ru.wolfram.votes_app.presentation.NavGraph
 import ru.wolfram.votes_app.presentation.TestMainActivity
 
