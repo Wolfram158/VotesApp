@@ -2,6 +2,7 @@ package ru.wolfram.votes_app.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import ru.wolfram.common.presentation.ProgressScreen
 import ru.wolfram.votes_app.domain.model.VoteState
 
 @Composable

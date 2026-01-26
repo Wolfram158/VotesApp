@@ -3,7 +3,7 @@ package ru.wolfram.votes.presentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import ru.wolfram.votes.domain.model.VotesState
-import ru.wolfram.votes_app.presentation.ProgressScreen
+import ru.wolfram.common.presentation.ProgressScreen
 
 @Composable
 internal fun VotesScreen(
