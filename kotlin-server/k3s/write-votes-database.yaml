@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-read-votes-statefulset
+spec:
+  serviceName: "postgres-write-votes"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-write-votes
+  template:
+    metadata:
+      labels:
+        app: postgres-write-votes
+    spec:
+      containers:
+        - name: postgres-write-votes
+          image: postgres:18-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-password
+                  key: POSTGRES_WRITE_VOTES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-name
+                  key: POSTGRES_WRITE_VOTES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-user
+                  key: POSTGRES_WRITE_VOTES_USER
+          volumeMounts:
+            - name: pgdata-write-votes
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata-write-votes
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi

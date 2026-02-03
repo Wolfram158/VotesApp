@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: write-votes-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: write-votes-app
+  template:
+    metadata:
+      labels:
+        app: write-votes-app
+    spec:
+      containers:
+        - name: write-votes-app
+          image: kotlin-server-write-votes-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-password
+                  key: POSTGRES_WRITE_VOTES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-name
+                  key: POSTGRES_WRITE_VOTES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: write-votes-db-user
+                  key: POSTGRES_WRITE_VOTES_USER
+          ports:
+            - containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 5

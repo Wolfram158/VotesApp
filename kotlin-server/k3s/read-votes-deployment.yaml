@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: read-votes-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: read-votes-app
+  template:
+    metadata:
+      labels:
+        app: read-votes-app
+    spec:
+      containers:
+        - name: read-votes-app
+          image: kotlin-server-read-votes-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-password
+                  key: POSTGRES_READ_VOTES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-name
+                  key: POSTGRES_READ_VOTES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-user
+                  key: POSTGRES_READ_VOTES_USER
+          ports:
+            - containerPort: 8082
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 15
+            periodSeconds: 5

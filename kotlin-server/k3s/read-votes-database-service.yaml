@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-read-votes
+  labels:
+    app: postgres-read-votes
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: postgres-read-votes
+  type: ClusterIP
+  selector:
+    app: postgres-read-votes

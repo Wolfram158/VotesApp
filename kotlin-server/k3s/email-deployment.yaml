@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: email-app
+  template:
+    metadata:
+      labels:
+        app: email-app
+    spec:
+      containers:
+        - name: email-app
+          image: kotlin-server-email-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8084
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8084
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8084
+            initialDelaySeconds: 15
+            periodSeconds: 5

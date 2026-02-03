@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: administration-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: administration-app
+  template:
+    metadata:
+      labels:
+        app: administration-app
+    spec:
+      containers:
+        - name: auth-app
+          image: kotlin-server-administration-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8085
