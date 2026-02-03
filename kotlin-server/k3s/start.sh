@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker compose -f ../compose.yaml build --no-cache
+
 k3d cluster create votes \
   --k3s-arg '--flannel-backend=none@server:*' \
   --k3s-arg '--disable-network-policy@server:*' \

@@ -1,3 +1,5 @@
+# Docker Compose
+
 ## Before start ##
 
 ### Create .env file in the root of project ###
@@ -94,3 +96,7 @@ To end, run:
 ```bash
 docker-compose down
 ```
+
+# k3d
+
+Server can be launched using `start.sh` script located in k3d directory.
