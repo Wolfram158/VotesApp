@@ -99,4 +99,4 @@ docker-compose down
 
 # k3d
 
-Server can be launched using `start.sh` script located in k3d directory.
+Server can be launched using `start.sh` script located in k3s directory.
