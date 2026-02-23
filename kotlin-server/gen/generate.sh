@@ -62,12 +62,7 @@ mail:
 
 echo "$emailSecretYaml" > ../email/src/main/resources/secret.yaml
 
-authSecretYaml="spring:
-  datasource:
-    password:
-      \${POSTGRES_AUTH_PASSWORD}
-
-email:
+authSecretYaml="email:
   url:
     http://email-service:8084/api/v1/email
 

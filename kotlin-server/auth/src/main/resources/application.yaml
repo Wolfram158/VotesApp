@@ -14,6 +14,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://postgres-auth:5432/${POSTGRES_DB}
     username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  flyway:
+    url: jdbc:postgresql://postgres-auth:5432/${POSTGRES_DB}
+    locations: classpath:db/migration
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
   config:
     import: classpath:secret.yaml
 
