@@ -1,7 +1,7 @@
 # VotesApp
 
 ## Example
-![](example.gif)
+<img src="example.gif" alt="Demo" width="324" height="576">
 
 Let's describe what happens in the video above.
 1. User clicks registration button.
