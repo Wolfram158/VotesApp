@@ -28,7 +28,7 @@ import ru.wolfram.registration_with_email_code.domain.model.RegistrationWithEmai
 import ru.wolfram.common.presentation.theme.LocalAppTheme
 
 @Composable
-fun RegistrationWithEmailCodeScreen(
+internal fun RegistrationWithEmailCodeScreen(
     viewModel: RegistrationWithEmailCodeViewModel,
     username: String,
     email: String,

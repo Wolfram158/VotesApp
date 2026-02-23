@@ -22,11 +22,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.wolfram.common.R
-import ru.wolfram.refresh_with_email_code.domain.model.RefreshWithEmailCodeState
 import ru.wolfram.common.presentation.theme.LocalAppTheme
+import ru.wolfram.refresh_with_email_code.domain.model.RefreshWithEmailCodeState
 
 @Composable
-fun RefreshWithEmailCodeScreen(
+internal fun RefreshWithEmailCodeScreen(
     viewModel: RefreshWithEmailCodeViewModel,
     username: String,
     onSuccessfulRefresh: () -> Unit

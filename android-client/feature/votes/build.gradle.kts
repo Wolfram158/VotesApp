@@ -41,9 +41,6 @@ dependencies {
     implementation(libs.retrofit)
 
     implementation(libs.androidx.navigation.compose)
-
-    implementation(libs.androidx.datastore.preferences)
-
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.google.dagger.android)

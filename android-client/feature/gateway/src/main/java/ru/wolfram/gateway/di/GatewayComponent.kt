@@ -9,7 +9,7 @@ import ru.wolfram.gateway.presentation.GatewayViewModelFactory
     dependencies = [AppComponent::class],
     modules = [GatewayModule::class]
 )
-interface GatewayComponent {
+internal interface GatewayComponent {
     @GatewayScope
     fun getGatewayViewModelFactory(): GatewayViewModelFactory
 }

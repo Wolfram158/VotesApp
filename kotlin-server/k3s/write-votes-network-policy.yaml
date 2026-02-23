@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: write-votes-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: write-votes-app
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: gateway-app
+        - podSelector:
+            matchLabels:
+              app: administration-app
+      ports:
+        - protocol: TCP
+          port: 8081

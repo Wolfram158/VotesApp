@@ -1,4 +1,4 @@
-package ru.wolfram.votes_app.presentation
+package ru.wolfram.common.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

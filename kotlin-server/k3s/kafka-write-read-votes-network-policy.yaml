@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kafka-write-read-votes-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: kafka-write-read-votes
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: write-votes-app
+        - podSelector:
+            matchLabels:
+              app: read-votes-app
+      ports:
+        - protocol: TCP
+          port: 9092

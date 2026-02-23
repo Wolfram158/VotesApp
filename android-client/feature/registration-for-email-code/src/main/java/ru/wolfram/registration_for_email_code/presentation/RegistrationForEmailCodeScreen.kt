@@ -30,7 +30,7 @@ import ru.wolfram.common.presentation.theme.LocalAppTheme
 import ru.wolfram.registration_for_email_code.domain.model.RegistrationForEmailCodeState
 
 @Composable
-fun RegistrationForEmailCodeScreen(
+internal fun RegistrationForEmailCodeScreen(
     viewModel: RegistrationForEmailCodeViewModel,
     onSuccessfullyEmailCodeSent: (username: String, email: String, password: String) -> Unit
 ) {

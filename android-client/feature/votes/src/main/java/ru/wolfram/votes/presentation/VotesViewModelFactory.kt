@@ -8,7 +8,7 @@ import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
 @VotesScope
-class VotesViewModelFactory @Inject constructor(
+internal class VotesViewModelFactory @Inject constructor(
     private val provider: Provider<VotesViewModel>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-read-votes-statefulset
+spec:
+  serviceName: "postgres-read-votes"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-read-votes
+  template:
+    metadata:
+      labels:
+        app: postgres-read-votes
+    spec:
+      containers:
+        - name: postgres-read-votes
+          image: postgres:18-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-password
+                  key: POSTGRES_READ_VOTES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-name
+                  key: POSTGRES_READ_VOTES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: read-votes-db-user
+                  key: POSTGRES_READ_VOTES_USER
+          volumeMounts:
+            - name: pgdata-read-votes
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata-read-votes
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi

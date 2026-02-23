@@ -1,5 +1,5 @@
 package ru.wolfram.create_vote.presentation
 
-data class CreateVoteVariants(
+internal data class CreateVoteVariants(
     val variants: List<CreateVoteVariant> = listOf()
 )

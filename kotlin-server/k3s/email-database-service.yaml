@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-email
+  labels:
+    app: redis-email
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: redis-email
+  type: ClusterIP
+  selector:
+    app: redis-email

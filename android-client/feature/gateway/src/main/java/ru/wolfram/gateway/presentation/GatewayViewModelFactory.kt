@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
-class GatewayViewModelFactory(
+internal class GatewayViewModelFactory(
     private val provider: Provider<GatewayViewModel>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

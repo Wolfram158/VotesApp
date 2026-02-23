@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: read-votes-database-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres-read-votes
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: read-votes-app
+      ports:
+        - protocol: TCP
+          port: 5432

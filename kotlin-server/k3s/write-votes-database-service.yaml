@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-write-votes
+  labels:
+    app: postgres-write-votes
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: postgres-write-votes
+  type: ClusterIP
+  selector:
+    app: postgres-write-votes

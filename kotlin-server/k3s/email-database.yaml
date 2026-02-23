@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-email-statefulset
+spec:
+  serviceName: "redis-email"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-email
+  template:
+    metadata:
+      labels:
+        app: redis-email
+    spec:
+      containers:
+        - name: redis-email
+          image: redis:8.4-alpine
+          ports:
+            - containerPort: 6379
+          command: ["redis-server", "--appendonly", "yes"]
+          volumeMounts:
+            - name: redis-email
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-email
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 512Mi

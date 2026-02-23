@@ -8,7 +8,7 @@ import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
 @RegistrationForEmailCodeScope
-class RegistrationForEmailCodeViewModelFactory @Inject constructor(
+internal class RegistrationForEmailCodeViewModelFactory @Inject constructor(
     private val provider: Provider<RegistrationForEmailCodeViewModel>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -9,7 +9,7 @@ import ru.wolfram.registration_with_email_code.presentation.RegistrationWithEmai
     dependencies = [AppComponent::class],
     modules = [RegistrationWithEmailCodeModule::class]
 )
-interface RegistrationWithEmailCodeComponent {
+internal interface RegistrationWithEmailCodeComponent {
     @RegistrationWithEmailCodeScope
     fun getRegistrationWithEmailCodeViewModelFactory(): RegistrationWithEmailCodeViewModelFactory
 }

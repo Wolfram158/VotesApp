@@ -23,7 +23,7 @@ import ru.wolfram.create_vote.domain.usecase.GetCreatingStatusFlowUseCase
 import javax.inject.Inject
 
 @CreateVoteScope
-class CreateVoteViewModel @Inject internal constructor(
+internal class CreateVoteViewModel @Inject constructor(
     getCreatingStatusFlowUseCase: GetCreatingStatusFlowUseCase,
     private val createVoteUseCase: CreateVoteUseCase,
     @param:DispatchersIOQualifier private val ioDispatcher: CoroutineDispatcher

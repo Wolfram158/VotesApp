@@ -2,11 +2,11 @@ package ru.wolfram.votes.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import ru.wolfram.votes_app.presentation.ProgressScreen
 import ru.wolfram.votes.domain.model.VotesState
+import ru.wolfram.common.presentation.ProgressScreen
 
 @Composable
-fun VotesScreen(
+internal fun VotesScreen(
     votesViewModel: VotesViewModel,
     onNavigateToVote: (title: String) -> Unit,
     onNavigateToCreateVote: () -> Unit

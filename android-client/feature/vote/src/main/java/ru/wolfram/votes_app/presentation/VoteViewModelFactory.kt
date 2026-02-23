@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
-class VoteViewModelFactory(
+internal class VoteViewModelFactory(
     private val provider: Provider<VoteViewModel>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

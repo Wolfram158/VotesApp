@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,9 +20,9 @@ import ru.wolfram.common.data.network.dto.VoteDto2
 import ru.wolfram.common.data.network.service.ApiServiceTestImpl1
 import ru.wolfram.common.data.storage.LocalDataStorageTestImpl
 import ru.wolfram.common.di.DaggerAppComponent
+import ru.wolfram.common.presentation.LocalAppComponent
 import ru.wolfram.common.presentation.test.NodeTags
 import ru.wolfram.common.presentation.theme.AppTheme
-import ru.wolfram.votes_app.presentation.LocalAppComponent
 import ru.wolfram.votes_app.presentation.NavGraph
 import ru.wolfram.votes_app.presentation.TestMainActivity
 
