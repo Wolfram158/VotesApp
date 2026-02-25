@@ -3,6 +3,7 @@ package ru.wolfram.registration_with_email_code.data.repository
 import ru.wolfram.common.data.network.service.ApiService
 import ru.wolfram.common.data.security.AccessTokenPreferences
 import ru.wolfram.common.data.security.RefreshTokenPreferences
+import ru.wolfram.common.data.security.UsernamePreferences
 import ru.wolfram.common.domain.storage.LocalDataStorage
 import ru.wolfram.registration_with_email_code.data.mapper.toRegistrationWithEmailCodeContainerDto
 import ru.wolfram.registration_with_email_code.domain.model.RegistrationWithEmailCodeContainer
@@ -22,6 +23,7 @@ internal class RegistrationWithEmailCodeRepositoryImpl @Inject constructor(
             )
             localDataStorage.writeAccessTokenPreferences(AccessTokenPreferences(tokens.token))
             localDataStorage.writeRefreshTokenPreferences(RefreshTokenPreferences(tokens.refreshToken))
+            localDataStorage.writeUsernamePreferences(UsernamePreferences(username))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
