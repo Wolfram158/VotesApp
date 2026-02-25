@@ -1,6 +1,6 @@
 # Docker Compose
 
-## Before start ##
+## Before start (manual) ##
 
 ### Create .env file in the root of project ###
 The following keys must be defined:
@@ -72,6 +72,11 @@ pbkdf2:
   saltLength: SALT_LENGTH_FROM_EMAIL_SUBPROJECT
   iterations: ITERATIONS_FROM_EMAIL_SUBPROJECT
 ```
+
+## Before start (automatic) ##
+
+Script located in `gen` directory can be used to ease preparation described above. 
+Learn source code of this script to understand how to use it.
 
 ## How to start ##
 In the project root run command:
